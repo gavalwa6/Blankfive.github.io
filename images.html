@@ -5,6 +5,9 @@
         <link rel='stylesheet' type='text/css' href='style.css'>
         <script src='https://code.jquery.com/jquery-3.4.1.js'></script>
         <style>
+			.img-button {
+				color: black;
+			}
             .img-box {
                 float: left;
                 background: #CCCCEE;
@@ -37,6 +40,15 @@
                 font-style: italic;
             }
         </style>
+		<script>
+			$(document).ready(function() {
+				$('.img-button').hover(function() {
+					$(this).children('.img-box').css('background', '#CCCCFF');
+				}, function() {
+					$(this).children('.img-box').css('background', '#CCCCEE');
+				});
+			});
+		</script>
     </head>
     <body>
         <div id='nav'>
@@ -44,20 +56,20 @@
             <a id='current-nav' class='nav text button' href='images.html'>Images</a>
         </div>
         <div id='content'>
-            <div class='img-box'>
+            <a class='img-button' href='https://www.pexels.com/photo/photo-of-blue-sky-912110/'><div class='img-box'>
                 <div class='title text'>Photo of Blue Sky</div>
                 <div class='img'>
                     <img src='https://images.pexels.com/photos/912110/pexels-photo-912110.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260'>
                 </div>
                 <div class='credit text'>Photo by <b>Elia Clerici</b> from <b>Pexels</b></div>
-            </div>
-            <div class='img-box'>
+            </div></a>
+            <a class='img-button' href='https://www.pexels.com/photo/landscape-photography-of-mountains-covered-in-snow-691668/'><div class='img-box'>
                 <div class='title text'>Landscape Photography of Mountains Covered in Snow</div>
                 <div class='img'>
                     <img src='https://images.pexels.com/photos/691668/pexels-photo-691668.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'>
                 </div>
                 <div class='credit text'>Photo by <b>Eberhard Grossgasteiger</b> from <b>Pexels</b></div>
-            </div>
+            </div></a>
         </div>
     </body>
 </html>
