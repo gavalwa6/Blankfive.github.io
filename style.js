@@ -1,4 +1,13 @@
 $(function() {
+	function navTo(element, duration) {
+		if (duration == null) { duration = ''; } else { duration = duration + 's' }
+		$('#current-nav').css('transition', duration);
+		$('#current-nav').css('left', $(element).position().left);
+		$('#current-nav').css('height', $(element).outerHeight());
+		$('#current-nav').css('width', $(element).outerWidth());
+		$('#current-nav').css('transition', '');
+	}
+	
 	function curPage(page) {
 		if (page != null) {
 			if (page != '') {
@@ -7,14 +16,16 @@ $(function() {
 			
 			page = sessionStorage.getItem('current-page');
 			
-			$('#current-nav').css('left', $('#' + page).position().left);
-			$('#current-nav').css('height', $('#' + page).outerHeight());
-			$('#current-nav').css('width', $('#' + page).outerWidth());
+			navTo('#' + page, 0.3);
 			
 			$('#content').load(page + '.html');
 		}
 		return sessionStorage.getItem('current-page');
 	}
+	
+	$(window).resize(function() {
+		navTo('#' + curPage());
+	});
 	
 	if (curPage() == null) {
 		curPage('home');

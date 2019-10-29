@@ -40,7 +40,6 @@ html, body {
 }
 .nav {
 	cursor: pointer;
-	transition: padding 0.3s;
 	padding-top: 18px;
 	padding-bottom: 18px;
 	padding-left: 20px;
@@ -48,21 +47,10 @@ html, body {
 	position: relative;
 	z-index: 1;
 }
-/*
-.nav:hover {
-    padding-left: 40px;
-	padding-right: 40px;
-}
-.nav:not(:hover) {
-    padding-left: 20px;
-	padding-right: 20px;
-}
-*/
 #current-nav {
 	position: relative;
 	bottom: 106px;
     background-color: #226622;
-	transition: 0.3s;
 	z-index: 0;
 }
 
