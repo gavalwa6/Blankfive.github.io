@@ -4,7 +4,7 @@
 	function append(id) {
 		var template = $('#images-template').clone();
 		
-		$.get('https://www.pexels.com/photo/' + id, function(data) {
+		$.get('https://www.pexels.com/photo/' + id, {}, function(data) {
 			console.log($(data).find('title').text());
 		});
 		
