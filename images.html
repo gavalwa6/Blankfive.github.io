@@ -1,21 +1,21 @@
 <script>
 	$('#images-template').hide()
 	
-	$('.images-img-button').hover(function() {
-		$(this).children('.images-img-box').css('background', '#BBBBDD');
-	}, function() {
-		$(this).children('.images-img-box').css('background', '#CCCCEE');
-	});
-	
 	function append(id) {
 		var template = $('#images-template').clone();
 		
 		$.get('https://www.pexels.com/photo/' + id, function(data) {
-			alert('Data: ' + data);
-		}, 'html');
+			console.log($(data).find('title').text());
+		});
 		
 		template.attr('href', 'https://www.pexels.com/photo/' + id)
 		template.children().children('.images-img').children().attr('src', 'https://images.pexels.com/photos/912110/pexels-photo-' + id + '.jpeg')
+		
+		template.hover(function() {
+			$(this).children('.images-img-box').css('background', '#BBBBDD');
+		}, function() {
+			$(this).children('.images-img-box').css('background', '#CCCCEE');
+		});
 		
 		template.appendTo('#content');
 		template.show();
