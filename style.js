@@ -25,10 +25,4 @@ $(function() {
 	$('.nav').click(function() {
 		curPage($(this).attr('id'));
 	});
-	
-	$('.images-img-button').hover(function() {
-		$(this).children('.images-img-box').css('background', '#BBBBDD');
-	}, function() {
-		$(this).children('.images-img-box').css('background', '#CCCCEE');
-	});
 });
