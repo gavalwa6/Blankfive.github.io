@@ -10,7 +10,11 @@
 	function append(id) {
 		var template = $('#images-template').clone();
 		
-		template.attr('href', 'https://www.pexels.com/photo/photo-of-blue-sky-' + id)
+		$.get('https://www.pexels.com/photo/' + id, function() {
+			alert('Data: ' + data);
+		});
+		
+		template.attr('href', 'https://www.pexels.com/photo/' + id)
 		template.children().children('.images-img').children().attr('src', 'https://images.pexels.com/photos/912110/pexels-photo-' + id + '.jpeg')
 		
 		template.appendTo('#content');
@@ -26,7 +30,7 @@
 		<div class='images-img'>
 			<img src=''>
 		</div>
-		<div class='images-credit text'></b></div>
+		<div class='images-credit text'>Photo by <b class='images-creator'></b> from <b class='images-site'></b></b></div>
 	</div>
 </a>
 
