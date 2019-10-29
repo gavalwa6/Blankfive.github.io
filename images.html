@@ -10,9 +10,9 @@
 	function append(id) {
 		var template = $('#images-template').clone();
 		
-		$.get('https://www.pexels.com/photo/' + id, function() {
+		$.get('https://www.pexels.com/photo/' + id, function(data) {
 			alert('Data: ' + data);
-		});
+		}, 'html');
 		
 		template.attr('href', 'https://www.pexels.com/photo/' + id)
 		template.children().children('.images-img').children().attr('src', 'https://images.pexels.com/photos/912110/pexels-photo-' + id + '.jpeg')
