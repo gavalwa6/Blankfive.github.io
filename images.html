@@ -1,21 +1,44 @@
-<a class='images-img-button' href='https://www.pexels.com/photo/photo-of-blue-sky-912110/'><div class='images-img-box'>
-	<div class='images-title text'>Photo of Blue Sky</div>
-	<div class='images-img'>
-		<img src='https://images.pexels.com/photos/912110/pexels-photo-912110.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260'>
-	</div>
-	<div class='images-credit text'>Photo by <b>Elia Clerici</b> from <b>Pexels</b></div>
-</div></a>
-<a class='images-img-button' href='https://www.pexels.com/photo/landscape-photography-of-mountains-covered-in-snow-691668/'><div class='images-img-box'>
-	<div class='images-title text'>Landscape Photography of Mountains Covered in Snow</div>
-	<div class='images-img'>
-		<img src='https://images.pexels.com/photos/691668/pexels-photo-691668.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'>
-	</div>
-	<div class='images-credit text'>Photo by <b>Eberhard Grossgasteiger</b> from <b>Pexels</b></div>
-</div></a>
 <script>
 	$('.images-img-button').hover(function() {
 		$(this).children('.images-img-box').css('background', '#BBBBDD');
 	}, function() {
 		$(this).children('.images-img-box').css('background', '#CCCCEE');
 	});
+	
+	function append(id) {
+		var template = $('#images-template').clone();
+		
+		template.attr('href', 'https://www.pexels.com/photo/photo-of-blue-sky-' + id)
+		template.children().children('.images-img').children().attr('src', 'https://images.pexels.com/photos/912110/pexels-photo-' + id + '.jpeg')
+	}
+	
+	append(912110);
 </script>
+
+<a id='images-template' class='images-img-button' href=''>
+	<div class='images-img-box'>
+		<div class='images-title text'></div>
+		<div class='images-img'>
+			<img src=''>
+		</div>
+		<div class='images-credit text'></b></div>
+	</div>
+</a>
+
+<!--
+<a class='images-img-button' href='https://www.pexels.com/photo/photo-of-blue-sky-912110/'><div class='images-img-box'>
+	<div class='images-title text'>Photo of Blue Sky</div>
+	<div class='images-img'>
+		<img src='https://images.pexels.com/photos/912110/pexels-photo-912110.jpeg'>
+	</div>
+	<div class='images-credit text'>Photo by <b>Elia Clerici</b> from <b>Pexels</b></div>
+</div></a>
+
+<a class='images-img-button' href='https://www.pexels.com/photo/landscape-photography-of-mountains-covered-in-snow-691668/'><div class='images-img-box'>
+	<div class='images-title text'>Landscape Photography of Mountains Covered in Snow</div>
+	<div class='images-img'>
+		<img src='https://images.pexels.com/photos/691668/pexels-photo-691668.jpeg'>
+	</div>
+	<div class='images-credit text'>Photo by <b>Eberhard Grossgasteiger</b> from <b>Pexels</b></div>
+</div></a>
+-->
