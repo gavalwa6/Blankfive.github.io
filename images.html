@@ -8,8 +8,8 @@
 	function append(id) {
 		var template = $('#images-template').clone();
 		
-		template.attr('href', 'https://www.pexels.com/photo/photo-of-blue-sky-' + id)
-		template.children().children('.images-img').children().attr('src', 'https://images.pexels.com/photos/912110/pexels-photo-' + id + '.jpeg')
+		$(template).attr('href', 'https://www.pexels.com/photo/photo-of-blue-sky-' + id)
+		$(template).children().children('.images-img').children().attr('src', 'https://images.pexels.com/photos/912110/pexels-photo-' + id + '.jpeg')
 	}
 	
 	append(912110);
