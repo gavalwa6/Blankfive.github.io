@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Images</title>
+        <title>pointfeev</title>
         <link rel='stylesheet' type='text/css' href='style.css'>
         <script src='https://code.jquery.com/jquery-3.4.1.js'></script>
+		<link rel='apple-touch-icon' sizes='180x180' href='apple-touch-icon.png'>
+		<link rel='icon' type='image/png' sizes='32x32' href='favicon-32x32.png'>
+		<link rel='icon' type='image/png' sizes='16x16' href='favicon-16x16.png'>
+		<link rel='manifest' href='site.webmanifest'>
         <style>
 			.img-button {
 				color: black;
@@ -29,7 +33,7 @@
                 width: 400px;
                 height: 200px;
             }
-            img {
+            img:not(#logo) {
                 padding: 0 20px;
                 max-width: 100%;
                 max-height: 100%;
@@ -52,8 +56,11 @@
     </head>
     <body>
         <div id='nav'>
-            <a class='nav text button' href='index.html'>Home</a>
-            <a id='current-nav' class='nav text button' href='images.html'>Images</a>
+            <a href='index.html'><img id='logo' src='logo.png'></a>
+			<div id='nav-center'>
+				<a id='current-nav' class='nav text button' href='index.html'>Home</a>
+				<a class='nav text button' href='images.html'>Images</a>
+			</div>
         </div>
         <div id='content'>
             <a class='img-button' href='https://www.pexels.com/photo/photo-of-blue-sky-912110/'><div class='img-box'>
