@@ -1,39 +1,44 @@
 <script>
-	$('.images-img-button').hover(function() {
-		$(this).children('.images-img-box').css('background', '#BBBBDD');
-	}, function() {
-		$(this).children('.images-img-box').css('background', '#CCCCEE');
-	});
+	$('#images-template').hide();
+	
+	function append(site, id, title, author) {
+		var template = $('#images-template').clone();
+		
+		var href;
+		var src;
+		
+		if (site == 1) {
+			site = 'Pexels';
+			href = 'https://www.pexels.com/photo/' + id;
+			src = 'https://images.pexels.com/photos/' + id + '/pexels-photo-' + id + '.jpeg';
+		}
+		
+		template.attr('href', href);
+		template.children().children('.images-title').text(title);
+		template.children().children('.images-img').children().attr('src', src);
+		template.children().children('.images-credit').children('.images-author').text(author);
+		template.children().children('.images-credit').children('.images-site').text(site);
+		
+		$(this).hover(function() {
+			$(this).children('.images-img-box').css('background', '#BBBBDD');
+		}, function() {
+			$(this).children('.images-img-box').css('background', '#CCCCEE');
+		});
+		
+		template.append('#content');
+		template.show();
+	}
+	
+	append(1, 912110, 'Photo of Blue Sky', 'Elia Clerici');
+	append(1, 691668, 'Landscape Photography of Mountains Covered in Snow', 'Eberhard Grossgasteiger');
 </script>
 
-<!--
-<a class='images-img-button' href='https://www.pexels.com/photo/ID'>
+<a id='images-template' class='images-img-button' href='https://www.pexels.com/photo/ID'>
 	<div class='images-img-box'>
 		<div class='images-title text'></div>
 		<div class='images-img'>
 			<img src='https://images.pexels.com/photos/ID/pexels-photo-ID.jpeg'>
 		</div>
-		<div class='images-credit text'>by <b>AUTHOR</b> from <b>WEBSITE</b></div>
-	</div>
-</a>
--->
-
-<a class='images-img-button' href='https://www.pexels.com/photo/912110'>
-	<div class='images-img-box'>
-		<div class='images-title text'>Photo of Blue Sky</div>
-		<div class='images-img'>
-			<img src='https://images.pexels.com/photos/912110/pexels-photo-912110.jpeg'>
-		</div>
-		<div class='images-credit text'>by <b>Elia Clerici</b> from <b>Pexels</b></div>
-	</div>
-</a>
-
-<a class='images-img-button' href='https://www.pexels.com/photo/691668'>
-	<div class='images-img-box'>
-		<div class='images-title text'>Landscape Photography of Mountains Covered in Snow</div>
-		<div class='images-img'>
-			<img src='https://images.pexels.com/photos/691668/pexels-photo-691668.jpeg'>
-		</div>
-		<div class='images-credit text'>by <b>Eberhard Grossgasteiger</b> from <b>Pexels</b></div>
+		<div class='images-credit text'>by <b class='images-author'>AUTHOR</b> from <b class='images-site'>WEBSITE</b></div>
 	</div>
 </a>
