@@ -5,7 +5,6 @@ $(function() {
 		$('#current-nav').css('left', $(element).position().left);
 		$('#current-nav').css('height', $(element).outerHeight());
 		$('#current-nav').css('width', $(element).outerWidth());
-		$('#current-nav').css('transition', '');
 	}
 	
 	function curPage(page) {
