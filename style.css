@@ -14,6 +14,7 @@ html, body {
     display: block;
     background-color: #222222;
     font-size: 16px;
+	height: 52px;
     color: white;
 }
 
@@ -26,30 +27,49 @@ html, body {
 }
 #logo {
 	position: relative;
-	top: 5px;
-	left: 5px;
-	height: 52px;
+	height: 100%;
 	filter: invert(1);
+}
+#nav-left {
+	position: relative;
+	top: 3px;
+	left: 3px;
+	height: calc(100% - 6px);
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
 }
 #nav-center {
 	position: relative;
-	bottom: 52px;
+	bottom: 49px;
+	height: calc(100% - 6px);
     width: 100%;
     display: flex;
     justify-content: center;
 }
+#nav-right {
+	position: relative;
+	right: 3px;
+	bottom: 101px;
+	height: calc(100% - 6px);
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
 .nav {
 	cursor: pointer;
-	padding-top: 18px;
-	padding-bottom: 18px;
+	height: 100%;
 	padding-left: 20px;
 	padding-right: 20px;
 	position: relative;
+	display:flex;
+	align-items: center;
+	justify-content: center;
 	z-index: 1;
 }
 #current-nav {
 	position: relative;
-	bottom: 106px;
+	bottom: 153px;
     background-color: #226622;
 	z-index: 0;
 }
@@ -61,7 +81,9 @@ html, body {
     height: calc(100% - 58px);
     background-color: #DDDDFF;
     box-sizing: border-box;
-    border: 4px solid #333333;
+	border-left: 3px solid #333333;
+	border-right: 3px solid #333333;
+	border-bottom: 3px solid #333333;
     overflow: auto;
 }
 

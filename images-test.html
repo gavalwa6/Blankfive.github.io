@@ -1,0 +1,44 @@
+<script>
+	$('#images-template').hide();
+	
+	function append(site, id, title, author) {
+		var template = $('#images-template').clone();
+		
+		var href;
+		var src;
+		
+		if (site == 1) {
+			site = 'Pexels';
+			href = 'https://www.pexels.com/photo/' + id;
+			src = 'https://images.pexels.com/photos/' + id + '/pexels-photo-' + id + '.jpeg';
+		}
+		
+		template.attr('href', href);
+		template.children().children('.images-title').text(title);
+		template.children().children('.images-img').children().attr('src', src);
+		template.children().children('.images-credit').children('.images-author').text(author);
+		template.children().children('.images-credit').children('.images-site').text(site);
+		
+		$(this).hover(function() {
+			$(this).children('.images-img-box').css('background', '#BBBBDD');
+		}, function() {
+			$(this).children('.images-img-box').css('background', '#CCCCEE');
+		});
+		
+		template.append('#content');
+		template.show();
+	}
+	
+	append(1, 912110, 'Photo of Blue Sky', 'Elia Clerici');
+	append(1, 691668, 'Landscape Photography of Mountains Covered in Snow', 'Eberhard Grossgasteiger');
+</script>
+
+<a id='images-template' class='images-img-button' href=''>
+	<div class='images-img-box'>
+		<div class='images-title text'></div>
+		<div class='images-img'>
+			<img src=''>
+		</div>
+		<div class='images-credit text'>by <b class='images-author'></b> from <b class='images-site'></b></div>
+	</div>
+</a>
