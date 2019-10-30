@@ -1,53 +1,39 @@
 <script>
-	$('#images-template').hide()
-	
-	function append(id) {
-		var template = $('#images-template').clone();
-		
-		$.get('https://www.pexels.com/photo/' + id, {}, function(data) {
-			console.log($(data).find('title').text());
-		});
-		
-		template.attr('href', 'https://www.pexels.com/photo/' + id)
-		template.children().children('.images-img').children().attr('src', 'https://images.pexels.com/photos/912110/pexels-photo-' + id + '.jpeg')
-		
-		template.hover(function() {
-			$(this).children('.images-img-box').css('background', '#BBBBDD');
-		}, function() {
-			$(this).children('.images-img-box').css('background', '#CCCCEE');
-		});
-		
-		template.appendTo('#content');
-		template.show();
-	}
-	
-	append(912110);
+	$('.images-img-button').hover(function() {
+		$(this).children('.images-img-box').css('background', '#BBBBDD');
+	}, function() {
+		$(this).children('.images-img-box').css('background', '#CCCCEE');
+	});
 </script>
 
-<a id='images-template' class='images-img-button' href=''>
+<!--
+<a class='images-img-button' href='https://www.pexels.com/photo/ID'>
 	<div class='images-img-box'>
 		<div class='images-title text'></div>
 		<div class='images-img'>
-			<img src=''>
+			<img src='https://images.pexels.com/photos/ID/pexels-photo-ID.jpeg'>
 		</div>
-		<div class='images-credit text'>Photo by <b class='images-creator'></b> from <b class='images-site'></b></b></div>
+		<div class='images-credit text'>by <b>AUTHOR</b> from <b>WEBSITE</b></div>
+	</div>
+</a>
+-->
+
+<a class='images-img-button' href='https://www.pexels.com/photo/912110'>
+	<div class='images-img-box'>
+		<div class='images-title text'>Photo of Blue Sky</div>
+		<div class='images-img'>
+			<img src='https://images.pexels.com/photos/912110/pexels-photo-912110.jpeg'>
+		</div>
+		<div class='images-credit text'>by <b>Elia Clerici</b> from <b>Pexels</b></div>
 	</div>
 </a>
 
-<!--
-<a class='images-img-button' href='https://www.pexels.com/photo/photo-of-blue-sky-912110/'><div class='images-img-box'>
-	<div class='images-title text'>Photo of Blue Sky</div>
-	<div class='images-img'>
-		<img src='https://images.pexels.com/photos/912110/pexels-photo-912110.jpeg'>
+<a class='images-img-button' href='https://www.pexels.com/photo/691668'>
+	<div class='images-img-box'>
+		<div class='images-title text'>Landscape Photography of Mountains Covered in Snow</div>
+		<div class='images-img'>
+			<img src='https://images.pexels.com/photos/691668/pexels-photo-691668.jpeg'>
+		</div>
+		<div class='images-credit text'>by <b>Eberhard Grossgasteiger</b> from <b>Pexels</b></div>
 	</div>
-	<div class='images-credit text'>Photo by <b>Elia Clerici</b> from <b>Pexels</b></div>
-</div></a>
-
-<a class='images-img-button' href='https://www.pexels.com/photo/landscape-photography-of-mountains-covered-in-snow-691668/'><div class='images-img-box'>
-	<div class='images-title text'>Landscape Photography of Mountains Covered in Snow</div>
-	<div class='images-img'>
-		<img src='https://images.pexels.com/photos/691668/pexels-photo-691668.jpeg'>
-	</div>
-	<div class='images-credit text'>Photo by <b>Eberhard Grossgasteiger</b> from <b>Pexels</b></div>
-</div></a>
--->
+</a>
