@@ -1,14 +1,8 @@
 $(function() {
 	function navTo(element, duration) {
-		if (duration == null) { duration = ''; } else { duration = duration + 's' }
+		if (duration == null) { duration = ''; } else { duration = duration + 's'; }
 		$('#current-nav').css('transition', duration);
-		if ($(element).parent().parent('#nav-left').length) {
-			$('#current-nav').css('left', $(element).position().left + 3);
-		} else if ($(element).parent().parent('#nav-center').length) {
-			$('#current-nav').css('left', $(element).position().left);
-		} else if ($(element).parent().parent('#nav-right')) {
-			$('#current-nav').css('left', $(element).position().left - 3);
-		}
+		$('#current-nav').css('left', $(element).position().left + 3);
 		$('#current-nav').css('height', $(element).outerHeight());
 		$('#current-nav').css('width', $(element).outerWidth());
 	}

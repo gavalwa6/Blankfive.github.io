@@ -35,24 +35,25 @@ html, body {
 	top: 3px;
 	left: 3px;
 	height: calc(100% - 6px);
-    width: 100%;
+    width: calc(100% - 6px);
     display: flex;
     justify-content: flex-start;
 }
 #nav-center {
 	position: relative;
+	left: 3px;
 	bottom: 49px;
 	height: calc(100% - 6px);
-    width: 100%;
+    width: calc(100% - 6px);
     display: flex;
     justify-content: center;
 }
 #nav-right {
 	position: relative;
-	right: 3px;
+	left: 3px;
 	bottom: 101px;
 	height: calc(100% - 6px);
-    width: 100%;
+    width: calc(100% - 6px);
     display: flex;
     justify-content: flex-end;
 }
