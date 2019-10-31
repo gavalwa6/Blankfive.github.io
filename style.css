@@ -169,3 +169,6 @@ html, body {
 	border: 0;
 	background-color: #FFFFFF;
 }
+input:focus, #notepad-textarea {
+	outline: none !important;
+}
