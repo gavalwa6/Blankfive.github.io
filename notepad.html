@@ -138,14 +138,17 @@ $(function() {
 	
 	$('.notepad-files-button').click(function() {
 		curFile($(this).text());
+		saveFiles();
 	});
 	
 	$('#notepad-new').click(function() {
 		newFile();
+		saveFiles();
 	});
 	
 	$('#notepad-delete').click(function() {
 		deleteFile(curFile());
+		saveFiles();
 	});
 	
 	$('#notepad-delete-all').click(function() {
