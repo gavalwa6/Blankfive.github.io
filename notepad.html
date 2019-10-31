@@ -13,18 +13,26 @@ $(function() {
 	}
 	
 	function setFile(name) {
-		sessionStorage.setItem('current-file', name);
-		
-		$('.notepad-files-button').each(function() {
-			if ($(this).text() == name) {
-				$(this).css('background-color', '#FFFFFF');
-			} else {
-				$(this).css('background-color', '#CCCCCC');
-			}
-		});
-		
-		$('#notepad-textarea').val(getFile(name)[1]);
-		$('#notepad-textarea').focus();
+		if (name == null) {
+			sessionStorage.setItem('current-file', null);
+			
+			$('#notepad-textarea').val('');
+			$('#notepad-textarea').hide();
+		} else {
+			sessionStorage.setItem('current-file', name);
+			
+			$('.notepad-files-button').each(function() {
+				if ($(this).text() == name) {
+					$(this).css('background-color', '#FFFFFF');
+				} else {
+					$(this).css('background-color', '#CCCCCC');
+				}
+			});
+			
+			$('#notepad-textarea').val(getFile(name)[1]);
+			$('#notepad-textarea').show();
+			$('#notepad-textarea').focus();
+		}
 	}
 	
 	function curFile(name) {
@@ -32,16 +40,14 @@ $(function() {
 			if (name == '') {
 				if (getFile(sessionStorage.getItem('current-file'))) {
 					setFile(sessionStorage.getItem('current-file'));
-				} else {
-					if (files[0]) {
+				} else if (files[0]) {
 						setFile(files[0]);
 					}
 				}
 			} else {
 				if (getFile(name)) {
 					setFile(name);
-				} else {
-					if (files[0]) {
+				} else if (files[0]) {
 						setFile(files[0]);
 					}
 				}
@@ -135,54 +141,32 @@ $(function() {
 	
 	$('.notepad-files-button').click(function() {
 		curFile($(this).text());
-		if (curFile()) {
-			$('#notepad-textarea').show();
-		} else {
-			$('#notepad-textarea').hide();
-		}
+		setFile(curFile());
 		saveFiles();
 	});
 	
 	$('#notepad-new').click(function() {
 		newFile();
-		if (curFile()) {
-			$('#notepad-textarea').show();
-		} else {
-			$('#notepad-textarea').hide();
-		}
+		setFile(curFile());
 		saveFiles();
 	});
 	
 	$('#notepad-delete').click(function() {
 		deleteFile(curFile());
-		var file = curFile('');
-		if (file) {
-			$('#notepad-textarea').show();
-		} else {
-			$('#notepad-textarea').hide();
-		}
+		curFile('');
 		saveFiles();
 	});
 	
 	$('#notepad-delete-all').click(function() {
 		files = [];
 		$('.notepad-files-button').remove();
-		if (curFile()) {
-			$('#notepad-textarea').show();
-		} else {
-			$('#notepad-textarea').hide();
-		}
+		setFile();
 		saveFiles();
 	});
 	
 	$('#notepad-textarea').on('keyup', function() {
 		var file = curFile();
-		if (file) {
-			$('#notepad-textarea').show();
-			getFile(file)[1] = $(this).val();
-		} else {
-			$('#notepad-textarea').hide();
-		}
+		getFile(file)[1] = $(this).val();
 		saveFiles();
 	});
 });
