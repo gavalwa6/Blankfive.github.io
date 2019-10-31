@@ -155,7 +155,8 @@ $(function() {
 	
 	$('#notepad-delete').click(function() {
 		deleteFile(curFile());
-		if (curFile()) {
+		var file = curFile('');
+		if (file) {
 			$('#notepad-textarea').show();
 		} else {
 			$('#notepad-textarea').hide();
