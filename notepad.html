@@ -42,12 +42,16 @@ $(function() {
 					setFile(sessionStorage.getItem('current-file'));
 				} else if (files[0]) {
 					setFile(files[0]);
+				} else {
+					setFile();
 				}
 			} else {
 				if (getFile(name)) {
 					setFile(name);
 				} else if (files[0]) {
 					setFile(files[0]);
+				} else {
+					setFile();
 				}
 			}
 		}
