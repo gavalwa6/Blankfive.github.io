@@ -1,6 +1,3 @@
-<!--
-certain notes not saving past refresh
--->
 <script>
 $(function() {
 	var files = [];
@@ -138,27 +135,53 @@ $(function() {
 	
 	$('.notepad-files-button').click(function() {
 		curFile($(this).text());
+		if (curFile()) {
+			$('#notepad-textarea').show();
+		} else {
+			$('#notepad-textarea').hide();
+		}
 		saveFiles();
 	});
 	
 	$('#notepad-new').click(function() {
 		newFile();
+		if (curFile()) {
+			$('#notepad-textarea').show();
+		} else {
+			$('#notepad-textarea').hide();
+		}
 		saveFiles();
 	});
 	
 	$('#notepad-delete').click(function() {
 		deleteFile(curFile());
+		if (curFile()) {
+			$('#notepad-textarea').show();
+		} else {
+			$('#notepad-textarea').hide();
+		}
 		saveFiles();
 	});
 	
 	$('#notepad-delete-all').click(function() {
 		files = [];
 		$('.notepad-files-button').remove();
+		if (curFile()) {
+			$('#notepad-textarea').show();
+		} else {
+			$('#notepad-textarea').hide();
+		}
 		saveFiles();
 	});
 	
 	$('#notepad-textarea').on('keyup', function() {
-		getFile(curFile())[1] = $(this).val();
+		var file = curFile();
+		if (file) {
+			$('#notepad-textarea').show();
+			getFile(file)[1] = $(this).val();
+		} else {
+			$('#notepad-textarea').hide();
+		}
 		saveFiles();
 	});
 });
