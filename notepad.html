@@ -12,8 +12,18 @@ $(function() {
 		return _file;
 	}
 	
-	function setFile(name) {
-		if (name) {
+	function setFile(data) {
+		if (data) {
+			var name;
+			var value;
+			if (typeof data == 'string') {
+				name = data;
+				value = getFile(data)[1];
+			} else if (typeof data == 'object') {
+				name = data[0];
+				value = data[1];
+			}
+			
 			sessionStorage.setItem('current-file', name);
 			
 			$('.notepad-files-button').each(function() {
@@ -41,7 +51,7 @@ $(function() {
 				if (getFile(sessionStorage.getItem('current-file'))) {
 					setFile(sessionStorage.getItem('current-file'));
 				} else if (files[0]) {
-					setFile(files[0][0]);
+					setFile(files[0][);
 				} else {
 					setFile();
 				}
@@ -49,7 +59,7 @@ $(function() {
 				if (getFile(name)) {
 					setFile(name);
 				} else if (files[0]) {
-					setFile(files[0][0]);
+					setFile(files[0]);
 				} else {
 					setFile();
 				}
