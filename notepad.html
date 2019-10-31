@@ -3,7 +3,7 @@ $(function() {
 	var files = [];
 	
 	function getFile(name) {
-		var _file = 0;
+		var _file;
 		files.forEach(function(file, index) {
 			if (name == file[0]) {
 				_file = file;
@@ -13,12 +13,7 @@ $(function() {
 	}
 	
 	function setFile(name) {
-		if (name == null) {
-			sessionStorage.setItem('current-file', '');
-			
-			$('#notepad-textarea').val('');
-			$('#notepad-textarea').hide();
-		} else {
+		if (name) {
 			sessionStorage.setItem('current-file', name);
 			
 			$('.notepad-files-button').each(function() {
@@ -32,6 +27,11 @@ $(function() {
 			$('#notepad-textarea').show();
 			$('#notepad-textarea').val(getFile(name)[1]);
 			$('#notepad-textarea').focus();
+		} else {
+			sessionStorage.setItem('current-file', null);
+			
+			$('#notepad-textarea').val('');
+			$('#notepad-textarea').hide();
 		}
 	}
 	
