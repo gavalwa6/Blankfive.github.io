@@ -163,8 +163,7 @@ $(function() {
 	});
 	
 	$('#notepad-textarea').on('keyup', function() {
-		var file = curFile();
-		getFile(file)[1] = $(this).val();
+		getFile(curFile())[1] = $(this).val();
 		saveFiles();
 	});
 });
