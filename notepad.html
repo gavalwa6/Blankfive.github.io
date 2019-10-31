@@ -1,189 +1,206 @@
 <script>
-$(function() {
-	var files = [];
-	
-	function getFile(name) {
-		var _file;
-		files.forEach(function(file, index) {
-			if (name == file[0]) {
-				_file = file;
-			}
-		});
-		return _file;
-	}
-	
-	function setFile(data) {
-		if (data) {
-			var name;
-			var value;
-			if (typeof data == 'string') {
-				name = data;
-				value = getFile(data)[1];
-			} else if (typeof data == 'object') {
-				name = data[0];
-				value = data[1];
-			}
-			
-			sessionStorage.setItem('current-file', name);
-			
-			$('.notepad-files-button').each(function() {
-				if ($(this).text() == name) {
-					$(this).css('background-color', '#FFFFFF');
-				} else {
-					$(this).css('background-color', '#CCCCCC');
-				}
-			});
-			
-			$('#notepad-textarea').show();
-			$('#notepad-textarea').val(value);
-			$('#notepad-textarea').focus();
-		} else {
-			sessionStorage.setItem('current-file', null);
-			
-			$('#notepad-textarea').val('');
-			$('#notepad-textarea').hide();
-		}
-	}
-	
-	function curFile(name) {
-		if (name != null) {
-			if (name == '') {
-				if (getFile(sessionStorage.getItem('current-file'))) {
-					setFile(sessionStorage.getItem('current-file'));
-				} else if (files[0]) {
-					setFile(files[0]);
-				} else {
-					setFile();
-				}
-			} else {
-				if (getFile(name)) {
-					setFile(name);
-				} else if (files[0]) {
-					setFile(files[0]);
-				} else {
-					setFile();
-				}
-			}
-		}
-		return sessionStorage.getItem('current-file');
-	}
-	
-	function saveFiles() {
-		localStorage.setItem('notepad-files', JSON.stringify(files));
-	}
-	
-	function newFile(name) {
-		if (name == null || name == '') {
-			var next = 0;
-			name = 'Note' + next;
-			var gotNext = 0;
-			while (!gotNext) {
-				gotNext = 1;
-				files.forEach(function(file, index) {
-					if (name == file[0]) {
-						next += 1;
-						name = 'Note' + next;
-						gotNext = 0;
-					}
-				});
-			}
-			files.push([name, '']);
-			$('#notepad-files').append("<div class='notepad-files-button text'>" + name + '</div>');
-			$('.notepad-files-button').click(function() {
-				curFile($(this).text());
-			});
-			curFile(name);
-		} else {
-			var found = 0;
+	$(function() {
+		var files = [];
+		
+		function getFile(name) {
+			var _file;
 			files.forEach(function(file, index) {
 				if (name == file[0]) {
-					found = 1;
+					_file = file;
 				}
 			});
-			if (!found) {
+			return _file;
+		}
+		
+		function setFile(data) {
+			if (typeof data == 'string' || typeof data == 'object') {
+				var name;
+				var value;
+				if (typeof data == 'string') {
+					name = data;
+					value = getFile(data)[1];
+				} else if (typeof data == 'object') {
+					name = data[0];
+					value = data[1];
+				}
+				
+				sessionStorage.setItem('current-file', name);
+				
+				$('.notepad-files-button').each(function() {
+					if ($(this).text() == name) {
+						$(this).css('background-color', '#FFFFFF');
+					} else {
+						$(this).css('background-color', '#CCCCCC');
+					}
+				});
+				
+				$('#notepad-textarea').show();
+				$('#notepad-textarea').val(value);
+				$('#notepad-textarea').focus();
+			} else {
+				sessionStorage.setItem('current-file', null);
+				
+				$('#notepad-textarea').val('');
+				$('#notepad-textarea').hide();
+			}
+		}
+		
+		function curFile(name) {
+			if (name != null) {
+				if (name == '') {
+					if (getFile(sessionStorage.getItem('current-file'))) {
+						setFile(sessionStorage.getItem('current-file'));
+					} else if (files[0]) {
+						setFile(files[0]);
+					} else {
+						setFile();
+					}
+				} else {
+					if (getFile(name)) {
+						setFile(name);
+					} else if (files[0]) {
+						setFile(files[0]);
+					} else {
+						setFile();
+					}
+				}
+			}
+			return sessionStorage.getItem('current-file');
+		}
+		
+		function saveFiles() {
+			localStorage.setItem('notepad-files', JSON.stringify(files));
+		}
+		
+		function newFile(name) {
+			if (name == null || name == '' || typeof name != 'string') {
+				var next = 0;
+				name = 'Note' + next;
+				var gotNext = 0;
+				while (!gotNext) {
+					gotNext = 1;
+					files.forEach(function(file, index) {
+						if (name == file[0]) {
+							next += 1;
+							name = 'Note' + next;
+							gotNext = 0;
+						}
+					});
+				}
 				files.push([name, '']);
 				$('#notepad-files').append("<div class='notepad-files-button text'>" + name + '</div>');
 				$('.notepad-files-button').click(function() {
 					curFile($(this).text());
 				});
 				curFile(name);
-			}
-		}
-		saveFiles();
-	}
-	
-	function deleteFile(name) {
-		if (name != null) {
-			files.splice($.inArray(getFile(name), files), 1);
-			$('.notepad-files-button').each(function() {
-				if ($(this).text() == name) {
-					$(this).remove();
+			} else {
+				var found = 0;
+				files.forEach(function(file, index) {
+					if (name == file[0]) {
+						found = 1;
+					}
+				});
+				if (!found) {
+					files.push([name, '']);
+					$('#notepad-files').append("<div class='notepad-files-button text'>" + name + '</div>');
+					$('.notepad-files-button').click(function() {
+						curFile($(this).text());
+					});
+					curFile(name);
 				}
-			});
+			}
 			saveFiles();
-			curFile();
 		}
-	}
-	
-	function loadFiles() {
-		files = JSON.parse(localStorage.getItem('notepad-files'));
-		if (files == null) {
-			files = [];
-		}
-		files.forEach(function(file, index) {
-			if ((file[0] != null)) {
+		
+		function deleteFile(name) {
+			if (name != null) {
+				files.splice($.inArray(getFile(name), files), 1);
 				$('.notepad-files-button').each(function() {
-					if ($(this).text() == file[0]) {
+					if ($(this).text() == name) {
 						$(this).remove();
 					}
 				});
-				$('#notepad-files').append("<div class='notepad-files-button text'>" + file[0] + '</div>');
-				$('.notepad-files-button').click(function() {
-					curFile($(this).text());
+				saveFiles();
+				curFile();
+			}
+		}
+		
+		function loadFiles() {
+			files = JSON.parse(localStorage.getItem('notepad-files'));
+			if (files == null) {
+				files = [];
+			}
+			files.forEach(function(file, index) {
+				if ((file[0] != null)) {
+					$('.notepad-files-button').each(function() {
+						if ($(this).text() == file[0]) {
+							$(this).remove();
+						}
+					});
+					$('#notepad-files').append("<div class='notepad-files-button text'>" + file[0] + '</div>');
+					$('.notepad-files-button').click(function() {
+						curFile($(this).text());
+					});
+				} else {
+					files.splice(index, 1);
+				}
+			});
+			saveFiles();
+		}
+		
+		$('#notepad-textarea').val('');
+		$('#notepad-textarea').hide();
+		
+		loadFiles();
+		curFile('');
+		
+		$('.notepad-files-button').click(function() {
+			curFile($(this).text());
+			setFile(curFile());
+			saveFiles();
+		});
+		
+		$('#notepad-new').click(function() {
+			$('<p>New File</p>').prompt(function(e) {
+				if (e.response) {
+					newFile(e.response);
+					setFile(curFile());
+					saveFiles();
+				}
+			});
+		});
+		
+		$('#notepad-delete').click(function() {
+			var file = curFile();
+			if (file != 'null') {
+				$('<p>Delete ' + curFile() + '</p>').confirm(function(e) {
+					if (e.response) {
+						deleteFile(curFile());
+						curFile('');
+						saveFiles();
+					}
 				});
-			} else {
-				files.splice(index, 1);
 			}
 		});
-		saveFiles();
-	}
-	
-	$('#notepad-textarea').val('');
-	$('#notepad-textarea').hide();
-	
-	loadFiles();
-	curFile('');
-	
-	$('.notepad-files-button').click(function() {
-		curFile($(this).text());
-		setFile(curFile());
-		saveFiles();
+		
+		$('#notepad-delete-all').click(function() {
+			if (files[0]) {
+				$('<p>Delete All Files</p>').confirm(function(e) {
+					if (e.response) {
+						files = [];
+						$('.notepad-files-button').remove();
+						setFile();
+						saveFiles();
+					}
+				});
+			}
+		});
+		
+		$('#notepad-textarea').on('keyup', function() {
+			getFile(curFile())[1] = $(this).val();
+			saveFiles();
+		});
 	});
-	
-	$('#notepad-new').click(function() {
-		newFile();
-		setFile(curFile());
-		saveFiles();
-	});
-	
-	$('#notepad-delete').click(function() {
-		deleteFile(curFile());
-		curFile('');
-		saveFiles();
-	});
-	
-	$('#notepad-delete-all').click(function() {
-		files = [];
-		$('.notepad-files-button').remove();
-		setFile();
-		saveFiles();
-	});
-	
-	$('#notepad-textarea').on('keyup', function() {
-		getFile(curFile())[1] = $(this).val();
-		saveFiles();
-	});
-});
 </script>
 
 <div id='notepad-content'>

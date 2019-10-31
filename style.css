@@ -18,6 +18,105 @@ html, body {
     color: white;
 }
 
+/* Prompt (credit to Andrew Dodson) */
+.jquery_prompt {
+	position: fixed;
+	top: 0;
+	left: 0; 
+	right: 0;
+	bottom: 0;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	background-color: transparent;
+	background-color: rgba(0, 0, 0, 0.2);
+	color: #444444;
+	font-family: arial;
+	font-weight: bold;
+	z-index: 10000;
+	border: none;
+	display: -webkit-box; 
+	-webkit-box-align: center;
+	display: -moz-box; 
+	-moz-box-align: center;
+	display: -ms-box; 
+	-ms-box-align: center;
+	display: box; 
+	box-align: center;
+}
+iframe.jquery_prompt {
+	display: table;
+	filter: alpha(Opacity=20);
+}
+.jquery_prompt ~ *:not(.jquery_prompt) {
+	-webkit-filter: blur(2px);
+}
+.jquery_prompt form {
+	margin: 5% auto;
+	display: table;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+.plugin form {
+	text-align: center;
+	background-color: white;
+	max-width: 100%;
+	box-shadow: 0 20px 60px black;
+	box-shadow: 0 20px 60px rgba(0, 0, 0 , 0.8);
+	padding: 0;
+	font-size: 1.2em;
+	position: relative;
+}
+.plugin form > *, .plugin form h1, .plugin form .footer {
+	padding-left: 20px;
+	padding-right: 20px;
+}
+.plugin form > :first-child {
+	padding-top: 20px;
+}
+.plugin form .footer {
+	padding-bottom: 20px;
+	position: relative;
+}
+.plugin input {
+	width: 100%;
+	font-size: inherit;
+	margin-bottom: 20px;
+}
+.plugin button {
+	color: white;
+	font-weight: normal;
+	vertical-align: top;
+	font-size: inherit;
+	margin: 0 10px;
+	margin-bottom: 10px;
+	border: 0;
+	padding: 4px 8px;
+}
+.plugin button:focus {
+	outline: 0;
+}
+.plugin button[type=button] {
+	font-size: 0.7em;
+}
+.plugin button[type=reset] {
+	background-color: #BB2222;
+}
+.plugin button[type=reset]:hover {
+	background-color: #990000;
+}
+.plugin button[type=submit] {
+	background-color: #22BB22;
+}
+.plugin button[type=submit]:hover {
+	background-color: #009900;
+}
+.plugin input[type=checkbox], .plugin input[type=checkbox] + label{
+	width: auto;
+	font-size: 12px;
+}
+
 /* Navigation Bar */
 #nav {
 	user-select: none;
