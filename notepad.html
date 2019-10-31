@@ -98,14 +98,16 @@ $(function() {
 	}
 	
 	function deleteFile(name) {
-		files.splice($.inArray(getFile(name), files), 1);
-		$('.notepad-files-button').each(function() {
-			if ($(this).text() == name) {
-				$(this).remove();
-			}
-		});
-		saveFiles();
-		curFile();
+		if (name != null) {
+			files.splice($.inArray(getFile(name), files), 1);
+			$('.notepad-files-button').each(function() {
+				if ($(this).text() == name) {
+					$(this).remove();
+				}
+			});
+			saveFiles();
+			curFile();
+		}
 	}
 	
 	function loadFiles() {
@@ -154,6 +156,7 @@ $(function() {
 	
 	$('#notepad-textarea').on('keyup', function() {
 		getFile(curFile())[1] = $(this).val();
+		saveFiles();
 	});
 });
 </script>
