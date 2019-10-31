@@ -14,7 +14,7 @@ $(function() {
 	
 	function setFile(name) {
 		if (name == null) {
-			sessionStorage.setItem('current-file', null);
+			sessionStorage.setItem('current-file', '');
 			
 			$('#notepad-textarea').val('');
 			$('#notepad-textarea').hide();
@@ -29,8 +29,8 @@ $(function() {
 				}
 			});
 			
-			$('#notepad-textarea').val(getFile(name)[1]);
 			$('#notepad-textarea').show();
+			$('#notepad-textarea').val(getFile(name)[1]);
 			$('#notepad-textarea').focus();
 		}
 	}
