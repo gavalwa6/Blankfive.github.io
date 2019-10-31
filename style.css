@@ -80,9 +80,10 @@ iframe.jquery_prompt {
 	position: relative;
 }
 .plugin input {
-	width: 100%;
+	width: 80%;
 	font-size: inherit;
 	margin-bottom: 20px;
+	border: 0;
 }
 .plugin button {
 	color: white;
@@ -165,13 +166,13 @@ iframe.jquery_prompt {
 	display:flex;
 	align-items: center;
 	justify-content: center;
-	z-index: 1;
+	z-index: 20;
 }
 #current-nav {
 	position: relative;
 	bottom: 153px;
     background-color: #226622;
-	z-index: 0;
+	z-index: 10;
 }
 
 /* Content */
@@ -229,44 +230,103 @@ iframe.jquery_prompt {
 	width: 100%;
 }
 #notepad-bar {
-	float: left;
 	user-select: none;
+	float: left;
 	height: 50px;
 	width: 100%;
 	background-color: #555555;
 	position: relative;
     display: flex;
     justify-content: flex-start;
+	z-index: 3;
+}
+.notepad-bar-button {
+	user-select: none;
+	cursor: pointer;
+	padding: 2px 2px;
+	height: 46px;
+	width: 46px;
+}
+.notepad-bar-button-toggle-base {
+	user-select: none;
+	cursor: pointer;
+	height: 100%;
+	width: 100%;
+}
+.notepad-bar-button-toggle {
+	float: right;
+	user-select: none;
+	cursor: pointer;
+	height: 12px;
+	width: 12px;
+	position: relative;
+	bottom: 16px;
+}
+.notepad-bar-separator {
+	height: 50px;
+	width: 50px;
 }
 #notepad-files {
 	float: left;
 	user-select: none;
 	height: 28px;
-	width: 100%;
+	width: calc(100% - 56px);
 	background-color: #888888;
 	position: relative;
     display: flex;
     justify-content: flex-start;
+	overflow: hidden;
+	z-index: 1;
 }
-.notepad-bar-button {
-	cursor: pointer;
+#notepad-files-left {
+	float: left;
+	user-select: none;
+	height: 24px;
 	padding: 2px 2px;
-	height: 46px;
+	position: relative;
+	background-color: #777777;
+	box-shadow: 0px 0px 10px black;
+	z-index: 2;
+}
+#notepad-files-right {
+	float: right;
+	user-select: none;
+	height: 24px;
+	padding: 2px 2px;
+	position: relative;
+	background-color: #777777;
+	box-shadow: 0px 0px 10px black;
+	z-index: 2;
 }
 .notepad-files-button {
+	user-select: none;
 	cursor: pointer;
 	height: 20px;
+	padding: 4px 8px;
 	background-color: #CCCCCC;
-	padding: 4px 10px;
+	white-space: nowrap;
+}
+#notepad-textarea-container {
+	width: 100%;
+	height: calc(100% - 78px);
+	background-color: #FFFFFF;
+	position: relative;
+	overflow: hidden;
+	z-index: 3;
 }
 #notepad-textarea {
 	float: left;
 	padding: 10px 10px;
 	width: calc(100% - 20px);
-	height: calc(100% - 100px);
+	height: calc(100% - 20px);
 	resize: none;
 	border: 0;
 	background-color: #FFFFFF;
+	position: relative;
+	bottom: 1px;
+	z-index: 4;
+	overflow: auto;
+	white-space: normal;
 }
 input:focus, #notepad-textarea {
 	outline: none !important;

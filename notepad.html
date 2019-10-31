@@ -1,3 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>pointfeev</title>
+        <link rel='stylesheet' type='text/css' href='style.css'>
+		<link rel='apple-touch-icon' sizes='180x180' href='apple-touch-icon.png'>
+		<link rel='icon' type='image/png' sizes='32x32' href='favicon-32x32.png'>
+		<link rel='icon' type='image/png' sizes='16x16' href='favicon-16x16.png'>
+		<link rel='manifest' href='site.webmanifest'>
+		<script src='https://code.jquery.com/jquery-3.4.1.js'></script>
+		<script src='style.js'></script>
+    </head>
+    <body>
+        <div id='nav'>
+			<div id='nav-left'>
+				<img id='logo' src='logo.png'>
+			</div>
+			<div id='nav-center'></div>
+			<div id='nav-right'>
+				<div class='button'>
+					<div id='home' class='nav text'>
+						Home
+					</div>
+				</div>
+				<div class='button'>
+					<div id='images' class='nav text'>
+						Images
+					</div>
+				</div>
+				<div class='button'>
+					<div id='notepad' class='nav text'>
+						Notepad
+					</div>
+				</div>
+			</div>
+			<div id='current-nav' class='button'></div>
+        </div>
+		<div id='content'>
 <script>
 	$(function() {
 		var files = [];
@@ -29,10 +67,12 @@
 				$('.notepad-files-button').each(function() {
 					if ($(this).text() == name) {
 						$(this).css('background-color', '#FFFFFF');
+						$('#notepad-files').scrollLeft($(this).offset().left);
 					} else {
 						$(this).css('background-color', '#CCCCCC');
 					}
 				});
+				
 				
 				$('#notepad-textarea').show();
 				$('#notepad-textarea').val(value);
@@ -114,14 +154,15 @@
 		
 		function deleteFile(name) {
 			if (name != null) {
-				files.splice($.inArray(getFile(name), files), 1);
 				$('.notepad-files-button').each(function() {
 					if ($(this).text() == name) {
+						curFile(($(this).prev() && $(this).prev().text()) || ($(this).next() && $(this).next().text()));
 						$(this).remove();
 					}
 				});
+				files.splice($.inArray(getFile(name), files), 1);
 				saveFiles();
-				curFile();
+				curFile('');
 			}
 		}
 		
@@ -154,6 +195,26 @@
 		loadFiles();
 		curFile('');
 		
+		var mousedown;
+		$('#notepad-files-left').mousedown(function() {
+			$('#notepad-files').scrollLeft($('#notepad-files').scrollLeft() - 1);
+			mousedown = setInterval(function() {
+				$('#notepad-files').scrollLeft($('#notepad-files').scrollLeft() - 1);
+			}, 1);
+			return false;
+		});
+		$('#notepad-files-right').mousedown(function() {
+			mousedown = setInterval(function() {
+			$('#notepad-files').scrollLeft($('#notepad-files').scrollLeft() + 1);
+				$('#notepad-files').scrollLeft($('#notepad-files').scrollLeft() + 1);
+			}, 1);
+			return false;
+		});
+		$(document).mouseup(function() {
+			clearInterval(mousedown);
+			return false;
+		});
+		
 		$('.notepad-files-button').click(function() {
 			curFile($(this).text());
 			setFile(curFile());
@@ -161,13 +222,13 @@
 		});
 		
 		$('#notepad-new').click(function() {
-			$('<p>New File</p>').prompt(function(e) {
+			$('<p>Add New File</p>').prompt(function(e) {
 				if (e.response) {
 					newFile(e.response);
 					setFile(curFile());
 					saveFiles();
 				}
-			});
+			}, false);
 		});
 		
 		$('#notepad-delete').click(function() {
@@ -176,10 +237,9 @@
 				$('<p>Delete ' + curFile() + '</p>').confirm(function(e) {
 					if (e.response) {
 						deleteFile(curFile());
-						curFile('');
 						saveFiles();
 					}
-				});
+				}, false);
 			}
 		});
 		
@@ -192,13 +252,46 @@
 						setFile();
 						saveFiles();
 					}
-				});
+				}, false);
+			}
+		});
+		
+		function wrap(w) {
+			if (typeof w == 'boolean') {
+				if (w) {
+					sessionStorage.setItem('notepad-wrap', '1');
+					$('#notepad-textarea').css('white-space', 'normal')
+					$('#notepad-wrap').children('.notepad-bar-button-toggle').attr('src', 'notepad/on.png');
+				} else {
+					sessionStorage.setItem('notepad-wrap', '0');
+					$('#notepad-textarea').css('white-space', 'nowrap')
+					$('#notepad-wrap').children('.notepad-bar-button-toggle').attr('src', 'notepad/off.png');
+				}
+			}
+			return ($('#notepad-textarea').css('white-space') == 'normal');
+		}
+		
+		var _w = sessionStorage.getItem('notepad-wrap');
+		if (typeof _w == 'string') {
+			if (_w == '1') {
+				wrap(true);
+			} else if (_w == '0') {
+				wrap(false);
+			}
+		} else {
+			wrap(true);
+		}
+		$('#notepad-wrap').click(function() {
+			if (wrap()) {
+				wrap(false);
+			} else {
+				wrap(true);
 			}
 		});
 		
 		$('#notepad-textarea').on('keyup', function() {
 			getFile(curFile())[1] = $(this).val();
-			saveFiles();
+			saveFiles('.notepad-bar-button-toggle');
 		});
 	});
 </script>
@@ -208,9 +301,20 @@
 		<img id='notepad-new' class='notepad-bar-button' src='notepad/new.png'>
 		<img id='notepad-delete' class='notepad-bar-button' src='notepad/delete.png'>
 		<img id='notepad-delete-all' class='notepad-bar-button' src='notepad/delete-all.png'>
+		<div class='notepad-bar-separator'></div>
+		<div id='notepad-wrap' class='notepad-bar-button'>
+			<img class='notepad-bar-button-toggle-base' src='notepad/wrap.png'>
+			<img class='notepad-bar-button-toggle' src='notepad/on.png'>
+		</div>
 	</div>
-	<div id='notepad-files'>
-		
+	<img id='notepad-files-left' src='notepad/left.png'>
+	<div id='notepad-files'></div>
+	<img id='notepad-files-right' src='notepad/right.png'>
+	<div id='notepad-textarea-container'>
+		<textarea id='notepad-textarea' class='text' placeholder='Enter note here...' autofocus></textarea>
 	</div>
-	<textarea id='notepad-textarea' class='text' placeholder='Enter note here...' autofocus></textarea>
 </div>
+		</div>
+    </body>
+</html>
+

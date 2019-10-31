@@ -1,5 +1,5 @@
 /* Prompt (credit to Andrew Dodson) */
-;(function($) {
+;(function() {
 	var ignorelist = [];
 	try { ignorelist = JSON.parse(localStorage.getItem('prompt.bugme')) || []; } catch(e) {}
 	if (!ignorelist instanceof Array) {
@@ -7,7 +7,6 @@
 	}
 
 	$.fn.popup = function(message, callback, bugme) {
-	
 		if (typeof(callback) === 'boolean') {
 			bugme = callback;
 		}
@@ -49,7 +48,7 @@
 			+ "<input type='text' name='text' value='' style='display: none;'/>"
 			+ "<button type='reset' style='display: none;'>Cancel</button>"
 			+ "<button type='submit' name='submit' value='1'>Confirm</button>"
-			+ "<br/><input name='bugme' id='bugme' type='checkbox' value='1' checked='checked' style='display:none;'>"
+			+ "<br/><input name='bugme' id='bugme' type='checkbox' value='1' checked='checked' style='display: none;'>"
 			+ "<label for='bugme' style='display:none;'>keep asking me</label>"
 			+ '</div>'
 			+ '</form></div>')
@@ -88,7 +87,7 @@
 			.find('button[type=submit]')
 			.trigger('focus')
 			.end()
-		.end();
+			.end();
 		if (bugme) {
 			$popup.find('input[name=bugme], input[name=bugme] + label').show();
 		}
@@ -96,17 +95,23 @@
 	};
 
 	$.fn.prompt = function(message, callback, bugme) {
-		return $(this).popup(message, callback, bugme).find('input[name=text], button').show().end();
+		var popup = $(this).popup(message, callback, bugme);
+		popup.find('input[name=text], button').show();
+		popup.find('input[name=text]').focus();
+		return popup;
 	};
 
 	$.fn.alert = function(message, callback, bugme) {
-		return $(this).popup(message, callback, bugme);
+		var popup = $(this).popup(message, callback, bugme);
+		popup.find('button[type=submit]').text('Ok');
+		return popup;
 	};
 
 	$.fn.confirm = function(message, callback, bugme) {
-		return $(this).popup(message, callback, bugme).find('button').show().end();
+		var popup = $(this).popup(message, callback, bugme);
+		popup.find('button').show();
+		return popup;
 	};
-	
 })(jQuery);
 
 /* Navigation */
