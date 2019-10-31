@@ -1,3 +1,14 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>pointfeev</title>
+        <link rel='stylesheet' type='text/css' href='style.css'>
+		<link rel='apple-touch-icon' sizes='180x180' href='apple-touch-icon.png'>
+		<link rel='icon' type='image/png' sizes='32x32' href='favicon-32x32.png'>
+		<link rel='icon' type='image/png' sizes='16x16' href='favicon-16x16.png'>
+		<link rel='manifest' href='site.webmanifest'>
+		<script src='https://code.jquery.com/jquery-3.4.1.js'></script>
+		<script src='style.js'></script>
 <script>
 	$('#images-template').hide();
 	
@@ -32,7 +43,28 @@
 	append(1, 912110, 'Photo of Blue Sky', 'Elia Clerici');
 	append(1, 691668, 'Landscape Photography of Mountains Covered in Snow', 'Eberhard Grossgasteiger');
 </script>
-
+    </head>
+    <body>
+        <div id='nav'>
+			<div id='nav-left'>
+				<img id='logo' src='logo.png'>
+			</div>
+			<div id='nav-center'></div>
+			<div id='nav-right'>
+				<div class='button'>
+					<div id='home' class='nav text'>
+						Home
+					</div>
+				</div>
+				<div class='button'>
+					<div id='images' class='nav text'>
+						Images
+					</div>
+				</div>
+			</div>
+			<div id='current-nav' class='button'></div>
+        </div>
+		<div id='content'>
 <a id='images-template' class='images-img-button' href=''>
 	<div class='images-img-box'>
 		<div class='images-title text'></div>
@@ -42,3 +74,10 @@
 		<div class='images-credit text'>by <b class='images-author'></b> from <b class='images-site'></b></div>
 	</div>
 </a>
+		</div>
+    </body>
+</html>
+
+
+
+

@@ -80,7 +80,7 @@ html, body {
     float: left;
     width: 100%;
     height: calc(100% - 58px);
-    background-color: #DDDDFF;
+    background-color: #FFFFFF;
     box-sizing: border-box;
 	border-left: 3px solid #333333;
 	border-right: 3px solid #333333;
@@ -113,7 +113,7 @@ html, body {
 	width: 400px;
 	height: 200px;
 }
-img:not(#logo) {
+.images-img-img {
 	padding: 0 20px;
 	max-width: 100%;
 	max-height: 100%;
@@ -122,4 +122,50 @@ img:not(#logo) {
 	padding: 20px 20px;
 	text-align: center;
 	font-style: italic;
+}
+
+/* Notepad Page */
+#notepad-content {
+	height: 100%;
+	width: 100%;
+}
+#notepad-bar {
+	float: left;
+	user-select: none;
+	height: 50px;
+	width: 100%;
+	background-color: #555555;
+	position: relative;
+    display: flex;
+    justify-content: flex-start;
+}
+#notepad-files {
+	float: left;
+	user-select: none;
+	height: 28px;
+	width: 100%;
+	background-color: #888888;
+	position: relative;
+    display: flex;
+    justify-content: flex-start;
+}
+.notepad-bar-button {
+	cursor: pointer;
+	padding: 2px 2px;
+	height: 46px;
+}
+.notepad-files-button {
+	cursor: pointer;
+	height: 20px;
+	background-color: #CCCCCC;
+	padding: 4px 10px;
+}
+#notepad-textarea {
+	float: left;
+	padding: 10px 10px;
+	width: calc(100% - 20px);
+	height: calc(100% - 100px);
+	resize: none;
+	border: 0;
+	background-color: #FFFFFF;
 }

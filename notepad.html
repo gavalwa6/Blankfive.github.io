@@ -1,0 +1,213 @@
+<!--
+notes not saving past refresh
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>pointfeev</title>
+        <link rel='stylesheet' type='text/css' href='style.css'>
+		<link rel='apple-touch-icon' sizes='180x180' href='apple-touch-icon.png'>
+		<link rel='icon' type='image/png' sizes='32x32' href='favicon-32x32.png'>
+		<link rel='icon' type='image/png' sizes='16x16' href='favicon-16x16.png'>
+		<link rel='manifest' href='site.webmanifest'>
+		<script src='https://code.jquery.com/jquery-3.4.1.js'></script>
+		<script src='style.js'></script>
+    </head>
+    <body>
+        <div id='nav'>
+			<div id='nav-left'>
+				<img id='logo' src='logo.png'>
+			</div>
+			<div id='nav-center'></div>
+			<div id='nav-right'>
+				<div class='button'>
+					<div id='home' class='nav text'>
+						Home
+					</div>
+				</div>
+				<div class='button'>
+					<div id='images' class='nav text'>
+						Images
+					</div>
+				</div>
+				<div class='button'>
+					<div id='notepad' class='nav text'>
+						Notepad
+					</div>
+				</div>
+			</div>
+			<div id='current-nav' class='button'></div>
+        </div>
+		<div id='content'>
+<script>
+$(function() {
+	var files = [];
+	
+	function getFile(name) {
+		var _file = 0;
+		files.forEach(function(file, index) {
+			if (name == file[0]) {
+				_file = file;
+			}
+		});
+		return _file;
+	}
+	
+	function setFile(name) {
+		sessionStorage.setItem('current-file', name);
+		
+		$('.notepad-files-button').each(function() {
+			if ($(this).text() == name) {
+				$(this).css('background-color', '#FFFFFF');
+			} else {
+				$(this).css('background-color', '#CCCCCC');
+			}
+		});
+		
+		$('#notepad-textarea').val(getFile(name)[1]);
+		$('#notepad-textarea').focus();
+	}
+	
+	function curFile(name) {
+		if (name != null) {
+			if (name == '') {
+				if (getFile(sessionStorage.getItem('current-file'))) {
+					setFile(sessionStorage.getItem('current-file'));
+				} else {
+					if (files[0]) {
+						setFile(files[0]);
+					}
+				}
+			} else {
+				if (getFile(name)) {
+					setFile(name);
+				} else {
+					if (files[0]) {
+						setFile(files[0]);
+					}
+				}
+			}
+		}
+		return sessionStorage.getItem('current-file');
+	}
+	
+	function saveFiles() {
+		localStorage.setItem('notepad-files', JSON.stringify(files));
+	}
+	
+	function newFile(name) {
+		if (name == null || name == '') {
+			var next = 0;
+			name = 'Note' + next;
+			var gotNext = 0;
+			while (!gotNext) {
+				gotNext = 1;
+				files.forEach(function(file, index) {
+					if (name == file[0]) {
+						next += 1;
+						name = 'Note' + next;
+						gotNext = 0;
+					}
+				});
+			}
+			files.push([name, '']);
+			$('#notepad-files').append("<div class='notepad-files-button text'>" + name + '</div>');
+			$('.notepad-files-button').click(function() {
+				curFile($(this).text());
+			});
+			curFile(name);
+		} else {
+			var found = 0;
+			files.forEach(function(file, index) {
+				if (name == file[0]) {
+					found = 1;
+				}
+			});
+			if (!found) {
+				files.push([name, '']);
+				$('#notepad-files').append("<div class='notepad-files-button text'>" + name + '</div>');
+				$('.notepad-files-button').click(function() {
+					curFile($(this).text());
+				});
+				curFile(name);
+			}
+		}
+		saveFiles();
+	}
+	
+	function deleteFile(name) {
+		files.splice($.inArray(getFile(name), files), 1);
+		$('.notepad-files-button').each(function() {
+			if ($(this).text() == name) {
+				$(this).remove();
+			}
+		});
+		saveFiles();
+		curFile();
+	}
+	
+	function loadFiles() {
+		files = JSON.parse(localStorage.getItem('notepad-files'));
+		if (files == null) {
+			files = [];
+		}
+		files.forEach(function(file, index) {
+			if ((file[0] != null)) {
+				$('.notepad-files-button').each(function() {
+					if ($(this).text() == file[0]) {
+						$(this).remove();
+					}
+				});
+				$('#notepad-files').append("<div class='notepad-files-button text'>" + file[0] + '</div>');
+				$('.notepad-files-button').click(function() {
+					curFile($(this).text());
+				});
+			} else {
+				files.splice(index, 1);
+			}
+		});
+		saveFiles();
+	}
+	
+	loadFiles();
+	curFile('');
+	
+	$('.notepad-files-button').click(function() {
+		curFile($(this).text());
+	});
+	
+	$('#notepad-new').click(function() {
+		newFile();
+	});
+	
+	$('#notepad-delete').click(function() {
+		deleteFile(curFile());
+	});
+	
+	$('#notepad-delete-all').click(function() {
+		files = [];
+		$('.notepad-files-button').remove();
+		saveFiles();
+	});
+	
+	$('#notepad-textarea').on('keyup', function() {
+		getFile(curFile())[1] = $(this).val();
+	});
+});
+</script>
+
+<div id='notepad-content'>
+	<div id='notepad-bar'>
+		<img id='notepad-new' class='notepad-bar-button' src='notepad/new.png'>
+		<img id='notepad-delete' class='notepad-bar-button' src='notepad/delete.png'>
+		<img id='notepad-delete-all' class='notepad-bar-button' src='notepad/delete-all.png'>
+	</div>
+	<div id='notepad-files'>
+		
+	</div>
+	<textarea id='notepad-textarea' class='text' placeholder='Enter note here...' autofocus></textarea>
+</div>
+		</div>
+    </body>
+</html>
+
