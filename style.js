@@ -45,7 +45,8 @@
 		
 		var $popup = $("<iframe class='jquery_prompt' allowtransparency=true frameborder='0' scrolling='auto' marginheight='0' marginwidth='0'></iframe><div class='jquery_prompt plugin'><form>"
 			+ "<div class='footer'>"
-			+ "<input type='text' name='text' value='' style='display: none;' placeholder=''>"
+			+ "<input type='text' name='text1' value='' style='display: none;' placeholder='' autocomplete='off'>"
+			+ "<input type='text' name='text2' value='' style='display: none;' placeholder='' autocomplete='off'>"
 			+ "<button type='reset' style='display: none;'>Cancel</button>"
 			+ "<button type='submit' name='submit' value='1'>Confirm</button>"
 			+ "<br/><input name='bugme' id='bugme' type='checkbox' value='1' checked='checked' style='display: none;'>"
@@ -56,7 +57,8 @@
 			.find('form')
 			.prepend(message)
 			.submit(function(e) {
-				e.response = $('button[name=submit]', this).val() == 1 ? $('input[name=text]:visible', this).val() || true : false;
+				e.response1 = $('button[name=submit]', this).val() == 1 ? $('input[name=text1]:visible', this).val() || true : false;
+				e.response2 = $('button[name=submit]', this).val() == 1 ? $('input[name=text2]:visible', this).val() || true : false;
 
 				try {
 					callback.call(this, e);
@@ -94,11 +96,15 @@
 		return $popup;
 	};
 
-	$.fn.prompt = function(message, callback, bugme, placeholder) {
+	$.fn.prompt = function(message, callback, bugme, placeholder1, text2, placeholder2) {
 		var popup = $(this).popup(message, callback, bugme);
-		popup.find('input[name=text], button').show();
-		popup.find('input[name=text]').attr('placeholder', placeholder);
-		popup.find('input[name=text]').focus();
+		popup.find('input[name=text1], button').show();
+		popup.find('input[name=text1]').attr('placeholder', placeholder1);
+		popup.find('input[name=text1]').focus();
+		if (text2) {
+			popup.find('input[name=text2]').show();
+			popup.find('input[name=text2]').attr('placeholder', placeholder2);
+		}
 		return popup;
 	};
 

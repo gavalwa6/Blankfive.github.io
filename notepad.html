@@ -40,12 +40,11 @@
 					}
 				});
 				
-				
 				$('#notepad-textarea').show();
 				$('#notepad-textarea').val(value);
 				$('#notepad-textarea').focus();
 			} else {
-				sessionStorage.setItem('current-file', null);
+				sessionStorage.setItem('current-file', 'null');
 				
 				$('#notepad-textarea').val('');
 				$('#notepad-textarea').hide();
@@ -119,6 +118,22 @@
 			saveFiles();
 		}
 		
+		function editFile(name, newName) {
+			if (typeof newName == 'string') {
+				files.forEach(function(file, index) {
+					if (name == file[0]) {
+						files[index][0] = newName;
+						$('.notepad-files-button').each(function() {
+							if ($(this).text() == name) {
+								$(this).text(newName);
+							}
+						});
+					}
+				});
+			}
+			saveFiles();
+		}
+		
 		function deleteFile(name) {
 			if (name != null) {
 				$('.notepad-files-button').each(function() {
@@ -185,19 +200,31 @@
 		
 		$('#notepad-new').click(function() {
 			$('<p>Add New Note</p>').prompt(function(e) {
-				if (e.response) {
-					newFile(e.response);
+				if (e.response1) {
+					newFile(e.response1);
 					setFile(curFile());
 					saveFiles();
 				}
 			}, false, false, 'Enter note name...');
 		});
 		
+		$('#notepad-edit').click(function() {
+			var file = curFile();
+			if (file != 'null') {
+				$('<p>Edit Name: ' + file + '</p>').prompt(function(e) {
+					if (e.response1) {
+						editFile(file, e.response1);
+						curFile(e.response1);
+					}
+				}, false, false, 'Enter new note name...');
+			}
+		});
+		
 		$('#notepad-delete').click(function() {
 			var file = curFile();
 			if (file != 'null') {
-				$('<p>Delete ' + curFile() + '</p>').confirm(function(e) {
-					if (e.response) {
+				$('<p>Delete: ' + curFile() + '</p>').confirm(function(e) {
+					if (e.response1) {
 						deleteFile(curFile());
 						saveFiles();
 					}
@@ -208,7 +235,7 @@
 		$('#notepad-delete-all').click(function() {
 			if (files[0]) {
 				$('<p>Delete All Notes</p>').confirm(function(e) {
-					if (e.response) {
+					if (e.response1) {
 						files = [];
 						$('.notepad-files-button').remove();
 						setFile();
@@ -216,6 +243,14 @@
 					}
 				}, false, false);
 			}
+		});
+		
+		$('#notepad-account').click(function() {
+			$('<p>Login</p>').prompt(function(e) {
+				if (e.response1 && e.response2) {
+					
+				}
+			}, false, false, 'Username', true, 'Password');
 		});
 		
 		function wrap(w) {
@@ -257,15 +292,18 @@
 			saveFiles('.notepad-bar-button-toggle');
 		});
 		
-		setFile();
+		$('#notepad-textarea').val('');
+		$('#notepad-textarea').hide();
+		
 		loadFiles();
 		curFile('');
 	});
 </script>
 
 <div id='notepad-content'>
-	<div id='notepad-bar'>
+	<div id='notepad-bar-left'>
 		<img id='notepad-new' class='notepad-bar-button' src='notepad/new.png'>
+		<img id='notepad-edit' class='notepad-bar-button' src='notepad/edit.png'>
 		<img id='notepad-delete' class='notepad-bar-button' src='notepad/delete.png'>
 		<img id='notepad-delete-all' class='notepad-bar-button' src='notepad/delete-all.png'>
 		<div class='notepad-bar-separator'></div>
@@ -273,6 +311,9 @@
 			<img class='notepad-bar-button-toggle-base' src='notepad/wrap.png'>
 			<img class='notepad-bar-button-toggle' src='notepad/on.png'>
 		</div>
+	</div>
+	<div id='notepad-bar-right'>
+		<img id='notepad-account' class='notepad-bar-button' src='notepad/account.png'>
 	</div>
 	<img id='notepad-files-left' src='notepad/left.png'>
 	<div id='notepad-files'></div>
