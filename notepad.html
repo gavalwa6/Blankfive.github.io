@@ -184,13 +184,13 @@
 		});
 		
 		$('#notepad-new').click(function() {
-			$('<p>Add New File</p>').prompt(function(e) {
+			$('<p>Add New Note</p>').prompt(function(e) {
 				if (e.response) {
 					newFile(e.response);
 					setFile(curFile());
 					saveFiles();
 				}
-			}, false, false, 'Enter file name...');
+			}, false, false, 'Enter note name...');
 		});
 		
 		$('#notepad-delete').click(function() {
@@ -207,7 +207,7 @@
 		
 		$('#notepad-delete-all').click(function() {
 			if (files[0]) {
-				$('<p>Delete All Files</p>').confirm(function(e) {
+				$('<p>Delete All Notes</p>').confirm(function(e) {
 					if (e.response) {
 						files = [];
 						$('.notepad-files-button').remove();
