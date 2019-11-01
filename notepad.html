@@ -29,7 +29,12 @@
 				$('.notepad-files-button').each(function() {
 					if ($(this).text() == name) {
 						$(this).css('background-color', '#FFFFFF');
-						$('#notepad-files').scrollLeft($(this).offset().left);
+						var sL = $('#notepad-files').scrollLeft();
+						var oL = $('#notepad-files').offset().left;
+						var oW = $('#notepad-files').outerWidth() / 2;
+						var fL = $(this).offset().left;
+						var fW = $(this).outerWidth() / 2;
+						$('#notepad-files').scrollLeft(sL - oL - oW + fW + fL);
 					} else {
 						$(this).css('background-color', '#CCCCCC');
 					}
@@ -151,23 +156,19 @@
 			saveFiles();
 		}
 		
-		$('#notepad-textarea').val('');
-		$('#notepad-textarea').hide();
-		
-		loadFiles();
-		curFile('');
-		
 		var mousedown;
 		$('#notepad-files-left').mousedown(function() {
 			$('#notepad-files').scrollLeft($('#notepad-files').scrollLeft() - 1);
 			mousedown = setInterval(function() {
 				$('#notepad-files').scrollLeft($('#notepad-files').scrollLeft() - 1);
+				$('#notepad-files').scrollLeft($('#notepad-files').scrollLeft() - 1);
 			}, 1);
 			return false;
 		});
 		$('#notepad-files-right').mousedown(function() {
-			mousedown = setInterval(function() {
 			$('#notepad-files').scrollLeft($('#notepad-files').scrollLeft() + 1);
+			mousedown = setInterval(function() {
+				$('#notepad-files').scrollLeft($('#notepad-files').scrollLeft() + 1);
 				$('#notepad-files').scrollLeft($('#notepad-files').scrollLeft() + 1);
 			}, 1);
 			return false;
@@ -255,6 +256,10 @@
 			getFile(curFile())[1] = $(this).val();
 			saveFiles('.notepad-bar-button-toggle');
 		});
+		
+		setFile();
+		loadFiles();
+		curFile('');
 	});
 </script>
 
