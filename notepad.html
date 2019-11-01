@@ -34,7 +34,7 @@
 						var oW = $('#notepad-files').outerWidth() / 2;
 						var fL = $(this).offset().left;
 						var fW = $(this).outerWidth() / 2;
-						$('#notepad-files').scrollLeft(sL - oL - oW + fW + fL);
+						$('#notepad-files').scrollLeft(sL - oL - oW + fL + fW);
 					} else {
 						$(this).css('background-color', '#CCCCCC');
 					}
@@ -163,19 +163,18 @@
 				$('#notepad-files').scrollLeft($('#notepad-files').scrollLeft() - 1);
 				$('#notepad-files').scrollLeft($('#notepad-files').scrollLeft() - 1);
 			}, 1);
-			return false;
 		});
+		
 		$('#notepad-files-right').mousedown(function() {
 			$('#notepad-files').scrollLeft($('#notepad-files').scrollLeft() + 1);
 			mousedown = setInterval(function() {
 				$('#notepad-files').scrollLeft($('#notepad-files').scrollLeft() + 1);
 				$('#notepad-files').scrollLeft($('#notepad-files').scrollLeft() + 1);
 			}, 1);
-			return false;
 		});
+		
 		$(document).mouseup(function() {
 			clearInterval(mousedown);
-			return false;
 		});
 		
 		$('.notepad-files-button').click(function() {
@@ -191,7 +190,7 @@
 					setFile(curFile());
 					saveFiles();
 				}
-			}, false);
+			}, false, false, 'Enter file name...');
 		});
 		
 		$('#notepad-delete').click(function() {
@@ -202,7 +201,7 @@
 						deleteFile(curFile());
 						saveFiles();
 					}
-				}, false);
+				}, false, false);
 			}
 		});
 		
@@ -215,7 +214,7 @@
 						setFile();
 						saveFiles();
 					}
-				}, false);
+				}, false, false);
 			}
 		});
 		
@@ -244,6 +243,7 @@
 		} else {
 			wrap(true);
 		}
+		
 		$('#notepad-wrap').click(function() {
 			if (wrap()) {
 				wrap(false);

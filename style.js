@@ -41,11 +41,11 @@
 			}
 		};
 
-		$(document).bind('keydown', bind );
+		$(document).bind('keydown', bind);
 		
 		var $popup = $("<iframe class='jquery_prompt' allowtransparency=true frameborder='0' scrolling='auto' marginheight='0' marginwidth='0'></iframe><div class='jquery_prompt plugin'><form>"
 			+ "<div class='footer'>"
-			+ "<input type='text' name='text' value='' style='display: none;'/>"
+			+ "<input type='text' name='text' value='' style='display: none;' placeholder=''>"
 			+ "<button type='reset' style='display: none;'>Cancel</button>"
 			+ "<button type='submit' name='submit' value='1'>Confirm</button>"
 			+ "<br/><input name='bugme' id='bugme' type='checkbox' value='1' checked='checked' style='display: none;'>"
@@ -94,9 +94,10 @@
 		return $popup;
 	};
 
-	$.fn.prompt = function(message, callback, bugme) {
+	$.fn.prompt = function(message, callback, bugme, placeholder) {
 		var popup = $(this).popup(message, callback, bugme);
 		popup.find('input[name=text], button').show();
+		popup.find('input[name=text]').attr('placeholder', placeholder);
 		popup.find('input[name=text]').focus();
 		return popup;
 	};
