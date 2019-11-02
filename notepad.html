@@ -12,6 +12,22 @@
 			return _file;
 		}
 		
+		function updateFiles(name) {
+			$('.notepad-files-button').each(function() {
+				if ($(this).text() == name) {
+					$(this).css('background-color', '#FFFFFF');
+					var sL = $('#notepad-files').scrollLeft();
+					var oL = $('#notepad-files').offset().left;
+					var oW = $('#notepad-files').outerWidth() / 2;
+					var fL = $(this).offset().left;
+					var fW = $(this).outerWidth() / 2;
+					$('#notepad-files').scrollLeft(sL - oL - oW + fL + fW);
+				} else {
+					$(this).css('background-color', '#CCCCCC');
+				}
+			});
+		}
+		
 		function setFile(data) {
 			if (typeof data == 'string' || typeof data == 'object') {
 				var name;
@@ -26,19 +42,7 @@
 				
 				sessionStorage.setItem('current-file', name);
 				
-				$('.notepad-files-button').each(function() {
-					if ($(this).text() == name) {
-						$(this).css('background-color', '#FFFFFF');
-						var sL = $('#notepad-files').scrollLeft();
-						var oL = $('#notepad-files').offset().left;
-						var oW = $('#notepad-files').outerWidth() / 2;
-						var fL = $(this).offset().left;
-						var fW = $(this).outerWidth() / 2;
-						$('#notepad-files').scrollLeft(sL - oL - oW + fL + fW);
-					} else {
-						$(this).css('background-color', '#CCCCCC');
-					}
-				});
+				updateFiles(name);
 				
 				$('#notepad-textarea').show();
 				$('#notepad-textarea').val(value);
@@ -284,6 +288,10 @@
 		$('#notepad-textarea').on('keyup', function() {
 			getFile(curFile())[1] = $(this).val();
 			saveFiles('.notepad-bar-button-toggle');
+		});
+		
+		$(window).resize(function() {
+			updateFiles(curFile());
 		});
 		
 		$('#notepad-textarea').val('');
