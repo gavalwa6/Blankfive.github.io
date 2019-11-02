@@ -255,15 +255,15 @@
 			if (typeof w == 'boolean') {
 				if (w) {
 					sessionStorage.setItem('notepad-wrap', '1');
-					$('#notepad-textarea').css('white-space', 'normal')
+					$('#notepad-textarea').css('white-space', 'pre')
 					$('#notepad-wrap').children('.notepad-bar-button-toggle').attr('src', 'notepad/on.png');
 				} else {
 					sessionStorage.setItem('notepad-wrap', '0');
-					$('#notepad-textarea').css('white-space', 'nowrap')
+					$('#notepad-textarea').css('white-space', 'pre-wrap')
 					$('#notepad-wrap').children('.notepad-bar-button-toggle').attr('src', 'notepad/off.png');
 				}
 			}
-			return ($('#notepad-textarea').css('white-space') == 'normal');
+			return ($('#notepad-textarea').css('white-space') == 'pre');
 		}
 		
 		var _w = sessionStorage.getItem('notepad-wrap');
