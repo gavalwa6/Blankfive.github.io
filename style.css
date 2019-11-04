@@ -233,7 +233,7 @@ iframe.jquery_prompt {
 	height: 100%;
 	width: 100%;
 }
-#notepad-bar-left {
+#notepad-bar {
 	user-select: none;
 	float: left;
 	height: 50px;
@@ -243,18 +243,6 @@ iframe.jquery_prompt {
     display: flex;
     justify-content: flex-start;
 	z-index: 3;
-	pointer-events: none;
-}
-#notepad-bar-right {
-	user-select: none;
-	float: left;
-	height: 50px;
-	width: 100%;
-	position: relative;
-    display: flex;
-    justify-content: flex-end;
-	z-index: 3;
-	bottom: 50px;
 	pointer-events: none;
 }
 .notepad-bar-button {
@@ -295,7 +283,6 @@ iframe.jquery_prompt {
     justify-content: flex-start;
 	overflow: hidden;
 	z-index: 1;
-	bottom: 50px;
 }
 #notepad-files-left {
 	float: left;
@@ -306,7 +293,6 @@ iframe.jquery_prompt {
 	background-color: #777777;
 	box-shadow: 0px 0px 10px black;
 	z-index: 2;
-	bottom: 50px;
 }
 #notepad-files-right {
 	float: right;
@@ -317,7 +303,6 @@ iframe.jquery_prompt {
 	background-color: #777777;
 	box-shadow: 0px 0px 10px black;
 	z-index: 2;
-	bottom: 50px;
 }
 .notepad-files-button {
 	user-select: none;
@@ -335,7 +320,6 @@ iframe.jquery_prompt {
 	position: relative;
 	overflow: hidden;
 	z-index: 3;
-	bottom: 50px;
 }
 #notepad-textarea {
 	float: left;

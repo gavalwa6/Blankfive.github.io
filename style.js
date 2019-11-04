@@ -27,84 +27,81 @@
 		callback = callback || function(p) { return !!p; };
 		
 		var hash = $(message).text();
-		if (bugme && 'indexOf' in ignorelist && ignorelist.indexOf(hash)> -1) {
+		if (bugme && 'indexOf' in ignorelist && ignorelist.indexOf(hash) > -1) {
 			callback(bugme);
 			return $();
 		}
 
 		var bind = function(e) {
-			if(e.which === 27){
+			if (e.which === 27) {
 				$popup.find('form').trigger('reset');
-			}
-			else if (e.which === 13){
+			} else if (e.which === 13) {
 				$popup.find('form').trigger('submit');
 			}
 		};
-
+		
 		$(document).bind('keydown', bind);
 		
-		var $popup = $("<iframe class='jquery_prompt' allowtransparency=true frameborder='0' scrolling='auto' marginheight='0' marginwidth='0'></iframe><div class='jquery_prompt plugin'><form>"
-			+ "<div class='footer'>"
-			+ "<input type='text' name='text1' value='' style='display: none;' placeholder='' autocomplete='off'>"
-			+ "<input type='text' name='text2' value='' style='display: none;' placeholder='' autocomplete='off'>"
-			+ "<button type='reset' style='display: none;'>Cancel</button>"
-			+ "<button type='submit' name='submit' value='1'>Confirm</button>"
-			+ "<br/><input name='bugme' id='bugme' type='checkbox' value='1' checked='checked' style='display: none;'>"
-			+ "<label for='bugme' style='display:none;'>keep asking me</label>"
-			+ '</div>'
-			+ '</form></div>')
-			.prependTo('body')
-			.find('form')
-			.prepend(message)
-			.submit(function(e) {
-				e.response1 = $('button[name=submit]', this).val() == 1 ? $('input[name=text1]:visible', this).val() || true : false;
-				e.response2 = $('button[name=submit]', this).val() == 1 ? $('input[name=text2]:visible', this).val() || true : false;
+		var $popup = $("<iframe class='jquery_prompt' allowtransparency=true frameborder='0' scrolling='auto' marginheight='0' marginwidth='0'></iframe>"
+		+ "<div class='jquery_prompt plugin'>"
+			+ "<form>"
+				+ "<div class='footer'>"
+					+ "<input type='text' name='text' value='' style='display: none;' placeholder='' autocomplete='off'>"
+					+ "<button type='reset' style='display: none;'>Cancel</button>"
+					+ "<button type='submit' name='submit' value='1'>Confirm</button>"
+					+ "<br>"
+					+ "<input name='bugme' id='bugme' type='checkbox' value='1' checked='checked' style='display: none;'>"
+					+ "<label for='bugme' style='display:none;'>keep asking me</label>"
+				+ '</div>'
+			+ '</form>'
+		+ '</div>')
+		.prependTo('body')
+		.find('form')
+		.prepend(message)
+		.on('submit', function(e) {
+			e.response = $('button[name=submit]', this).val() == 1 ? $('input[name=text]:visible', this).val() || true : false;
 
-				try {
-					callback.call(this, e);
-				}
-				catch(e) {
-					e.preventDefault();
-					throw e;
-				}
+			try {
+				callback.call(this, e);
+			} catch(e) {
+				e.preventDefault();
+				throw e;
+			}
 
-				if (!e.isDefaultPrevented()) {
-					$(document).unbind('keydown', bind);
+			if (!e.isDefaultPrevented()) {
+				$(document).unbind('keydown', bind);
 
-					e.preventDefault();
-					if(!$('input[name=bugme]', this).is(':checked')){
-						ignorelist.push(hash);
-						try { localStorage.setItem('prompt.bugme', JSON.stringify(ignorelist)); } catch(e) {}
-					}
-					$(this).parent().add($(this).parent().siblings('.jquery_prompt')).remove();
+				e.preventDefault();
+				if(!$('input[name=bugme]', this).is(':checked')){
+					ignorelist.push(hash);
+					try { localStorage.setItem('prompt.bugme', JSON.stringify(ignorelist)); } catch(e) {}
 				}
-				else{
-					$('button[name=submit]', this).val('1');
-				}
-			})
-			.bind('reset', function(){
-				$('button[name=submit]', this).val(0);
-				$(this).submit();
-			})
-			.find('button[type=submit]')
-			.trigger('focus')
-			.end()
-			.end();
+				$(this).parent().add($(this).parent().siblings('.jquery_prompt')).remove();
+			} else {
+				$('button[name=submit]', this).val('1');
+			}
+		})
+		.on('reset', function() {
+			$('button[name=submit]', this).val(0);
+			$(this).submit();
+		})
+		.find('button[type=submit]')
+		.trigger('focus')
+		.end()
+		.end();
+		
 		if (bugme) {
 			$popup.find('input[name=bugme], input[name=bugme] + label').show();
 		}
+		
 		return $popup;
 	};
 
-	$.fn.prompt = function(message, callback, bugme, placeholder1, text2, placeholder2) {
+	$.fn.prompt = function(message, callback, bugme, placeholder) {
 		var popup = $(this).popup(message, callback, bugme);
-		popup.find('input[name=text1], button').show();
-		popup.find('input[name=text1]').attr('placeholder', placeholder1);
-		popup.find('input[name=text1]').focus();
-		if (text2) {
-			popup.find('input[name=text2]').show();
-			popup.find('input[name=text2]').attr('placeholder', placeholder2);
-		}
+		popup.find('input[name=text], button').show();
+		popup.find('input[name=text]').attr('placeholder', placeholder);
+		popup.find('input[name=text]').focus();
 		return popup;
 	};
 
