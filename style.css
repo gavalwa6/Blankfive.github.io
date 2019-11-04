@@ -326,6 +326,7 @@ iframe.jquery_prompt {
 	padding: 4px 8px;
 	background-color: #CCCCCC;
 	white-space: nowrap;
+	z-index: 1;
 }
 #notepad-textarea-container {
 	width: 100%;
