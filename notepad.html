@@ -16,7 +16,6 @@
 			$('.notepad-files-button').each(function() {
 				if ($(this).text() == name) {
 					$(this).css('background-color', '#FFFFFF');
-					$(this).css('z-index', '4');
 					var sL = $('#notepad-files').scrollLeft();
 					var oL = $('#notepad-files').offset().left;
 					var oW = $('#notepad-files').outerWidth() / 2;
@@ -25,7 +24,6 @@
 					$('#notepad-files').scrollLeft(sL - oL - oW + fL + fW);
 				} else {
 					$(this).css('background-color', '#CCCCCC');
-					$(this).css('z-index', '1');
 				}
 			});
 		}
