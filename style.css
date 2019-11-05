@@ -232,18 +232,35 @@ iframe.jquery_prompt {
 #notepad-content {
 	height: 100%;
 	width: 100%;
+	overflow: hidden;
+}
+#notepad-bar-toggle {
+	float: right;
+	user-select: none;
+	height: 24px;
+	padding: 2px 2px;
+	position: relative;
+	background-color: #777777;
+	border-radius: 10px 0 0 0;
+	z-index: 5;
+	bottom: 28px;
+	transition: bottom 0.3s;
 }
 #notepad-bar {
 	user-select: none;
-	float: left;
+	float: right;
 	height: 50px;
-	width: 100%;
-	background-color: #555555;
+	width: 50px;
+	background-color: #777777;
 	position: relative;
     display: flex;
     justify-content: flex-start;
 	z-index: 3;
 	pointer-events: none;
+	left: 28px;
+	border-radius: 10px 0 0 0;
+	bottom: 0;
+	transition: bottom 0.3s;
 }
 .notepad-bar-button {
 	user-select: none;
@@ -276,7 +293,7 @@ iframe.jquery_prompt {
 	float: left;
 	user-select: none;
 	height: 28px;
-	width: calc(100% - 56px);
+	width: calc(100% - 168px);
 	background-color: #888888;
 	position: relative;
     display: flex;
@@ -295,7 +312,7 @@ iframe.jquery_prompt {
 	z-index: 2;
 }
 #notepad-files-right {
-	float: right;
+	float: left;
 	user-select: none;
 	height: 24px;
 	padding: 2px 2px;
@@ -303,6 +320,26 @@ iframe.jquery_prompt {
 	background-color: #777777;
 	box-shadow: 0px 0px 10px black;
 	z-index: 2;
+}
+#notepad-files-bar {
+	user-select: none;
+	float: left;
+	height: 28px;
+	width: 112px;
+	background-color: #555555;
+	position: relative;
+    display: flex;
+    justify-content: flex-start;
+	z-index: 3;
+	pointer-events: none;
+}
+.notepad-files-bar-button {
+	user-select: none;
+	cursor: pointer;
+	padding: 2px 2px;
+	height: 24px;
+	width: 24px;
+	pointer-events: auto;
 }
 .notepad-files-button {
 	user-select: none;
@@ -314,8 +351,8 @@ iframe.jquery_prompt {
 }
 #notepad-textarea-container {
 	width: 100%;
-	height: calc(100% - 78px);
-	background-color: #FFFFFF;
+	height: calc(100% - 28px);
+	background-color: #CCCCCC;
 	position: relative;
 	overflow: hidden;
 	z-index: 3;

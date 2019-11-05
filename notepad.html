@@ -331,6 +331,18 @@
 			saveFiles();
 		});
 		
+		$('#notepad-bar-toggle').click(function() {
+			if ($(this).attr('src') == 'notepad/down.png') {
+				$(this).attr('src', 'notepad/up.png');
+				$(this).css('bottom', '28px');
+				$('#notepad-bar').css('bottom', '0');
+			} else {
+				$(this).attr('src', 'notepad/down.png');
+				$(this).css('bottom', '78px');
+				$('#notepad-bar').css('bottom', '50px');
+			}
+		});
+		
 		$(window).resize(function() {
 			updateFiles(curFile());
 		});
@@ -344,21 +356,24 @@
 </script>
 
 <div id='notepad-content'>
+	<img id='notepad-files-left' src='notepad/left.png'>
+	<div id='notepad-files'></div>
+	<img id='notepad-files-right' src='notepad/right.png'>
+	<div id='notepad-files-bar'>
+		<img id='notepad-new' class='notepad-files-bar-button' src='notepad/new.png'>
+		<img id='notepad-edit' class='notepad-files-bar-button' src='notepad/edit.png'>
+		<img id='notepad-delete' class='notepad-files-bar-button' src='notepad/delete.png'>
+		<img id='notepad-delete-all' class='notepad-files-bar-button' src='notepad/delete-all.png'>
+	</div>
+	<div id='notepad-textarea-container'>
+		<textarea id='notepad-textarea' class='text' placeholder='Enter note here...' autofocus></textarea>
+	</div>
+	<img id='notepad-bar-toggle' src='notepad/up.png'>
 	<div id='notepad-bar'>
-		<img id='notepad-new' class='notepad-bar-button' src='notepad/new.png'>
-		<img id='notepad-edit' class='notepad-bar-button' src='notepad/edit.png'>
-		<img id='notepad-delete' class='notepad-bar-button' src='notepad/delete.png'>
-		<img id='notepad-delete-all' class='notepad-bar-button' src='notepad/delete-all.png'>
-		<div class='notepad-bar-separator'></div>
 		<div id='notepad-wrap' class='notepad-bar-button'>
 			<img class='notepad-bar-button-toggle-base' src='notepad/wrap.png'>
 			<img class='notepad-bar-button-toggle' src='notepad/on.png'>
 		</div>
-	</div>
-	<img id='notepad-files-left' src='notepad/left.png'>
-	<div id='notepad-files'></div>
-	<img id='notepad-files-right' src='notepad/right.png'>
-	<div id='notepad-textarea-container'>
-		<textarea id='notepad-textarea' class='text' placeholder='Enter note here...' autofocus></textarea>
+		<!-- <div class='notepad-bar-separator'></div> -->
 	</div>
 </div>
