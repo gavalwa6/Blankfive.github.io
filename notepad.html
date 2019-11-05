@@ -332,14 +332,14 @@
 		});
 		
 		$('#notepad-bar-toggle').click(function() {
-			if ($(this).attr('src') == 'notepad/down.png') {
-				$(this).attr('src', 'notepad/up.png');
-				$(this).css('bottom', '28px');
-				$('#notepad-bar').css('bottom', '0');
-			} else {
+			if ($(this).attr('src') == 'notepad/up.png') {
 				$(this).attr('src', 'notepad/down.png');
 				$(this).css('bottom', '78px');
 				$('#notepad-bar').css('bottom', '50px');
+			} else {
+				$(this).attr('src', 'notepad/up.png');
+				$(this).css('bottom', '28px');
+				$('#notepad-bar').css('bottom', '0');
 			}
 		});
 		
@@ -372,7 +372,7 @@
 	<div id='notepad-bar'>
 		<div id='notepad-wrap' class='notepad-bar-button'>
 			<img class='notepad-bar-button-toggle-base' src='notepad/wrap.png'>
-			<img class='notepad-bar-button-toggle' src='notepad/on.png'>
+			<img class='notepad-bar-button-toggle' src='notepad/down.png'>
 		</div>
 		<!-- <div class='notepad-bar-separator'></div> -->
 	</div>

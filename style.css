@@ -243,7 +243,7 @@ iframe.jquery_prompt {
 	background-color: #777777;
 	border-radius: 10px 0 0 0;
 	z-index: 5;
-	bottom: 28px;
+	bottom: 78px;
 	transition: bottom 0.3s;
 }
 #notepad-bar {
@@ -259,7 +259,7 @@ iframe.jquery_prompt {
 	pointer-events: none;
 	left: 28px;
 	border-radius: 10px 0 0 0;
-	bottom: 0;
+	bottom: 50px;
 	transition: bottom 0.3s;
 }
 .notepad-bar-button {
