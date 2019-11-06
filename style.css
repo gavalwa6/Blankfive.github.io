@@ -192,6 +192,12 @@ iframe.jquery_prompt {
     overflow: auto;
 }
 
+/* Home Page */
+.home-account {
+	padding: 10px 10px;
+	border-radius: 20px 20px 20px 20px;
+}
+
 /* Images Page */
 .images-img-button {
 	color: black;
