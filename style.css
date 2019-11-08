@@ -240,41 +240,55 @@ iframe.jquery_prompt {
 	width: 100%;
 	overflow: hidden;
 }
-#notepad-bar-toggle {
-	float: right;
-	user-select: none;
-	height: 24px;
-	padding: 2px 2px;
-	position: relative;
-	background-color: #777777;
-	border-radius: 10px 0 0 0;
-	z-index: 5;
-	bottom: 78px;
-	transition: bottom 0.3s;
-}
 #notepad-bar {
 	user-select: none;
-	float: right;
-	height: 50px;
-	width: 50px;
-	background-color: #777777;
+	float: left;
+	height: 28px;
+	width: 100%;
+}
+#notepad-bar-left {
+	user-select: none;
+	float: left;
+	height: 28px;
+	width: 100%;
+	background-color: #444444;
 	position: relative;
     display: flex;
     justify-content: flex-start;
 	z-index: 3;
 	pointer-events: none;
-	left: 28px;
-	border-radius: 10px 0 0 0;
-	bottom: 50px;
-	transition: bottom 0.3s;
+}
+#notepad-bar-center {
+	user-select: none;
+	float: left;
+	height: 28px;
+	width: 100%;
+	position: relative;
+    display: flex;
+    justify-content: center;
+	z-index: 3;
+	pointer-events: none;
+	bottom: 28px;
+}
+#notepad-bar-right {
+	user-select: none;
+	float: right;
+	height: 28px;
+	width: 100%;
+	position: relative;
+    display: flex;
+    justify-content: flex-end;
+	z-index: 3;
+	pointer-events: none;
+	bottom: 56px;
 }
 .notepad-bar-button {
-	user-select: none;
 	cursor: pointer;
 	padding: 2px 2px;
-	height: 46px;
-	width: 46px;
+	height: 24px;
+	width: 24px;
 	pointer-events: auto;
+	user-select: none;
 }
 .notepad-bar-button-toggle-base {
 	user-select: none;
@@ -286,14 +300,19 @@ iframe.jquery_prompt {
 	float: right;
 	user-select: none;
 	cursor: pointer;
-	height: 12px;
-	width: 12px;
+	height: 8px;
+	width: 8px;
 	position: relative;
-	bottom: 16px;
+	bottom: 12px;
 }
 .notepad-bar-separator {
-	height: 50px;
-	width: 50px;
+	height: 20px;
+	width: 2px;
+	position: relative;
+	top: 4px;
+	background-color: #888888;
+	border-radius: 20px 20px 20px 20px;
+	user-select: none;
 }
 #notepad-files {
 	float: left;
@@ -357,7 +376,7 @@ iframe.jquery_prompt {
 }
 #notepad-textarea-container {
 	width: 100%;
-	height: calc(100% - 28px);
+	height: calc(100% - 56px);
 	background-color: #CCCCCC;
 	position: relative;
 	overflow: hidden;

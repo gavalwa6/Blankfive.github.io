@@ -297,11 +297,11 @@
 				if (w) {
 					sessionStorage.setItem('notepad-wrap', '1');
 					$('#notepad-textarea').css('white-space', 'pre')
-					$('#notepad-wrap').children('.notepad-bar-button-toggle').attr('src', 'notepad/on.png');
+					$('#notepad-wrap').children('.notepad-bar-button-toggle').attr('src', 'notepad/bar/on.png');
 				} else {
 					sessionStorage.setItem('notepad-wrap', '0');
 					$('#notepad-textarea').css('white-space', 'pre-wrap')
-					$('#notepad-wrap').children('.notepad-bar-button-toggle').attr('src', 'notepad/off.png');
+					$('#notepad-wrap').children('.notepad-bar-button-toggle').attr('src', 'notepad/bar/off.png');
 				}
 			}
 			return ($('#notepad-textarea').css('white-space') == 'pre');
@@ -331,18 +331,6 @@
 			saveFiles();
 		});
 		
-		$('#notepad-bar-toggle').click(function() {
-			if ($(this).attr('src') == 'notepad/up.png') {
-				$(this).attr('src', 'notepad/down.png');
-				$(this).css('bottom', '78px');
-				$('#notepad-bar').css('bottom', '50px');
-			} else {
-				$(this).attr('src', 'notepad/up.png');
-				$(this).css('bottom', '28px');
-				$('#notepad-bar').css('bottom', '0');
-			}
-		});
-		
 		$(window).resize(function() {
 			updateFiles(curFile());
 		});
@@ -356,6 +344,25 @@
 </script>
 
 <div id='notepad-content'>
+	<div id='notepad-bar'>
+		<div id='notepad-bar-left'>
+			<img id='notepad-bold' class='notepad-bar-button' src='notepad/bar/bold.png'>
+			<img id='notepad-italic' class='notepad-bar-button' src='notepad/bar/italic.png'>
+			<img id='notepad-underline' class='notepad-bar-button' src='notepad/bar/underline.png'>
+		</div>
+		<div id='notepad-bar-center'>
+			<img id='notepad-align-left' class='notepad-bar-button' src='notepad/bar/align-left.png'>
+			<img id='notepad-align-center' class='notepad-bar-button' src='notepad/bar/align-center.png'>
+			<img id='notepad-align-right' class='notepad-bar-button' src='notepad/bar/align-right.png'>
+			<img id='notepad-align-justify' class='notepad-bar-button' src='notepad/bar/align-justify.png'>
+		</div>
+		<div id='notepad-bar-right'>
+			<div id='notepad-wrap' class='notepad-bar-button'>
+				<img class='notepad-bar-button-toggle-base' src='notepad/bar/wrap.png'>
+				<img class='notepad-bar-button-toggle' src='notepad/bar/on.png'>
+			</div>
+		</div>
+	</div>
 	<img id='notepad-files-left' src='notepad/left.png'>
 	<div id='notepad-files'></div>
 	<img id='notepad-files-right' src='notepad/right.png'>
@@ -368,12 +375,5 @@
 	<div id='notepad-textarea-container'>
 		<textarea id='notepad-textarea' class='text' placeholder='Enter note here...' autofocus></textarea>
 	</div>
-	<img id='notepad-bar-toggle' src='notepad/down.png'>
-	<div id='notepad-bar'>
-		<div id='notepad-wrap' class='notepad-bar-button'>
-			<img class='notepad-bar-button-toggle-base' src='notepad/wrap.png'>
-			<img class='notepad-bar-button-toggle' src='notepad/on.png'>
-		</div>
-		<!-- <div class='notepad-bar-separator'></div> -->
-	</div>
+	<!-- <div class='notepad-bar-separator'></div> -->
 </div>
