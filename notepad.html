@@ -287,15 +287,15 @@
 			if (typeof w == 'boolean') {
 				if (w) {
 					sessionStorage.setItem('notepad-wrap', '1');
-					$('#notepad-textarea').css('white-space', 'pre')
+					$('#notepad-textarea').css('white-space', 'pre-wrap')
 					$('#notepad-wrap').css('background-color', '#222222');
 				} else {
 					sessionStorage.setItem('notepad-wrap', '0');
-					$('#notepad-textarea').css('white-space', 'pre-wrap')
+					$('#notepad-textarea').css('white-space', 'pre')
 					$('#notepad-wrap').css('background-color', '');
 				}
 			}
-			return ($('#notepad-textarea').css('white-space') == 'pre');
+			return ($('#notepad-textarea').css('white-space') == 'pre-wrap');
 		}
 		var _w = sessionStorage.getItem('notepad-wrap');
 		if (typeof _w == 'string') {
@@ -343,11 +343,13 @@
 		// such as a microsoft word-style dropdown menu
 		$('#notepad-increase-font').click(function(event) {
 			event.preventDefault();
-			// increase font
+			// need a more reliable increase font size
+			document.execCommand('increaseFontSize');
 		});
 		$('#notepad-decrease-font').click(function(event) {
 			event.preventDefault();
-			// decrease font
+			// need a more reliable decrease font size
+			document.execCommand('decreaseFontSize');
 		});
 		
 		$('#notepad-textarea').attr('spellcheck', 'true')
