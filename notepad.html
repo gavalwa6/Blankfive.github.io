@@ -243,6 +243,7 @@
 					setFile(curFile());
 					saveFiles();
 				}
+				$('#notepad-textarea').focus();
 			}, false, false, 'Enter note name...');
 		});
 		$('#notepad-edit').click(function(event) {
@@ -254,6 +255,7 @@
 						editFile(file, e.response);
 						curFile(e.response);
 					}
+					$('#notepad-textarea').focus();
 				}, false, false, 'Enter new note name...');
 			}
 		});
@@ -266,6 +268,7 @@
 						deleteFile(curFile());
 						saveFiles();
 					}
+					$('#notepad-textarea').focus();
 				}, false, false);
 			}
 		});
@@ -279,6 +282,7 @@
 						setFile();
 						saveFiles();
 					}
+					$('#notepad-textarea').focus();
 				}, false, false);
 			}
 		});
@@ -445,7 +449,9 @@
 		});
 		
 		$(document).click(function(event) {
-			$('#notepad-textarea').focus();
+			if (!$('body').children('.jquery_prompt')[0]) {
+				$('#notepad-textarea').focus();
+			}
 		});
 		
 		$(window).resize(function() {
