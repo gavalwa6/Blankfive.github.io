@@ -18,6 +18,32 @@ html, body {
     color: white;
 }
 
+/* Filters */
+.red {
+	-webkit-filter: invert(40%) grayscale(100%) brightness(40%) sepia(100%) hue-rotate(-50deg) saturate(800%) contrast(2);
+	filter: grayscale(100%) brightness(40%) sepia(100%) hue-rotate(-50deg) saturate(800%) contrast(0.8);
+}
+.blue {
+	-webkit-filter: grayscale(100%) brightness(30%) sepia(100%) hue-rotate(-180deg) saturate(700%) contrast(0.8);
+	filter: grayscale(100%) brightness(30%) sepia(100%) hue-rotate(-180deg) saturate(700%) contrast(0.8);
+}
+.green {
+	-webkit-filter: grayscale(100%) brightness(40%) sepia(100%) hue-rotate(50deg) saturate(800%) contrast(0.8);
+	filter: grayscale(100%) brightness(40%) sepia(100%) hue-rotate(50deg) saturate(800%) contrast(0.8);
+}
+.yellow {
+	-webkit-filter: grayscale(100%) brightness(120%) sepia(90%) hue-rotate(5deg) saturate(500%) contrast(0.7);
+	filter: grayscale(100%) brightness(120%) sepia(90%) hue-rotate(5deg) saturate(500%) contrast(0.7);
+}
+.grey {
+	-webkit-filter: grayscale(100%) brightness(110%) contrast(0.9);
+	filter: grayscale(100%) brightness(110%) contrast(0.9);
+}
+.black {
+	-webkit-filter: invert(30%) grayscale(100%) brightness(70%) contrast(4);
+	filter: invert(30%) grayscale(100%) brightness(70%) contrast(4);
+}
+
 /* Prompt (credit to Andrew Dodson) */
 .jquery_prompt {
 	position: fixed;
@@ -57,6 +83,7 @@ iframe.jquery_prompt {
 	display: table;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
+	border-radius: 10px 10px 10px 10px;
 }
 .plugin form {
 	text-align: center;
@@ -94,6 +121,7 @@ iframe.jquery_prompt {
 	margin-bottom: 10px;
 	border: 0;
 	padding: 4px 8px;
+	border-radius: 4px 4px 4px 4px;
 }
 .plugin button:focus {
 	outline: 0;
@@ -175,7 +203,7 @@ iframe.jquery_prompt {
 #current-nav {
 	position: relative;
 	bottom: 153px;
-    background-color: #226622;
+    background-color: #227722;
 	z-index: 10;
 }
 
@@ -282,34 +310,35 @@ iframe.jquery_prompt {
 	pointer-events: none;
 	bottom: 56px;
 }
-.notepad-bar-button {
-	cursor: pointer;
+.notepad-bar-button-base {
 	padding: 2px 2px;
 	height: 24px;
 	width: 24px;
 	pointer-events: auto;
 	user-select: none;
 }
-.notepad-bar-button-toggle-base {
+.notepad-bar-button {
+	padding: 2px 2px;
+	height: 20px;
+	width: 20px;
+	pointer-events: auto;
 	user-select: none;
-	cursor: pointer;
-	height: 100%;
-	width: 100%;
+	border-radius: 3px 3px 3px 3px;
 }
-.notepad-bar-button-toggle {
-	float: right;
+.notepad-bar-button:hover {
+	background-color: #333333;
+}
+.notepad-bar-separator-base {
+	height: 24px;
+	width: 10px;
 	user-select: none;
-	cursor: pointer;
-	height: 8px;
-	width: 8px;
-	position: relative;
-	bottom: 12px;
 }
 .notepad-bar-separator {
-	height: 20px;
-	width: 2px;
+	height: 16px;
+	width: 1px;
 	position: relative;
-	top: 4px;
+	top: 6px;
+	left: 4px;
 	background-color: #888888;
 	border-radius: 20px 20px 20px 20px;
 	user-select: none;
@@ -358,13 +387,23 @@ iframe.jquery_prompt {
 	z-index: 3;
 	pointer-events: none;
 }
-.notepad-files-bar-button {
+.notepad-files-bar-button-base {
 	user-select: none;
-	cursor: pointer;
 	padding: 2px 2px;
 	height: 24px;
 	width: 24px;
 	pointer-events: auto;
+}
+.notepad-files-bar-button {
+	user-select: none;
+	padding: 2px 2px;
+	height: 20px;
+	width: 20px;
+	pointer-events: auto;
+	border-radius: 3px 3px 3px 3px;
+}
+.notepad-files-bar-button:hover {
+	background-color: #333333;
 }
 .notepad-files-button {
 	user-select: none;
@@ -391,10 +430,15 @@ iframe.jquery_prompt {
 	border: 0;
 	background-color: #FFFFFF;
 	position: relative;
-	bottom: 1px;
 	z-index: 4;
 	overflow: auto;
 	white-space: normal;
+}
+#notepad-textarea:empty::before {
+	user-select: none;
+	pointer-events: none;
+	content: attr(placeholder);
+	color: grey;
 }
 input:focus, #notepad-textarea {
 	outline: none !important;

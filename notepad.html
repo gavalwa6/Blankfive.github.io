@@ -1,7 +1,6 @@
 <script>
 	$(function() {
 		var files = [];
-		
 		function getFile(name) {
 			var _file;
 			files.forEach(function(file, index) {
@@ -11,7 +10,6 @@
 			});
 			return _file;
 		}
-		
 		function updateFiles(name) {
 			$('.notepad-files-button').each(function() {
 				if ($(this).text() == name) {
@@ -27,7 +25,6 @@
 				}
 			});
 		}
-		
 		function setFile(data) {
 			if (typeof data == 'string' || typeof data == 'object') {
 				var name;
@@ -60,16 +57,15 @@
 				updateFiles(name);
 				
 				$('#notepad-textarea').show();
-				$('#notepad-textarea').val(value);
+				$('#notepad-textarea').html(value);
 				$('#notepad-textarea').focus();
 			} else {
 				sessionStorage.setItem('current-file', 'null');
 				
-				$('#notepad-textarea').val('');
+				$('#notepad-textarea').html('');
 				$('#notepad-textarea').hide();
 			}
 		}
-		
 		function curFile(name) {
 			if (name != null) {
 				if (name == '') {
@@ -92,11 +88,9 @@
 			}
 			return sessionStorage.getItem('current-file');
 		}
-		
 		function saveFiles() {
 			localStorage.setItem('notepad-files', JSON.stringify(files));
 		}
-		
 		function newFile(name) {
 			if (!name || name == '' || typeof name != 'string' || !name.trim()) {
 				var next = 0;
@@ -136,7 +130,6 @@
 			}
 			saveFiles();
 		}
-		
 		function editFile(name, newName) {
 			if (typeof newName == 'string' && newName.trim()) {
 				files.forEach(function(file, index) {
@@ -152,7 +145,6 @@
 			}
 			saveFiles();
 		}
-		
 		function swapFiles(name1, name2) { // W.I.P.
 			if (typeof newName == 'string' && newName.trim()) {
 				var file1, file2;
@@ -180,7 +172,6 @@
 			}
 			saveFiles();
 		}
-		
 		function deleteFile(name) {
 			if (name != null) {
 				$('.notepad-files-button').each(function() {
@@ -194,7 +185,6 @@
 				curFile('');
 			}
 		}
-		
 		function loadFiles() {
 			files = JSON.parse(localStorage.getItem('notepad-files'));
 			if (files == null) {
@@ -219,33 +209,34 @@
 		}
 		
 		var mousedown;
-		$('#notepad-files-left').mousedown(function() {
+		$('#notepad-files-left').mousedown(function(event) {
+			event.preventDefault();
 			$('#notepad-files').scrollLeft($('#notepad-files').scrollLeft() - 1);
 			mousedown = setInterval(function() {
 				$('#notepad-files').scrollLeft($('#notepad-files').scrollLeft() - 1);
 				$('#notepad-files').scrollLeft($('#notepad-files').scrollLeft() - 1);
 			}, 1);
 		});
-		
-		$('#notepad-files-right').mousedown(function() {
+		$('#notepad-files-right').mousedown(function(event) {
+			event.preventDefault();
 			$('#notepad-files').scrollLeft($('#notepad-files').scrollLeft() + 1);
 			mousedown = setInterval(function() {
 				$('#notepad-files').scrollLeft($('#notepad-files').scrollLeft() + 1);
 				$('#notepad-files').scrollLeft($('#notepad-files').scrollLeft() + 1);
 			}, 1);
 		});
-		
 		$(document).mouseup(function() {
 			clearInterval(mousedown);
 		});
 		
-		$('.notepad-files-button').click(function() {
+		$('.notepad-files-button').click(function(event) {
+			event.preventDefault();
 			curFile($(this).text());
 			setFile(curFile());
 			saveFiles();
 		});
-		
-		$('#notepad-new').click(function() {
+		$('#notepad-new').click(function(event) {
+			event.preventDefault();
 			$('<p>Add New Note</p>').prompt(function(e) {
 				if (e.response) {
 					newFile(e.response);
@@ -254,8 +245,8 @@
 				}
 			}, false, false, 'Enter note name...');
 		});
-		
-		$('#notepad-edit').click(function() {
+		$('#notepad-edit').click(function(event) {
+			event.preventDefault();
 			var file = curFile();
 			if (file != 'null') {
 				$('<p>Edit Note Name: ' + file + '</p>').prompt(function(e) {
@@ -266,8 +257,8 @@
 				}, false, false, 'Enter new note name...');
 			}
 		});
-		
-		$('#notepad-delete').click(function() {
+		$('#notepad-delete').click(function(event) {
+			event.preventDefault();
 			var file = curFile();
 			if (file != 'null') {
 				$('<p>Delete: ' + curFile() + '</p>').confirm(function(e) {
@@ -278,8 +269,8 @@
 				}, false, false);
 			}
 		});
-		
-		$('#notepad-delete-all').click(function() {
+		$('#notepad-delete-all').click(function(event) {
+			event.preventDefault();
 			if (files[0]) {
 				$('<p>Delete All Notes</p>').confirm(function(e) {
 					if (e.response) {
@@ -297,16 +288,15 @@
 				if (w) {
 					sessionStorage.setItem('notepad-wrap', '1');
 					$('#notepad-textarea').css('white-space', 'pre')
-					$('#notepad-wrap').children('.notepad-bar-button-toggle').attr('src', 'notepad/bar/on.png');
+					$('#notepad-wrap').css('background-color', '#222222');
 				} else {
 					sessionStorage.setItem('notepad-wrap', '0');
 					$('#notepad-textarea').css('white-space', 'pre-wrap')
-					$('#notepad-wrap').children('.notepad-bar-button-toggle').attr('src', 'notepad/bar/off.png');
+					$('#notepad-wrap').css('background-color', '');
 				}
 			}
 			return ($('#notepad-textarea').css('white-space') == 'pre');
 		}
-		
 		var _w = sessionStorage.getItem('notepad-wrap');
 		if (typeof _w == 'string') {
 			if (_w == '1') {
@@ -318,7 +308,118 @@
 			wrap(true);
 		}
 		
-		$('#notepad-wrap').click(function() {
+		function command(event, command, element, testOnly) {
+			if (event) {
+				event.preventDefault();
+			}
+			if (!testOnly) {
+				document.execCommand(command);
+			}
+			if (document.queryCommandState(command)) {
+				$(element).css('background-color', '#222222');
+			} else {
+				$(element).css('background-color', '');
+			}
+		}
+		
+		function checkCommands() {
+			command(null, 'bold', $('#notepad-bold'), true);
+			command(null, 'italic', $('#notepad-italic'), true);
+			command(null, 'underline', $('#notepad-underline'), true);
+			command(null, 'strikethrough', $('#notepad-strikethrough'), true);
+			command(null, 'insertOrderedList', $('#notepad-ordered-list'), true);
+			command(null, 'insertUnorderedList', $('#notepad-unordered-list'), true);
+			command(null, 'superscript', $('#notepad-superscript'), true);
+			command(null, 'subscript', $('#notepad-subscript'), true);
+			command(null, 'justifyLeft', $('#notepad-align-left'), true);
+			command(null, 'justifyCenter', $('#notepad-align-center'), true);
+			command(null, 'justifyRight', $('#notepad-align-right'), true);
+			command(null, 'justifyFull', $('#notepad-align-justify'), true);
+		}
+		
+		// could add something to change font family
+		
+		// need something to show the current font size
+		// such as a microsoft word-style dropdown menu
+		$('#notepad-increase-font').click(function(event) {
+			event.preventDefault();
+			// increase font
+		});
+		$('#notepad-decrease-font').click(function(event) {
+			event.preventDefault();
+			// decrease font
+		});
+		
+		$('#notepad-textarea').attr('spellcheck', 'true')
+		$('#notepad-spellcheck').css('background-color', '#222222');
+		$('#notepad-spellcheck').click(function(event) {
+			event.preventDefault();
+			if ($('#notepad-textarea').attr('spellcheck') == 'true') {
+				$('#notepad-textarea').attr('spellcheck', 'false');
+				$(this).css('background-color', '');
+			} else {
+				$('#notepad-textarea').attr('spellcheck', 'true');
+				$(this).css('background-color', '#222222');
+			}
+		});
+		
+		$('#notepad-bold').click(function(event) {
+			command(event, 'bold', this);
+			checkCommands(event);
+		});
+		$('#notepad-italic').click(function(event) {
+			command(event, 'italic', this);
+			checkCommands(event);
+		});
+		$('#notepad-underline').click(function(event) {
+			command(event, 'underline', this);
+			checkCommands(event);
+		});
+		$('#notepad-strikethrough').click(function(event) {
+			command(event, 'strikethrough', this);
+			checkCommands(event);
+		});
+		$('#notepad-superscript').click(function(event) {
+			command(event, 'superscript', this);
+			checkCommands();
+		});
+		$('#notepad-subscript').click(function(event) {
+			command(event, 'subscript', this);
+			checkCommands();
+		});
+		
+		$('#notepad-ordered-list').click(function(event) {
+			command(event, 'insertOrderedList', this);
+			checkCommands();
+		});
+		$('#notepad-unordered-list').click(function(event) {
+			command(event, 'insertUnorderedList', this);
+			checkCommands();
+		});
+		
+		$('#notepad-align-left').click(function() {
+			command(event, 'justifyLeft', this);
+			checkCommands();
+		});
+		$('#notepad-align-center').click(function() {
+			command(event, 'justifyCenter', this);
+			checkCommands();
+		});
+		$('#notepad-align-right').click(function() {
+			command(event, 'justifyRight', this);
+			checkCommands();
+		});
+		$('#notepad-align-justify').click(function() {
+			command(event, 'justifyFull', this);
+			checkCommands();
+		});
+		
+		$(document).on('selectionchange', function() {
+			checkCommands();
+		});
+		
+		$('#notepad-wrap').click(function(event) {
+			event.preventDefault();
 			if (wrap()) {
 				wrap(false);
 			} else {
@@ -326,16 +427,30 @@
 			}
 		});
 		
-		$('#notepad-textarea').on('keyup', function() {
-			getFile(curFile())[1] = $(this).val();
+		$('#notepad-textarea').on('DOMSubtreeModified', function() {
+			var file = getFile(curFile());
+			if (file) {
+				file[1] = $(this).html();
+			}
 			saveFiles();
+		});
+		
+		$('#notepad-textarea').keydown(function(event) {
+			if (event.which == 9) {
+				event.preventDefault();
+				document.execCommand('insertHTML', false, '&#009');
+			}
+		});
+		
+		$(document).click(function(event) {
+			$('#notepad-textarea').focus();
 		});
 		
 		$(window).resize(function() {
 			updateFiles(curFile());
 		});
 		
-		$('#notepad-textarea').val('');
+		$('#notepad-textarea').html('');
 		$('#notepad-textarea').hide();
 		
 		loadFiles();
@@ -346,34 +461,41 @@
 <div id='notepad-content'>
 	<div id='notepad-bar'>
 		<div id='notepad-bar-left'>
-			<img id='notepad-bold' class='notepad-bar-button' src='notepad/bar/bold.png'>
-			<img id='notepad-italic' class='notepad-bar-button' src='notepad/bar/italic.png'>
-			<img id='notepad-underline' class='notepad-bar-button' src='notepad/bar/underline.png'>
+			<div class='notepad-bar-button-base'><img id='notepad-increase-font' class='notepad-bar-button' src='notepad/bar/increase-font.png'></div>
+			<div class='notepad-bar-button-base'><img id='notepad-decrease-font' class='notepad-bar-button' src='notepad/bar/decrease-font.png'></div>
+			<div class='notepad-bar-separator-base'><div class='notepad-bar-separator'></div></div>
+			<div class='notepad-bar-button-base'><img id='notepad-spellcheck' class='notepad-bar-button' src='notepad/bar/spellcheck.png'></div>
+			<div class='notepad-bar-separator-base'><div class='notepad-bar-separator'></div></div>
+			<div class='notepad-bar-button-base'><img id='notepad-bold' class='notepad-bar-button' src='notepad/bar/bold.png'></div>
+			<div class='notepad-bar-button-base'><img id='notepad-italic' class='notepad-bar-button' src='notepad/bar/italic.png'></div>
+			<div class='notepad-bar-button-base'><img id='notepad-underline' class='notepad-bar-button' src='notepad/bar/underline.png'></div>
+			<div class='notepad-bar-button-base'><img id='notepad-strikethrough' class='notepad-bar-button' src='notepad/bar/strikethrough.png'></div>
+			<div class='notepad-bar-button-base'><img id='notepad-superscript' class='notepad-bar-button' src='notepad/bar/superscript.png'></div>
+			<div class='notepad-bar-button-base'><img id='notepad-subscript' class='notepad-bar-button' src='notepad/bar/subscript.png'></div>
+			<div class='notepad-bar-separator-base'><div class='notepad-bar-separator'></div></div>
+			<div class='notepad-bar-button-base'><img id='notepad-ordered-list' class='notepad-bar-button' src='notepad/bar/ordered-list.png'></div>
+			<div class='notepad-bar-button-base'><img id='notepad-unordered-list' class='notepad-bar-button' src='notepad/bar/unordered-list.png'></div>
+			<div class='notepad-bar-separator-base'><div class='notepad-bar-separator'></div></div>
+			<div class='notepad-bar-button-base'><img id='notepad-align-left' class='notepad-bar-button' src='notepad/bar/align-left.png'></div>
+			<div class='notepad-bar-button-base'><img id='notepad-align-center' class='notepad-bar-button' src='notepad/bar/align-center.png'></div>
+			<div class='notepad-bar-button-base'><img id='notepad-align-right' class='notepad-bar-button' src='notepad/bar/align-right.png'></div>
+			<div class='notepad-bar-button-base'><img id='notepad-align-justify' class='notepad-bar-button' src='notepad/bar/align-justify.png'></div>
+			<div class='notepad-bar-separator-base'><div class='notepad-bar-separator'></div></div>
+			<div class='notepad-bar-button-base'><img id='notepad-wrap' class='notepad-bar-button' src='notepad/bar/wrap.png'></div>
 		</div>
-		<div id='notepad-bar-center'>
-			<img id='notepad-align-left' class='notepad-bar-button' src='notepad/bar/align-left.png'>
-			<img id='notepad-align-center' class='notepad-bar-button' src='notepad/bar/align-center.png'>
-			<img id='notepad-align-right' class='notepad-bar-button' src='notepad/bar/align-right.png'>
-			<img id='notepad-align-justify' class='notepad-bar-button' src='notepad/bar/align-justify.png'>
-		</div>
-		<div id='notepad-bar-right'>
-			<div id='notepad-wrap' class='notepad-bar-button'>
-				<img class='notepad-bar-button-toggle-base' src='notepad/bar/wrap.png'>
-				<img class='notepad-bar-button-toggle' src='notepad/bar/on.png'>
-			</div>
-		</div>
+		<div id='notepad-bar-center'></div>
+		<div id='notepad-bar-right'></div>
 	</div>
 	<img id='notepad-files-left' src='notepad/left.png'>
 	<div id='notepad-files'></div>
 	<img id='notepad-files-right' src='notepad/right.png'>
 	<div id='notepad-files-bar'>
-		<img id='notepad-new' class='notepad-files-bar-button' src='notepad/new.png'>
-		<img id='notepad-edit' class='notepad-files-bar-button' src='notepad/edit.png'>
-		<img id='notepad-delete' class='notepad-files-bar-button' src='notepad/delete.png'>
-		<img id='notepad-delete-all' class='notepad-files-bar-button' src='notepad/delete-all.png'>
+		<div class='notepad-files-bar-button-base'><img id='notepad-new' class='notepad-files-bar-button' src='notepad/new.png'></div>
+		<div class='notepad-files-bar-button-base'><img id='notepad-edit' class='notepad-files-bar-button' src='notepad/edit.png'></div>
+		<div class='notepad-files-bar-button-base'><img id='notepad-delete' class='notepad-files-bar-button' src='notepad/delete.png'></div>
+		<div class='notepad-files-bar-button-base'><img id='notepad-delete-all' class='notepad-files-bar-button' src='notepad/delete-all.png'></div>
 	</div>
 	<div id='notepad-textarea-container'>
-		<textarea id='notepad-textarea' class='text' placeholder='Enter note here...' autofocus></textarea>
+		<div id='notepad-textarea' class='text' placeholder='Enter note here...' contenteditable autofocus></div>
 	</div>
-	<!-- <div class='notepad-bar-separator'></div> -->
 </div>

@@ -34,8 +34,10 @@
 
 		var bind = function(e) {
 			if (e.which === 27) {
+				e.preventDefault();
 				$popup.find('form').trigger('reset');
 			} else if (e.which === 13) {
+				e.preventDefault();
 				$popup.find('form').trigger('submit');
 			}
 		};
