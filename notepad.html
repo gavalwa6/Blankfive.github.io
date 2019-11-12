@@ -325,7 +325,6 @@
 				$(element).css('background-color', '');
 			}
 		}
-		
 		function checkCommands() {
 			command(null, 'bold', $('#notepad-bold'), true);
 			command(null, 'italic', $('#notepad-italic'), true);
@@ -341,19 +340,39 @@
 			command(null, 'justifyFull', $('#notepad-align-justify'), true);
 		}
 		
-		// could add something to change font family
-		
-		// need something to show the current font size
-		// such as a microsoft word-style dropdown menu
+		$('#notepad-font-size').click(function(event) {
+			event.preventDefault();
+			// this sets it to 16px, but should have a box to pick from any numbers
+			var selection = window.getSelection();
+			var string = selection.toString();
+			if (string.length > 0 && selection.rangeCount) {
+				var range = selection.getRangeAt(0);
+				var expanded = range.cloneRange();
+				range.deleteContents();
+				range.collapse(false);
+				
+				var element = document.createElement('div');
+				element.innerHTML = "<font style='font-size: 16px'>" + string + '</font>';
+				var fragment = document.createDocumentFragment(), node, lastNode;
+				while ((node = element.firstChild)) {
+					lastNode = fragment.appendChild(node);
+				}
+				range.insertNode(fragment);
+				
+				if (lastNode) {
+					expanded.setEndAfter(lastNode);
+					selection.removeAllRanges();
+					selection.addRange(expanded);
+				}
+			}
+		});
 		$('#notepad-increase-font').click(function(event) {
 			event.preventDefault();
-			// need a more reliable increase font size
-			document.execCommand('increaseFontSize');
+			// increase
 		});
 		$('#notepad-decrease-font').click(function(event) {
 			event.preventDefault();
-			// need a more reliable decrease font size
-			document.execCommand('decreaseFontSize');
+			// decrease
 		});
 		
 		$('#notepad-textarea').attr('spellcheck', 'true')
@@ -442,7 +461,7 @@
 		});
 		
 		$('#notepad-textarea').keydown(function(event) {
-			if (event.which == 9) {
+			if (event.which == 9) { // Tab
 				event.preventDefault();
 				document.execCommand('insertHTML', false, '&#009');
 			}
@@ -469,6 +488,7 @@
 <div id='notepad-content'>
 	<div id='notepad-bar'>
 		<div id='notepad-bar-left'>
+			<div id='notepad-font-size-base' class='notepad-bar-button-base'><img id='notepad-font-size' class='notepad-bar-button'></div>
 			<div class='notepad-bar-button-base'><img id='notepad-increase-font' class='notepad-bar-button' src='notepad/bar/increase-font.png'></div>
 			<div class='notepad-bar-button-base'><img id='notepad-decrease-font' class='notepad-bar-button' src='notepad/bar/decrease-font.png'></div>
 			<div class='notepad-bar-separator-base'><div class='notepad-bar-separator'></div></div>

@@ -221,7 +221,7 @@ iframe.jquery_prompt {
 }
 
 /* Home Page */
-.home-account {
+#home-steam {
 	padding: 10px 10px;
 	border-radius: 20px 20px 20px 20px;
 }
@@ -309,6 +309,12 @@ iframe.jquery_prompt {
 	z-index: 3;
 	pointer-events: none;
 	bottom: 56px;
+}
+#notepad-font-size-base {
+	width: 48px;
+}
+#notepad-font-size {
+	width: 48px;
 }
 .notepad-bar-button-base {
 	padding: 2px 2px;
