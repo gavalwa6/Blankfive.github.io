@@ -287,31 +287,6 @@
 			}
 		});
 		
-		function wrap(w) {
-			if (typeof w == 'boolean') {
-				if (w) {
-					sessionStorage.setItem('notepad-wrap', '1');
-					$('#notepad-textarea').css('white-space', 'pre-wrap')
-					$('#notepad-wrap').css('background-color', '#222222');
-				} else {
-					sessionStorage.setItem('notepad-wrap', '0');
-					$('#notepad-textarea').css('white-space', 'pre')
-					$('#notepad-wrap').css('background-color', '');
-				}
-			}
-			return ($('#notepad-textarea').css('white-space') == 'pre-wrap');
-		}
-		var _w = sessionStorage.getItem('notepad-wrap');
-		if (typeof _w == 'string') {
-			if (_w == '1') {
-				wrap(true);
-			} else if (_w == '0') {
-				wrap(false);
-			}
-		} else {
-			wrap(true);
-		}
-		
 		function command(event, command, element, testOnly) {
 			if (event) {
 				event.preventDefault();
@@ -343,6 +318,7 @@
 		$('#notepad-font-size').click(function(event) {
 			event.preventDefault();
 			// this sets it to 16px, but should have a box to pick from any numbers
+			var fontSize = 16;
 			var selection = window.getSelection();
 			var string = selection.toString();
 			if (string.length > 0 && selection.rangeCount) {
@@ -352,7 +328,7 @@
 				range.collapse(false);
 				
 				var element = document.createElement('div');
-				element.innerHTML = "<font style='font-size: 16px'>" + string + '</font>';
+				element.innerHTML = "<font style='font-size: " + fontSize + "px'>" + string + '</font>';
 				var fragment = document.createDocumentFragment(), node, lastNode;
 				while ((node = element.firstChild)) {
 					lastNode = fragment.appendChild(node);
@@ -373,19 +349,6 @@
 		$('#notepad-decrease-font').click(function(event) {
 			event.preventDefault();
 			// decrease
-		});
-		
-		$('#notepad-textarea').attr('spellcheck', 'true')
-		$('#notepad-spellcheck').css('background-color', '#222222');
-		$('#notepad-spellcheck').click(function(event) {
-			event.preventDefault();
-			if ($('#notepad-textarea').attr('spellcheck') == 'true') {
-				$('#notepad-textarea').attr('spellcheck', 'false');
-				$(this).css('background-color', '');
-			} else {
-				$('#notepad-textarea').attr('spellcheck', 'true');
-				$(this).css('background-color', '#222222');
-			}
 		});
 		
 		$('#notepad-bold').click(function(event) {
@@ -443,6 +406,62 @@
 			checkCommands();
 		});
 		
+		function spellcheck(s) {
+			if (typeof s == 'boolean') {
+				if (s) {
+					sessionStorage.setItem('notepad-spellcheck', '1');
+					$('#notepad-textarea').attr('spellcheck', 'true');
+					$('#notepad-spellcheck').css('background-color', '#222222');
+				} else {
+					sessionStorage.setItem('notepad-spellcheck', '0');
+					$('#notepad-textarea').attr('spellcheck', 'false');
+					$('#notepad-spellcheck').css('background-color', '');
+				}
+			}
+			return ($('#notepad-textarea').attr('spellcheck') == 'true');
+		}
+		var _s = sessionStorage.getItem('notepad-spellcheck');
+		if (typeof _s == 'string') {
+			if (_s == '1') {
+				spellcheck(true);
+			} else if (_s == '0') {
+				spellcheck(false);
+			}
+		} else {
+			spellcheck(true);
+		}
+		$('#notepad-spellcheck').click(function(event) {
+			event.preventDefault();
+			if (spellcheck()) {
+				spellcheck(false);
+			} else {
+				spellcheck(true);
+			}
+		});
+		function wrap(w) {
+			if (typeof w == 'boolean') {
+				if (w) {
+					sessionStorage.setItem('notepad-wrap', '1');
+					$('#notepad-textarea').css('white-space', 'pre-wrap')
+					$('#notepad-wrap').css('background-color', '#222222');
+				} else {
+					sessionStorage.setItem('notepad-wrap', '0');
+					$('#notepad-textarea').css('white-space', 'pre')
+					$('#notepad-wrap').css('background-color', '');
+				}
+			}
+			return ($('#notepad-textarea').css('white-space') == 'pre-wrap');
+		}
+		var _w = sessionStorage.getItem('notepad-wrap');
+		if (typeof _w == 'string') {
+			if (_w == '1') {
+				wrap(true);
+			} else if (_w == '0') {
+				wrap(false);
+			}
+		} else {
+			wrap(true);
+		}
 		$('#notepad-wrap').click(function(event) {
 			event.preventDefault();
 			if (wrap()) {
@@ -452,12 +471,30 @@
 			}
 		});
 		
+		$('#notepad-erase').click(function(event) {
+			event.preventDefault();
+			var file = curFile();
+			if (file != 'null' && $('#notepad-textarea').html() != '') {
+				$('<p>Erase Note: ' + file + '</p>').confirm(function(e) {
+					if (e.response) {
+						$('#notepad-textarea').html('');
+					}
+					$('#notepad-textarea').focus();
+				}, false, false);
+			}
+		});
+		
 		$('#notepad-textarea').on('DOMSubtreeModified', function() {
 			var file = getFile(curFile());
 			if (file) {
 				file[1] = $(this).html();
 			}
 			saveFiles();
+			if ($('#notepad-textarea').html() == '') {
+				$('#notepad-erase').css('background-color', '#222222');
+			} else {
+				$('#notepad-erase').css('background-color', '');
+			}
 		});
 		
 		$('#notepad-textarea').keydown(function(event) {
@@ -482,17 +519,23 @@
 		
 		loadFiles();
 		curFile('');
+		
+		if ($('#notepad-textarea').html() == '') {
+			$('#notepad-erase').css('background-color', '#222222');
+		} else {
+			$('#notepad-erase').css('background-color', '');
+		}
 	});
 </script>
 
 <div id='notepad-content'>
 	<div id='notepad-bar'>
 		<div id='notepad-bar-left'>
-			<div id='notepad-font-size-base' class='notepad-bar-button-base'><img id='notepad-font-size' class='notepad-bar-button'></div>
+			<div class='notepad-bar-button-base'><img id='notepad-erase' class='notepad-bar-button' src='notepad/bar/erase.png'></div>
+			<div class='notepad-bar-separator-base'><div class='notepad-bar-separator'></div></div>
+			<!-- <div id='notepad-font-size-base' class='notepad-bar-button-base'><p id='notepad-font-size' class='notepad-bar-button'>16</p></div> -->
 			<div class='notepad-bar-button-base'><img id='notepad-increase-font' class='notepad-bar-button' src='notepad/bar/increase-font.png'></div>
 			<div class='notepad-bar-button-base'><img id='notepad-decrease-font' class='notepad-bar-button' src='notepad/bar/decrease-font.png'></div>
-			<div class='notepad-bar-separator-base'><div class='notepad-bar-separator'></div></div>
-			<div class='notepad-bar-button-base'><img id='notepad-spellcheck' class='notepad-bar-button' src='notepad/bar/spellcheck.png'></div>
 			<div class='notepad-bar-separator-base'><div class='notepad-bar-separator'></div></div>
 			<div class='notepad-bar-button-base'><img id='notepad-bold' class='notepad-bar-button' src='notepad/bar/bold.png'></div>
 			<div class='notepad-bar-button-base'><img id='notepad-italic' class='notepad-bar-button' src='notepad/bar/italic.png'></div>
@@ -509,6 +552,7 @@
 			<div class='notepad-bar-button-base'><img id='notepad-align-right' class='notepad-bar-button' src='notepad/bar/align-right.png'></div>
 			<div class='notepad-bar-button-base'><img id='notepad-align-justify' class='notepad-bar-button' src='notepad/bar/align-justify.png'></div>
 			<div class='notepad-bar-separator-base'><div class='notepad-bar-separator'></div></div>
+			<div class='notepad-bar-button-base'><img id='notepad-spellcheck' class='notepad-bar-button' src='notepad/bar/spellcheck.png'></div>
 			<div class='notepad-bar-button-base'><img id='notepad-wrap' class='notepad-bar-button' src='notepad/bar/wrap.png'></div>
 		</div>
 		<div id='notepad-bar-center'></div>

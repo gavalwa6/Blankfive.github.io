@@ -314,7 +314,11 @@ iframe.jquery_prompt {
 	width: 48px;
 }
 #notepad-font-size {
-	width: 48px;
+	display: inline-block;
+	width: 44px;
+	text-align: center;
+	line-height: 24px;
+	margin: 0;
 }
 .notepad-bar-button-base {
 	padding: 2px 2px;
@@ -343,8 +347,8 @@ iframe.jquery_prompt {
 	height: 16px;
 	width: 1px;
 	position: relative;
-	top: 6px;
-	left: 4px;
+	top: 25%;
+	left: calc(50% - 1px);
 	background-color: #888888;
 	border-radius: 20px 20px 20px 20px;
 	user-select: none;
