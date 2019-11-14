@@ -287,125 +287,38 @@
 			}
 		});
 		
-		function command(event, command, element, testOnly) {
-			if (event) {
-				event.preventDefault();
+		function readonly(r) {
+			if (typeof r == 'boolean') {
+				if (r) {
+					sessionStorage.setItem('notepad-read-only', '1');
+					$('#notepad-textarea').attr('contenteditable', 'false');
+					$('#notepad-read-only').css('background-color', '#222222');
+				} else {
+					sessionStorage.setItem('notepad-read-only', '0');
+					$('#notepad-textarea').attr('contenteditable', 'true');
+					$('#notepad-read-only').css('background-color', '');
+				}
 			}
-			if (!testOnly) {
-				document.execCommand(command);
+			return ($('#notepad-textarea').attr('contenteditable') == 'false');
+		}
+		var _r = sessionStorage.getItem('notepad-read-only');
+		if (typeof _r == 'string') {
+			if (_r == '1') {
+				readonly(true);
+			} else if (_r == '0') {
+				readonly(false);
 			}
-			if (document.queryCommandState(command)) {
-				$(element).css('background-color', '#222222');
+		} else {
+			readonly(true);
+		}
+		$('#notepad-read-only').click(function(event) {
+			event.preventDefault();
+			if (readonly()) {
+				readonly(false);
 			} else {
-				$(element).css('background-color', '');
-			}
-		}
-		function checkCommands() {
-			command(null, 'bold', $('#notepad-bold'), true);
-			command(null, 'italic', $('#notepad-italic'), true);
-			command(null, 'underline', $('#notepad-underline'), true);
-			command(null, 'strikethrough', $('#notepad-strikethrough'), true);
-			command(null, 'insertOrderedList', $('#notepad-ordered-list'), true);
-			command(null, 'insertUnorderedList', $('#notepad-unordered-list'), true);
-			command(null, 'superscript', $('#notepad-superscript'), true);
-			command(null, 'subscript', $('#notepad-subscript'), true);
-			command(null, 'justifyLeft', $('#notepad-align-left'), true);
-			command(null, 'justifyCenter', $('#notepad-align-center'), true);
-			command(null, 'justifyRight', $('#notepad-align-right'), true);
-			command(null, 'justifyFull', $('#notepad-align-justify'), true);
-		}
-		
-		$('#notepad-font-size').click(function(event) {
-			event.preventDefault();
-			// this sets it to 16px, but should have a box to pick from any numbers
-			var fontSize = 16;
-			var selection = window.getSelection();
-			var string = selection.toString();
-			if (string.length > 0 && selection.rangeCount) {
-				var range = selection.getRangeAt(0);
-				var expanded = range.cloneRange();
-				range.deleteContents();
-				range.collapse(false);
-				
-				var element = document.createElement('div');
-				element.innerHTML = "<font style='font-size: " + fontSize + "px'>" + string + '</font>';
-				var fragment = document.createDocumentFragment(), node, lastNode;
-				while ((node = element.firstChild)) {
-					lastNode = fragment.appendChild(node);
-				}
-				range.insertNode(fragment);
-				
-				if (lastNode) {
-					expanded.setEndAfter(lastNode);
-					selection.removeAllRanges();
-					selection.addRange(expanded);
-				}
+				readonly(true);
 			}
 		});
-		$('#notepad-increase-font').click(function(event) {
-			event.preventDefault();
-			// increase
-		});
-		$('#notepad-decrease-font').click(function(event) {
-			event.preventDefault();
-			// decrease
-		});
-		
-		$('#notepad-bold').click(function(event) {
-			command(event, 'bold', this);
-			checkCommands(event);
-		});
-		$('#notepad-italic').click(function(event) {
-			command(event, 'italic', this);
-			checkCommands(event);
-		});
-		$('#notepad-underline').click(function(event) {
-			command(event, 'underline', this);
-			checkCommands(event);
-		});
-		$('#notepad-strikethrough').click(function(event) {
-			command(event, 'strikethrough', this);
-			checkCommands(event);
-		});
-		$('#notepad-superscript').click(function(event) {
-			command(event, 'superscript', this);
-			checkCommands();
-		});
-		$('#notepad-subscript').click(function(event) {
-			command(event, 'subscript', this);
-			checkCommands();
-		});
-		
-		$('#notepad-ordered-list').click(function(event) {
-			command(event, 'insertOrderedList', this);
-			checkCommands();
-		});
-		$('#notepad-unordered-list').click(function(event) {
-			command(event, 'insertUnorderedList', this);
-			checkCommands();
-		});
-		
-		$('#notepad-align-left').click(function() {
-			command(event, 'justifyLeft', this);
-			checkCommands();
-		});
-		$('#notepad-align-center').click(function() {
-			command(event, 'justifyCenter', this);
-			checkCommands();
-		});
-		$('#notepad-align-right').click(function() {
-			command(event, 'justifyRight', this);
-			checkCommands();
-		});
-		$('#notepad-align-justify').click(function() {
-			command(event, 'justifyFull', this);
-			checkCommands();
-		});
-		
-		$(document).on('selectionchange', function() {
-			checkCommands();
-		});
-		
 		function spellcheck(s) {
 			if (typeof s == 'boolean') {
 				if (s) {
@@ -471,6 +384,177 @@
 			}
 		});
 		
+		function command(event, command, element, testOnly) {
+			if (event) {
+				event.preventDefault();
+			}
+			if (!readonly()) {
+				if (!testOnly) {
+					document.execCommand(command);
+				}
+				if (document.queryCommandState(command)) {
+					$(element).css('background-color', '#222222');
+				} else {
+					$(element).css('background-color', '');
+				}
+			}
+		}
+		function commandValue(event, command, value, element, testOnly) {
+			if (event) {
+				event.preventDefault();
+			}
+			if (!readonly()) {
+				if (!testOnly) {
+					document.execCommand(command, false, value);
+				}
+				var _value = document.queryCommandValue(command);
+				if (_value) {
+					$(element).text(_value);
+				} else if (value) {
+					$(element).text(value);
+				}
+			}
+		}
+		function checkCommands() {
+			commandValue(null, 'fontSize', '3', $('#notepad-font-size'), true);
+			command(null, 'bold', $('#notepad-bold'), true);
+			command(null, 'italic', $('#notepad-italic'), true);
+			command(null, 'underline', $('#notepad-underline'), true);
+			command(null, 'strikethrough', $('#notepad-strikethrough'), true);
+			command(null, 'insertOrderedList', $('#notepad-ordered-list'), true);
+			command(null, 'insertUnorderedList', $('#notepad-unordered-list'), true);
+			command(null, 'superscript', $('#notepad-superscript'), true);
+			command(null, 'subscript', $('#notepad-subscript'), true);
+			command(null, 'justifyLeft', $('#notepad-align-left'), true);
+			command(null, 'justifyCenter', $('#notepad-align-center'), true);
+			command(null, 'justifyRight', $('#notepad-align-right'), true);
+			command(null, 'justifyFull', $('#notepad-align-justify'), true);
+		}
+		
+		function getFonts() {
+			$('#notepad-font-name-expand-menu').html('');
+			var fontJSON, fontStatus;
+			var XMLHttp = new XMLHttpRequest();
+			XMLHttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					fontJSON = JSON.parse(XMLHttp.responseText);
+				} else {
+					fontStatus = this.status;
+				}
+			};
+			XMLHttp.open('GET', 'https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyCz-kpy86ft7U0Dh1LYkhTxrr_QPK27s1I&', true);
+			XMLHttp.send();
+			if (fontJSON) {
+				var i = 0;
+				var l = fontJSON.items.length;
+				var fonts, ff;
+				while (i < l) {
+					fonts = '';
+					for (j = i; j < (i + 100); j++) {
+						if (j >= l) { break; }
+						ff = fontJSON.items[j].family;
+						if (fonts != '') {fonts += '|';}
+						if (ff == 'Buda' || ff == 'Open Sans Condensed') { ff = ff + ':300'; }
+						if (ff == 'Coda Caption') { ff = 'Coda Caption:800'; }
+						if (ff == 'UnifrakturCook') { ff = 'UnifrakturCook:700'; }
+						fonts += ff;
+					}
+					$('#notepad-font-name-expand-menu').append("<div class='notepad-font-name-expand-menu-item notepad-menu-item'>" + fonts + "</div>");
+					i = i + 100;
+				}
+			} else {
+				console.error('Google Fonts request failed with status ' + fontStatus + '.');
+			}
+		}
+		$('#notepad-font-name-expand').click(function() {
+			$('#notepad-font-name-expand-menu').toggle();
+			if ($('#notepad-font-name-expand-menu').is(':visible')) {
+				getFonts();
+				$(this).css('background-color', '#CCCCCC');
+			} else {
+				$(this).css('background-color', '');
+			}
+		});
+		$('.notepad-font-name-expand-menu-item').click(function() {
+			commandValue(event, 'fontName', $(this).text(), $('#notepad-font-name'));
+			$('#notepad-font-name-expand-menu').hide();
+			$('#notepad-font-name-expand').css('background-color', '');
+		});
+		$('#notepad-font-size-expand').click(function() {
+			$('#notepad-font-size-expand-menu').toggle();
+			if ($('#notepad-font-size-expand-menu').is(':visible')) {
+				$(this).css('background-color', '#CCCCCC');
+			} else {
+				$(this).css('background-color', '');
+			}
+		});
+		$('.notepad-font-size-expand-menu-item').click(function() {
+			commandValue(event, 'fontSize', $(this).text(), $('#notepad-font-size'));
+			$('#notepad-font-size-expand-menu').hide();
+			$('#notepad-font-size-expand').css('background-color', '');
+		});
+		$('#notepad-increase-font').click(function(event) {
+			commandValue(event, 'fontSize', parseInt(document.queryCommandValue('fontSize')) + 1, $('#notepad-font-size'));
+		});
+		$('#notepad-decrease-font').click(function(event) {
+			commandValue(event, 'fontSize', parseInt(document.queryCommandValue('fontSize')) - 1, $('#notepad-font-size'));
+		});
+		
+		$('#notepad-bold').click(function(event) {
+			command(event, 'bold', this);
+			checkCommands(event);
+		});
+		$('#notepad-italic').click(function(event) {
+			command(event, 'italic', this);
+			checkCommands(event);
+		});
+		$('#notepad-underline').click(function(event) {
+			command(event, 'underline', this);
+			checkCommands(event);
+		});
+		$('#notepad-strikethrough').click(function(event) {
+			command(event, 'strikethrough', this);
+			checkCommands(event);
+		});
+		$('#notepad-superscript').click(function(event) {
+			command(event, 'superscript', this);
+			checkCommands();
+		});
+		$('#notepad-subscript').click(function(event) {
+			command(event, 'subscript', this);
+			checkCommands();
+		});
+		
+		$('#notepad-ordered-list').click(function(event) {
+			command(event, 'insertOrderedList', this);
+			checkCommands();
+		});
+		$('#notepad-unordered-list').click(function(event) {
+			command(event, 'insertUnorderedList', this);
+			checkCommands();
+		});
+		
+		$('#notepad-align-left').click(function() {
+			command(event, 'justifyLeft', this);
+			checkCommands();
+		});
+		$('#notepad-align-center').click(function() {
+			command(event, 'justifyCenter', this);
+			checkCommands();
+		});
+		$('#notepad-align-right').click(function() {
+			command(event, 'justifyRight', this);
+			checkCommands();
+		});
+		$('#notepad-align-justify').click(function() {
+			command(event, 'justifyFull', this);
+			checkCommands();
+		});
+		
+		$(document).on('selectionchange', function() {
+			checkCommands();
+		});
+		
 		$('#notepad-erase').click(function(event) {
 			event.preventDefault();
 			var file = curFile();
@@ -489,19 +573,23 @@
 			if (file) {
 				file[1] = $(this).html();
 			}
-			saveFiles();
 			if ($('#notepad-textarea').html() == '') {
 				$('#notepad-erase').css('background-color', '#222222');
 			} else {
 				$('#notepad-erase').css('background-color', '');
 			}
+			saveFiles();
 		});
 		
 		$('#notepad-textarea').keydown(function(event) {
 			if (event.which == 9) { // Tab
 				event.preventDefault();
 				document.execCommand('insertHTML', false, '&#009');
+			} else if (event.which == 8 && ($('#notepad-textarea').html() == '<br>' || $('#notepad-textarea').html() == '<div><br></div>')) { // Backspace
+				event.preventDefault();
+				$('#notepad-textarea').html('');
 			}
+			saveFiles();
 		});
 		
 		$(document).click(function(event) {
@@ -533,7 +621,28 @@
 		<div id='notepad-bar-left'>
 			<div class='notepad-bar-button-base'><img id='notepad-erase' class='notepad-bar-button' src='notepad/bar/erase.png'></div>
 			<div class='notepad-bar-separator-base'><div class='notepad-bar-separator'></div></div>
-			<!-- <div id='notepad-font-size-base' class='notepad-bar-button-base'><p id='notepad-font-size' class='notepad-bar-button'>16</p></div> -->
+			<div id='notepad-font-name-menu-base' class='notepad-menu-base notepad-bar-button-base'>
+				<div id='notepad-font-name' class='notepad-menu notepad-bar-button'>sans-serif</div>
+				<div id='notepad-font-name-expand' class='notepad-menu-expand'>
+					<img class='notepad-menu-expand-img' src='notepad/bar/expand.png'>
+				</div>
+				<div id='notepad-font-name-expand-menu' class='notepad-menu-expand-menu' hidden></div>
+			</div>
+			<div id='notepad-font-size-menu-base' class='notepad-menu-base notepad-bar-button-base'>
+				<div id='notepad-font-size' class='notepad-menu notepad-bar-button'>3</div>
+				<div id='notepad-font-size-expand' class='notepad-menu-expand'>
+					<img class='notepad-menu-expand-img' src='notepad/bar/expand.png'>
+				</div>
+				<div id='notepad-font-size-expand-menu' class='notepad-menu-expand-menu' hidden>
+					<div class='notepad-font-size-expand-menu-item notepad-menu-item'>1</div>
+					<div class='notepad-font-size-expand-menu-item notepad-menu-item'>2</div>
+					<div class='notepad-font-size-expand-menu-item notepad-menu-item'>3</div>
+					<div class='notepad-font-size-expand-menu-item notepad-menu-item'>4</div>
+					<div class='notepad-font-size-expand-menu-item notepad-menu-item'>5</div>
+					<div class='notepad-font-size-expand-menu-item notepad-menu-item'>6</div>
+					<div class='notepad-font-size-expand-menu-item notepad-menu-item'>7</div>
+				</div>
+			</div>
 			<div class='notepad-bar-button-base'><img id='notepad-increase-font' class='notepad-bar-button' src='notepad/bar/increase-font.png'></div>
 			<div class='notepad-bar-button-base'><img id='notepad-decrease-font' class='notepad-bar-button' src='notepad/bar/decrease-font.png'></div>
 			<div class='notepad-bar-separator-base'><div class='notepad-bar-separator'></div></div>
@@ -552,6 +661,7 @@
 			<div class='notepad-bar-button-base'><img id='notepad-align-right' class='notepad-bar-button' src='notepad/bar/align-right.png'></div>
 			<div class='notepad-bar-button-base'><img id='notepad-align-justify' class='notepad-bar-button' src='notepad/bar/align-justify.png'></div>
 			<div class='notepad-bar-separator-base'><div class='notepad-bar-separator'></div></div>
+			<div class='notepad-bar-button-base'><img id='notepad-read-only' class='notepad-bar-button' src='notepad/bar/read-only.png'></div>
 			<div class='notepad-bar-button-base'><img id='notepad-spellcheck' class='notepad-bar-button' src='notepad/bar/spellcheck.png'></div>
 			<div class='notepad-bar-button-base'><img id='notepad-wrap' class='notepad-bar-button' src='notepad/bar/wrap.png'></div>
 		</div>

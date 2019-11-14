@@ -3,6 +3,7 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
+	overflow: hidden;
 }
 
 /* Classes */
@@ -273,6 +274,7 @@ iframe.jquery_prompt {
 	float: left;
 	height: 28px;
 	width: 100%;
+	z-index: 10;
 }
 #notepad-bar-left {
 	user-select: none;
@@ -283,8 +285,8 @@ iframe.jquery_prompt {
 	position: relative;
     display: flex;
     justify-content: flex-start;
-	z-index: 3;
 	pointer-events: none;
+	z-index: 10;
 }
 #notepad-bar-center {
 	user-select: none;
@@ -294,9 +296,9 @@ iframe.jquery_prompt {
 	position: relative;
     display: flex;
     justify-content: center;
-	z-index: 3;
 	pointer-events: none;
 	bottom: 28px;
+	z-index: 10;
 }
 #notepad-bar-right {
 	user-select: none;
@@ -306,19 +308,9 @@ iframe.jquery_prompt {
 	position: relative;
     display: flex;
     justify-content: flex-end;
-	z-index: 3;
 	pointer-events: none;
 	bottom: 56px;
-}
-#notepad-font-size-base {
-	width: 48px;
-}
-#notepad-font-size {
-	display: inline-block;
-	width: 44px;
-	text-align: center;
-	line-height: 24px;
-	margin: 0;
+	z-index: 10;
 }
 .notepad-bar-button-base {
 	padding: 2px 2px;
@@ -338,9 +330,84 @@ iframe.jquery_prompt {
 .notepad-bar-button:hover {
 	background-color: #333333;
 }
+.notepad-menu-base {
+	height: 24px;
+}
+#notepad-font-size-menu-base {
+	width: 40px;
+}
+#notepad-font-name-menu-base {
+	width: 100px;
+}
+.notepad-menu {
+	display: inline-block;
+	height: 100%;
+	margin: 0;
+	border-radius: 0;
+	background-color: #FFFFFF;
+	box-sizing: border-box;
+	border: 1px solid #444444;
+	border-right: 0;
+}
+#notepad-font-size {
+	width: 23px;
+}
+#notepad-font-name {
+	width: 83px;
+}
+.notepad-menu:hover {
+	background-color: #FFFFFF;
+}
+.notepad-menu-expand {
+	float: right;
+	width: 17px;
+	height: 100%;
+	background-color: white;
+	box-sizing: border-box;
+	border: 1px solid #444444;
+	border-left: 0;
+}
+.notepad-menu-expand:hover {
+	background-color: #DDDDDD;
+}
+.notepad-menu-expand-img {
+	width: 12px;
+	height: 12px;
+	position: relative;
+	left: 2px;
+	top: 2px;
+}
+.notepad-menu-expand-menu {
+	width: 100%;
+	height: calc(100vh - 100px);
+	background-color: white;
+	box-sizing: border-box;
+	border: 1px solid #444444;
+	position: relative;
+	overflow: scroll;
+	overflow-x: hidden;
+}
+#notepad-font-size-expand-menu {
+	min-height: 42px;
+	max-height: 142px;
+}
+#notepad-font-name-expand-menu {
+	min-height: 42px;
+	max-height: 42px;
+}
+.notepad-menu-item {
+	height: 20px;
+	pointer-events: auto;
+	user-select: none;
+	position: relative;
+	text-indent: 2px;
+}
+.notepad-menu-item:hover {
+	background-color: #DDDDDD;
+}
 .notepad-bar-separator-base {
 	height: 24px;
-	width: 10px;
+	width: 9px;
 	user-select: none;
 }
 .notepad-bar-separator {
