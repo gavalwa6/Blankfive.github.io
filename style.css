@@ -204,6 +204,7 @@ iframe.jquery_prompt {
 #current-nav {
 	position: relative;
 	bottom: 153px;
+	width: 0px;
     background-color: #227722;
 	z-index: 10;
 }
