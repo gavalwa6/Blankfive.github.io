@@ -434,16 +434,16 @@
 		function getFonts() {
 			$('#notepad-font-name-expand-menu').html('');
 			var fontJSON, fontStatus;
-			var XMLHttp = new XMLHttpRequest();
-			XMLHttp.onreadystatechange = function() {
+			var request = new XMLHttpRequest();
+			request.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
 					fontJSON = JSON.parse(this.responseText);
 				} else {
 					fontStatus = this.status;
 				}
 			};
-			XMLHttp.open('GET', 'https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyAGTtTykgLQAA_GpFHIcLiCC21IBd1pwvw', true);
-			XMLHttp.send();
+			request.open('GET', 'https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyAGTtTykgLQAA_GpFHIcLiCC21IBd1pwvw', true);
+			request.send();
 			if (fontJSON) {
 				var i = 0;
 				var l = fontJSON.items.length;
