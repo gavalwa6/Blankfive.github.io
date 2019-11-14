@@ -9,7 +9,7 @@ html, body {
 /* Classes */
 .text {
     text-decoration: none;
-    font-family: sans-serif;
+    font-family: Roboto;
 }
 .button {
     display: block;
@@ -349,6 +349,9 @@ iframe.jquery_prompt {
 	border: 1px solid #444444;
 	border-right: 0;
 	overflow: hidden;
+	font-family: Roboto;
+	font-size: 16px;
+	line-height: 20px;
 }
 #notepad-font-size {
 	width: 23px;
@@ -404,6 +407,9 @@ iframe.jquery_prompt {
 	position: relative;
 	text-indent: 2px;
 	overflow: hidden;
+	font-family: Roboto;
+	font-size: 16px;
+	line-height: 20px;
 }
 .notepad-menu-item:hover {
 	background-color: #DDDDDD;

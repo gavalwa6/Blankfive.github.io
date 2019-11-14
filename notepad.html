@@ -418,6 +418,7 @@
 		function checkCommands() {
 			if (!$('body').children('.jquery_prompt')[0]) {
 				commandValue(null, 'fontName', 'Roboto', $('#notepad-font-name'), true);
+				$('#notepad-font-name').css('font-family', document.queryCommandValue('fontName') || 'Roboto');
 				commandValue(null, 'fontSize', '3', $('#notepad-font-size'), true);
 				command(null, 'bold', $('#notepad-bold'), true);
 				command(null, 'italic', $('#notepad-italic'), true);
@@ -451,6 +452,9 @@
 						}
 						fonts += 1;
 					});
+					$('.notepad-font-name-expand-menu-item').each(function() {
+						$(this).css('font-family', $(this).text());
+					});
 				}
 			});
 			return fonts;
@@ -466,6 +470,7 @@
 		});
 		$('.notepad-font-name-expand-menu-item').click(function() {
 			commandValue(event, 'fontName', $(this).text(), $('#notepad-font-name'));
+			$('#notepad-font-name').css('font-family', $(this).text());
 			$('#notepad-font-name-expand-menu').hide();
 			$('#notepad-font-name-expand').css('background-color', '');
 		});
