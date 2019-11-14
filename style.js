@@ -135,8 +135,8 @@ $(function() {
 	
 	/* Navigation */
 	function navTo(element, duration) {
-		if (duration == null) { duration = ''; } else { duration = duration + 's'; }
-		$('#current-nav').css('transition', duration);
+		if (duration == null) { duration = ''; }
+		$('#current-nav').css('transition', duration + 's');
 		$('#current-nav').css('left', $(element).position().left + 3);
 		$('#current-nav').css('height', $(element).outerHeight());
 		$('#current-nav').css('width', $(element).outerWidth());
@@ -170,4 +170,8 @@ $(function() {
 	$('.nav').click(function() {
 		curPage($(this).attr('id'));
 	});
+	
+	window.setInterval(function() {
+		navTo('#' + curPage(), 0.3);
+	}, 100);
 });
