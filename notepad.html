@@ -309,7 +309,7 @@
 				readonly(false);
 			}
 		} else {
-			readonly(true);
+			readonly(false);
 		}
 		$('#notepad-read-only').click(function(event) {
 			event.preventDefault();
@@ -437,12 +437,12 @@
 			var XMLHttp = new XMLHttpRequest();
 			XMLHttp.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
-					fontJSON = JSON.parse(XMLHttp.responseText);
+					fontJSON = JSON.parse(this.responseText);
 				} else {
 					fontStatus = this.status;
 				}
 			};
-			XMLHttp.open('GET', 'https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyCz-kpy86ft7U0Dh1LYkhTxrr_QPK27s1I&', true);
+			XMLHttp.open('GET', 'https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyAGTtTykgLQAA_GpFHIcLiCC21IBd1pwvw', true);
 			XMLHttp.send();
 			if (fontJSON) {
 				var i = 0;
