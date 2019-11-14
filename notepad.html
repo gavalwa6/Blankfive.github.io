@@ -416,20 +416,22 @@
 			}
 		}
 		function checkCommands() {
-			commandValue(null, 'fontName', 'Roboto', $('#notepad-font-name'), true);
-			commandValue(null, 'fontSize', '3', $('#notepad-font-size'), true);
-			command(null, 'bold', $('#notepad-bold'), true);
-			command(null, 'italic', $('#notepad-italic'), true);
-			command(null, 'underline', $('#notepad-underline'), true);
-			command(null, 'strikethrough', $('#notepad-strikethrough'), true);
-			command(null, 'insertOrderedList', $('#notepad-ordered-list'), true);
-			command(null, 'insertUnorderedList', $('#notepad-unordered-list'), true);
-			command(null, 'superscript', $('#notepad-superscript'), true);
-			command(null, 'subscript', $('#notepad-subscript'), true);
-			command(null, 'justifyLeft', $('#notepad-align-left'), true);
-			command(null, 'justifyCenter', $('#notepad-align-center'), true);
-			command(null, 'justifyRight', $('#notepad-align-right'), true);
-			command(null, 'justifyFull', $('#notepad-align-justify'), true);
+			if (!$('body').children('.jquery_prompt')[0]) {
+				commandValue(null, 'fontName', 'Roboto', $('#notepad-font-name'), true);
+				commandValue(null, 'fontSize', '3', $('#notepad-font-size'), true);
+				command(null, 'bold', $('#notepad-bold'), true);
+				command(null, 'italic', $('#notepad-italic'), true);
+				command(null, 'underline', $('#notepad-underline'), true);
+				command(null, 'strikethrough', $('#notepad-strikethrough'), true);
+				command(null, 'insertOrderedList', $('#notepad-ordered-list'), true);
+				command(null, 'insertUnorderedList', $('#notepad-unordered-list'), true);
+				command(null, 'superscript', $('#notepad-superscript'), true);
+				command(null, 'subscript', $('#notepad-subscript'), true);
+				command(null, 'justifyLeft', $('#notepad-align-left'), true);
+				command(null, 'justifyCenter', $('#notepad-align-center'), true);
+				command(null, 'justifyRight', $('#notepad-align-right'), true);
+				command(null, 'justifyFull', $('#notepad-align-justify'), true);
+			}
 		}
 		
 		function getFonts(append) {
@@ -481,10 +483,10 @@
 			$('#notepad-font-size-expand').css('background-color', '');
 		});
 		$('#notepad-increase-font').click(function(event) {
-			commandValue(event, 'fontSize', parseInt(document.queryCommandValue('fontSize')) + 1, $('#notepad-font-size'));
+			commandValue(event, 'fontSize', parseInt(document.queryCommandValue('fontSize') || 3) + 1, $('#notepad-font-size'));
 		});
 		$('#notepad-decrease-font').click(function(event) {
-			commandValue(event, 'fontSize', parseInt(document.queryCommandValue('fontSize')) - 1, $('#notepad-font-size'));
+			commandValue(event, 'fontSize', parseInt(document.queryCommandValue('fontSize') || 3) - 1, $('#notepad-font-size'));
 		});
 		
 		$('#notepad-bold').click(function(event) {
