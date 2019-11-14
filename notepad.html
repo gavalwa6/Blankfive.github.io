@@ -448,7 +448,6 @@
 					$.each(response.items, function(i, v) {
 						if (append) {
 							$('#notepad-font-name-expand-menu').append("<div class='notepad-font-name-expand-menu-item notepad-menu-item'>" + v.family + "</div>");
-							$('head').append("<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=" + v.family + "'>");
 						}
 						fonts += 1;
 					});
