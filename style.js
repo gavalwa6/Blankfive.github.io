@@ -120,8 +120,8 @@
 	};
 })(jQuery);
 
-/* Navigation */
 $(function() {
+	/* Navigation */
 	function navTo(element, duration) {
 		if (duration == null) { duration = ''; } else { duration = duration + 's'; }
 		$('#current-nav').css('transition', duration);
@@ -157,5 +157,16 @@ $(function() {
 	
 	$('.nav').click(function() {
 		curPage($(this).attr('id'));
+	});
+	
+	/* Google Fonts */
+	$.ajax({
+		url: 'https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyAGTtTykgLQAA_GpFHIcLiCC21IBd1pwvw&sort=alpha',
+		type: 'GET',
+		success: function(response, status) {
+			$.each(response.items, function(i, v) {
+				$('head').append("<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=" + v.family + "'>");
+			});
+		}
 	});
 });
