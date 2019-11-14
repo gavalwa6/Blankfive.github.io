@@ -337,7 +337,7 @@ iframe.jquery_prompt {
 	width: 40px;
 }
 #notepad-font-name-menu-base {
-	width: 100px;
+	width: 200px;
 }
 .notepad-menu {
 	display: inline-block;
@@ -348,12 +348,13 @@ iframe.jquery_prompt {
 	box-sizing: border-box;
 	border: 1px solid #444444;
 	border-right: 0;
+	overflow: hidden;
 }
 #notepad-font-size {
 	width: 23px;
 }
 #notepad-font-name {
-	width: 83px;
+	width: 183px;
 }
 .notepad-menu:hover {
 	background-color: #FFFFFF;
@@ -383,9 +384,10 @@ iframe.jquery_prompt {
 	background-color: white;
 	box-sizing: border-box;
 	border: 1px solid #444444;
-	position: relative;
 	overflow: scroll;
 	overflow-x: hidden;
+	position: relative;
+	bottom: 5px;
 }
 #notepad-font-size-expand-menu {
 	min-height: 42px;
@@ -393,7 +395,7 @@ iframe.jquery_prompt {
 }
 #notepad-font-name-expand-menu {
 	min-height: 42px;
-	max-height: 42px;
+	max-height: 402px;
 }
 .notepad-menu-item {
 	height: 20px;
@@ -401,6 +403,7 @@ iframe.jquery_prompt {
 	user-select: none;
 	position: relative;
 	text-indent: 2px;
+	overflow: hidden;
 }
 .notepad-menu-item:hover {
 	background-color: #DDDDDD;
@@ -510,6 +513,7 @@ iframe.jquery_prompt {
 	z-index: 4;
 	overflow: auto;
 	white-space: normal;
+	font-family: Roboto;
 }
 #notepad-textarea:empty::before {
 	user-select: none;

@@ -416,6 +416,7 @@
 			}
 		}
 		function checkCommands() {
+			commandValue(null, 'fontName', 'Roboto', $('#notepad-font-name'), true);
 			commandValue(null, 'fontSize', '3', $('#notepad-font-size'), true);
 			command(null, 'bold', $('#notepad-bold'), true);
 			command(null, 'italic', $('#notepad-italic'), true);
@@ -431,45 +432,31 @@
 			command(null, 'justifyFull', $('#notepad-align-justify'), true);
 		}
 		
-		function getFonts() {
-			$('#notepad-font-name-expand-menu').html('');
-			var fontJSON, fontStatus;
-			var request = new XMLHttpRequest();
-			request.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-					fontJSON = JSON.parse(this.responseText);
-				} else {
-					fontStatus = this.status;
-				}
-			};
-			request.open('GET', 'https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyAGTtTykgLQAA_GpFHIcLiCC21IBd1pwvw', true);
-			request.send();
-			if (fontJSON) {
-				var i = 0;
-				var l = fontJSON.items.length;
-				var fonts, ff;
-				while (i < l) {
-					fonts = '';
-					for (j = i; j < (i + 100); j++) {
-						if (j >= l) { break; }
-						ff = fontJSON.items[j].family;
-						if (fonts != '') {fonts += '|';}
-						if (ff == 'Buda' || ff == 'Open Sans Condensed') { ff = ff + ':300'; }
-						if (ff == 'Coda Caption') { ff = 'Coda Caption:800'; }
-						if (ff == 'UnifrakturCook') { ff = 'UnifrakturCook:700'; }
-						fonts += ff;
-					}
-					$('#notepad-font-name-expand-menu').append("<div class='notepad-font-name-expand-menu-item notepad-menu-item'>" + fonts + "</div>");
-					i = i + 100;
-				}
-			} else {
-				console.error('Google Fonts request failed with status ' + fontStatus + '.');
+		function getFonts(append) {
+			if (append) {
+				$('notepad-menu-expand-menu').html('');
 			}
+			var fonts = 0;
+			$.ajax({
+				url: 'https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyAGTtTykgLQAA_GpFHIcLiCC21IBd1pwvw&sort=alpha',
+				type: 'GET',
+				async: false,
+				success: function(response, status) {
+					$.each(response.items, function(i, v) {
+						if (append) {
+							$('#notepad-font-name-expand-menu').append("<div class='notepad-font-name-expand-menu-item notepad-menu-item'>" + v.family + "</div>");
+							$('head').append("<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=" + v.family + "'>");
+						}
+						fonts += 1;
+					});
+				}
+			});
+			return fonts;
 		}
+		getFonts(true);
 		$('#notepad-font-name-expand').click(function() {
 			$('#notepad-font-name-expand-menu').toggle();
 			if ($('#notepad-font-name-expand-menu').is(':visible')) {
-				getFonts();
 				$(this).css('background-color', '#CCCCCC');
 			} else {
 				$(this).css('background-color', '');
@@ -622,12 +609,13 @@
 			<div class='notepad-bar-button-base'><img id='notepad-erase' class='notepad-bar-button' src='notepad/bar/erase.png'></div>
 			<div class='notepad-bar-separator-base'><div class='notepad-bar-separator'></div></div>
 			<div id='notepad-font-name-menu-base' class='notepad-menu-base notepad-bar-button-base'>
-				<div id='notepad-font-name' class='notepad-menu notepad-bar-button'>sans-serif</div>
+				<div id='notepad-font-name' class='notepad-menu notepad-bar-button'>Roboto</div>
 				<div id='notepad-font-name-expand' class='notepad-menu-expand'>
 					<img class='notepad-menu-expand-img' src='notepad/bar/expand.png'>
 				</div>
 				<div id='notepad-font-name-expand-menu' class='notepad-menu-expand-menu' hidden></div>
 			</div>
+			<div class='notepad-bar-separator-base'><div class='notepad-bar-separator'></div></div>
 			<div id='notepad-font-size-menu-base' class='notepad-menu-base notepad-bar-button-base'>
 				<div id='notepad-font-size' class='notepad-menu notepad-bar-button'>3</div>
 				<div id='notepad-font-size-expand' class='notepad-menu-expand'>
