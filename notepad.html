@@ -463,8 +463,10 @@
 			$('#notepad-font-name-expand-menu').toggle();
 			if ($('#notepad-font-name-expand-menu').is(':visible')) {
 				$(this).css('background-color', '#CCCCCC');
+				$('#notepad-font-name-expand img').attr('src', 'notepad/bar/expanded.png');
 			} else {
 				$(this).css('background-color', '');
+				$('#notepad-font-name-expand img').attr('src', 'notepad/bar/expand.png');
 			}
 		});
 		$('.notepad-font-name-expand-menu-item').click(function() {
@@ -472,19 +474,23 @@
 			$('#notepad-font-name').css('font-family', $(this).text());
 			$('#notepad-font-name-expand-menu').hide();
 			$('#notepad-font-name-expand').css('background-color', '');
+			$('#notepad-font-name-expand img').attr('src', 'notepad/bar/expand.png');
 		});
 		$('#notepad-font-size-expand').click(function() {
 			$('#notepad-font-size-expand-menu').toggle();
 			if ($('#notepad-font-size-expand-menu').is(':visible')) {
 				$(this).css('background-color', '#CCCCCC');
+				$('#notepad-font-size-expand img').attr('src', 'notepad/bar/expanded.png');
 			} else {
 				$(this).css('background-color', '');
+				$('#notepad-font-size-expand img').attr('src', 'notepad/bar/expand.png');
 			}
 		});
 		$('.notepad-font-size-expand-menu-item').click(function() {
 			commandValue(event, 'fontSize', $(this).text(), $('#notepad-font-size'));
 			$('#notepad-font-size-expand-menu').hide();
 			$('#notepad-font-size-expand').css('background-color', '');
+			$('#notepad-font-size-expand img').attr('src', 'notepad/bar/expand.png');
 		});
 		$('#notepad-increase-font').click(function(event) {
 			commandValue(event, 'fontSize', parseInt(document.queryCommandValue('fontSize') || 3) + 1, $('#notepad-font-size'));
