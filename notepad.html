@@ -592,6 +592,20 @@
 		});
 		
 		$(document).click(function(event) {
+			$('.notepad-menu-base').each(function(index, element) {
+				if ($(this).children('.notepad-menu-expand-menu').is(':visible')) {
+					var menu = $(event.target).is($(this).children('.notepad-menu'));
+					var expand = $(event.target).is($(this).children('.notepad-menu-expand'));
+					var expandImg = $(event.target).is($(this).children('.notepad-menu-expand').children('img'));
+					var expandMenu = $(event.target).is($(this).children('.notepad-menu-expand-menu'));
+					var menuItem = $(event.target).is($(this).children('.notepad-menu-item'));
+					if (!menu && !expand && !expandImg && !expandMenu && !menuItem) {
+						$(this).children('.notepad-menu-expand-menu').hide();
+						$(this).children('.notepad-menu-expand').css('background-color', '');
+						$(this).children('.notepad-menu-expand').children('img').attr('src', 'notepad/bar/expand.png');
+					}
+				}
+			});
 			if (!$('body').children('.jquery_prompt')[0]) {
 				$('#notepad-textarea').focus();
 			}
