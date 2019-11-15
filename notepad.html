@@ -409,14 +409,14 @@
 				}
 				var _value = document.queryCommandValue(command);
 				if (_value) {
-					$(element).text(_value);
+					$(element).val((_value).replace(new RegExp('"', 'g'), ''));
 				} else if (value) {
-					$(element).text(value);
+					$(element).val((value).replace(new RegExp('"', 'g'), ''));
 				}
 			}
 		}
 		function checkCommands() {
-			if (!$('body').children('.jquery_prompt')[0] && files[0]) {
+			if ($('#notepad-textarea').is(':focus') && !$('body').children('.jquery_prompt')[0] && files[0]) {
 				commandValue(null, 'fontName', 'Roboto', $('#notepad-font-name'), true);
 				$('#notepad-font-name').css('font-family', document.queryCommandValue('fontName') || 'Roboto');
 				commandValue(null, 'fontSize', '3', $('#notepad-font-size'), true);
@@ -563,6 +563,7 @@
 						$('#notepad-textarea').html('');
 					}
 					$('#notepad-textarea').focus();
+					checkCommands();
 				}, false, false);
 			}
 		});
@@ -578,6 +579,7 @@
 				$('#notepad-erase').css('background-color', '');
 			}
 			saveFiles();
+			checkCommands();
 		});
 		
 		$('#notepad-textarea').keydown(function(event) {
@@ -589,10 +591,15 @@
 				$('#notepad-textarea').html('');
 			}
 			saveFiles();
+			checkCommands();
 		});
 		
 		$(document).click(function(event) {
+			var targetIsMenu = false;
 			$('.notepad-menu-base').each(function(index, element) {
+				if ($(event.target).is($(this).children('.notepad-menu'))) {
+					targetIsMenu = true;
+				}
 				if ($(this).children('.notepad-menu-expand-menu').is(':visible')) {
 					var menu = $(event.target).is($(this).children('.notepad-menu'));
 					var expand = $(event.target).is($(this).children('.notepad-menu-expand'));
@@ -606,7 +613,7 @@
 					}
 				}
 			});
-			if (!$('body').children('.jquery_prompt')[0]) {
+			if (!targetIsMenu && !$('body').children('.jquery_prompt')[0]) {
 				$('#notepad-textarea').focus();
 			}
 		});
@@ -635,12 +642,12 @@
 			<div class='notepad-bar-button-base'><img id='notepad-erase' class='notepad-bar-button' src='notepad/bar/erase.png'></div>
 			<div class='notepad-bar-separator-base'><div class='notepad-bar-separator'></div></div>
 			<div id='notepad-font-name-menu-base' class='notepad-menu-base notepad-bar-button-base'>
-				<div id='notepad-font-name' class='notepad-menu notepad-bar-button'>Roboto</div>
+				<input readonly type='text' id='notepad-font-name' class='notepad-menu notepad-bar-button' value='Roboto'>
 				<div id='notepad-font-name-expand' class='notepad-menu-expand'><img class='notepad-menu-expand-img' src='notepad/bar/expand.png'></div>
 				<div id='notepad-font-name-expand-menu' class='notepad-menu-expand-menu' hidden></div>
 			</div>
 			<div id='notepad-font-size-menu-base' class='notepad-menu-base notepad-bar-button-base'>
-				<div id='notepad-font-size' class='notepad-menu notepad-bar-button'>3</div>
+				<input readonly type='text' id='notepad-font-size' class='notepad-menu notepad-bar-button' value='3'>
 				<div id='notepad-font-size-expand' class='notepad-menu-expand'><img class='notepad-menu-expand-img' src='notepad/bar/expand.png'></div>
 				<div id='notepad-font-size-expand-menu' class='notepad-menu-expand-menu' hidden>
 					<div class='notepad-font-size-expand-menu-item notepad-menu-item'>1</div>

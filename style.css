@@ -391,7 +391,7 @@ iframe.jquery_prompt {
 	overflow: scroll;
 	overflow-x: hidden;
 	position: relative;
-	bottom: 5px;
+	bottom: 1px;
 }
 #notepad-font-size-expand-menu {
 	min-height: 42px;
