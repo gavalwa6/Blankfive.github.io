@@ -553,6 +553,8 @@
 			$(self).parent().children('.notepad-menu-filter').css('background-color', '');
 			if (filtered) {
 				$(self).parent().children('.notepad-menu-filter').children('img').prop('src', 'notepad/bar/filter-clear.png');
+			} else {
+				$('.notepad-menu-item').show();
 			}
 			if ($(self).parent().children('.notepad-menu').is('#notepad-font-name')) {
 				$('#notepad-font-name').css('font-family', 'Roboto');
