@@ -358,10 +358,29 @@ iframe.jquery_prompt {
 	width: 22px;
 }
 #notepad-font-name {
-	width: 182px;
+	width: 164px;
 }
 .notepad-menu:hover {
 	background-color: #FFFFFF;
+}
+.notepad-menu-filter {
+	float: right;
+	width: 18px;
+	height: 100%;
+	background-color: white;
+	box-sizing: border-box;
+	border: 1px solid #444444;
+	border-left: 0;
+	border-right: 0;
+}
+.notepad-menu-filter:hover {
+	background-color: #DDDDDD;
+}
+.notepad-menu-filter-img {
+	width: 16px;
+	position: relative;
+	left: 1px;
+	top: 3px;
 }
 .notepad-menu-expand {
 	float: right;
@@ -380,7 +399,7 @@ iframe.jquery_prompt {
 	height: 12px;
 	position: relative;
 	left: 2px;
-	top: 3px;
+	top: 2px;
 }
 .notepad-menu-expand-menu {
 	width: 100%;

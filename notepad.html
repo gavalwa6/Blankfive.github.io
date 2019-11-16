@@ -407,18 +407,17 @@
 				if (!testOnly) {
 					document.execCommand(command, false, value);
 				}
-				var _value = document.queryCommandValue(command);
-				if (_value) {
-					$(element).val((_value).replace(new RegExp('"', 'g'), ''));
-				} else if (value) {
-					$(element).val((value).replace(new RegExp('"', 'g'), ''));
-				}
+				var _value = document.queryCommandValue(command) || value;
+				$(element).val((_value).replace(new RegExp('"', 'g'), ''));
+				
 			}
 		}
 		function checkCommands() {
 			if ($('#notepad-textarea').is(':focus') && !$('body').children('.jquery_prompt')[0] && files[0]) {
 				commandValue(null, 'fontName', 'Roboto', $('#notepad-font-name'), true);
-				$('#notepad-font-name').css('font-family', document.queryCommandValue('fontName') || 'Roboto');
+				if (!readonly()) {
+					$('#notepad-font-name').css('font-family', document.queryCommandValue('fontName') || 'Roboto');
+				}
 				commandValue(null, 'fontSize', '3', $('#notepad-font-size'), true);
 				command(null, 'bold', $('#notepad-bold'), true);
 				command(null, 'italic', $('#notepad-italic'), true);
@@ -459,6 +458,22 @@
 			return fonts;
 		}
 		getFonts(true);
+		
+		function isMenu(event, base, mainOnly) {
+			var menu = $(event.target).is($(base).children('.notepad-menu'));
+			var filter = $(event.target).is($(base).children('.notepad-menu-filter'));
+			var filterImg = $(event.target).is($(base).children('.notepad-menu-filter').children('img'));
+			var expand = $(event.target).is($(base).children('.notepad-menu-expand'));
+			var expandImg = $(event.target).is($(base).children('.notepad-menu-expand').children('img'));
+			var expandMenu = $(event.target).is($(base).children('.notepad-menu-expand-menu'));
+			var menuItem = $(event.target).is($(base).children('.notepad-menu-item'));
+			if (mainOnly) {
+				return menu;
+			} else {
+				return menu || filter || filterImg || expand || expandImg || expandMenu || menuItem;
+			}
+		}
+		
 		$('#notepad-font-name-expand').click(function() {
 			$('#notepad-font-name-expand-menu').toggle();
 			if ($('#notepad-font-name-expand-menu').is(':visible')) {
@@ -497,6 +512,90 @@
 		});
 		$('#notepad-decrease-font').click(function(event) {
 			commandValue(event, 'fontSize', parseInt(document.queryCommandValue('fontSize') || 3) - 1, $('#notepad-font-size'));
+		});
+		
+		var filtered = false;
+		$('.notepad-menu').keyup(function(event) {
+			var self = $(this);
+			var matches = [];
+			var nonMatches = [];
+			self.parent().children('.notepad-menu-expand-menu').children().each(function(index, element) {
+				if (~$(element).text().toLowerCase().indexOf(self.val().toLowerCase())) {
+					matches[matches.length] = $(element);
+				} else {
+					nonMatches[nonMatches.length] = $(element);
+				}
+			});
+			if (matches.length) {
+				self.parent().children('.notepad-menu-expand-menu').show();
+				self.parent().children('.notepad-menu-expand').css('background-color', '#CCCCCC');
+				self.parent().children('.notepad-menu-expand-menu').children('img').attr('src', 'notepad/bar/expanded.png');
+				$.each(matches, function(index, object) {
+					object.show();
+				});
+				filtered = true;
+			} else {
+				filtered = false;
+			}
+			if (nonMatches.length) {
+				$.each(nonMatches, function(index, object) {
+					object.hide();
+				});
+			}
+		});
+		var filtering = null;
+		function submitFilter(self) {
+			$(self).val($(self).attr('placeholder'));
+			if ($(self).is('#notepad-font-name')) {
+				$(self).css('font-family', 'Roboto');
+			}
+			$(self).parent().children('.notepad-menu').attr('readonly', 'readonly');
+			$(self).parent().children('.notepad-menu-filter').css('background-color', '');
+			if (filtered) {
+				$(self).parent().children('.notepad-menu-filter').children('img').attr('src', 'notepad/bar/filter-clear.png');
+			}
+			if ($(self).parent().children('.notepad-menu').is('#notepad-font-name')) {
+				$('#notepad-font-name').css('font-family', 'Roboto');
+				$('#notepad-font-name').val('Roboto');
+			}
+			filtering = null;
+		}
+		$('.notepad-menu-filter').click(function(event) {
+			event.preventDefault();
+			if (!filtering) {
+				if (filtered) {
+					$('.notepad-menu-item').show();
+					$(this).parent().children('.notepad-menu-filter').css('background-color', '');
+					$(this).parent().children('.notepad-menu-filter').children('img').attr('src', 'notepad/bar/filter.png');
+					if ($(this).parent().children('.notepad-menu').is('#notepad-font-name')) {
+						$('#notepad-font-name').css('font-family', 'Roboto');
+						$('#notepad-font-name').val('Roboto');
+					}
+					filtered = false;
+				} else {
+					$(this).parent().children('.notepad-menu-expand-menu').show();
+					$(this).parent().children('.notepad-menu-filter').css('background-color', '#CCCCCC');
+					$(this).parent().children('.notepad-menu-filter').children('img').attr('src', 'notepad/bar/filter.png');
+					$(this).parent().children('.notepad-menu-expand').css('background-color', '#CCCCCC');
+					$(this).parent().children('.notepad-menu-expand').children('img').attr('src', 'notepad/bar/expanded.png');
+					if ($(this).parent().children('.notepad-menu').is('#notepad-font-name')) {
+						$('#notepad-font-name').css('font-family', 'Roboto');
+					}
+					$(this).parent().children('.notepad-menu').removeAttr('readonly');
+					$(this).parent().children('.notepad-menu').val('');
+					$(this).parent().children('.notepad-menu').focus();
+					filtering = this;
+				}
+			} else {
+				submitFilter(this);
+			}
+			return false;
+		});
+		$('.notepad-menu').keyup(function(event) {
+			if (event.keyCode == 13) {
+				event.preventDefault();
+				submitFilter(this);
+			}
 		});
 		
 		$('#notepad-bold').click(function(event) {
@@ -595,26 +694,31 @@
 		});
 		
 		$(document).click(function(event) {
-			var targetIsMenu = false;
+			var targetIsMenuMain = false;
+			var offFilterMenu = true;
 			$('.notepad-menu-base').each(function(index, element) {
 				if ($(event.target).is($(this).children('.notepad-menu'))) {
-					targetIsMenu = true;
+					targetIsMenuMain = true;
 				}
 				if ($(this).children('.notepad-menu-expand-menu').is(':visible')) {
-					var menu = $(event.target).is($(this).children('.notepad-menu'));
-					var expand = $(event.target).is($(this).children('.notepad-menu-expand'));
-					var expandImg = $(event.target).is($(this).children('.notepad-menu-expand').children('img'));
-					var expandMenu = $(event.target).is($(this).children('.notepad-menu-expand-menu'));
-					var menuItem = $(event.target).is($(this).children('.notepad-menu-item'));
-					if (!menu && !expand && !expandImg && !expandMenu && !menuItem) {
+					if(!isMenu(event, this)) {
 						$(this).children('.notepad-menu-expand-menu').hide();
 						$(this).children('.notepad-menu-expand').css('background-color', '');
 						$(this).children('.notepad-menu-expand').children('img').attr('src', 'notepad/bar/expand.png');
 					}
+					if (!isMenu(event, this, true) && !filtered) {
+						$('.notepad-menu-item').show();
+					}
+				}
+				if (isMenu(event, this)) {
+					offFilterMenu = false;
 				}
 			});
-			if (!targetIsMenu && !$('body').children('.jquery_prompt')[0]) {
+			if (!targetIsMenuMain && !$('body').children('.jquery_prompt')[0]) {
 				$('#notepad-textarea').focus();
+			}
+			if (filtering && offFilterMenu) {
+				submitFilter(filtering);
 			}
 		});
 		
@@ -642,12 +746,13 @@
 			<div class='notepad-bar-button-base'><img id='notepad-erase' class='notepad-bar-button' src='notepad/bar/erase.png'></div>
 			<div class='notepad-bar-separator-base'><div class='notepad-bar-separator'></div></div>
 			<div id='notepad-font-name-menu-base' class='notepad-menu-base notepad-bar-button-base'>
-				<input readonly type='text' id='notepad-font-name' class='notepad-menu notepad-bar-button' value='Roboto'>
+				<input readonly type='text' id='notepad-font-name' class='notepad-menu notepad-bar-button' value='Roboto' placeholder='Roboto'>
 				<div id='notepad-font-name-expand' class='notepad-menu-expand'><img class='notepad-menu-expand-img' src='notepad/bar/expand.png'></div>
+				<div id='notepad-font-name-filter' class='notepad-menu-filter'><img class='notepad-menu-filter-img' src='notepad/bar/filter.png'></div>
 				<div id='notepad-font-name-expand-menu' class='notepad-menu-expand-menu' hidden></div>
 			</div>
 			<div id='notepad-font-size-menu-base' class='notepad-menu-base notepad-bar-button-base'>
-				<input readonly type='text' id='notepad-font-size' class='notepad-menu notepad-bar-button' value='3'>
+				<input readonly type='text' id='notepad-font-size' class='notepad-menu notepad-bar-button' value='3' placeholder='3'>
 				<div id='notepad-font-size-expand' class='notepad-menu-expand'><img class='notepad-menu-expand-img' src='notepad/bar/expand.png'></div>
 				<div id='notepad-font-size-expand-menu' class='notepad-menu-expand-menu' hidden>
 					<div class='notepad-font-size-expand-menu-item notepad-menu-item'>1</div>
