@@ -125,7 +125,6 @@ $(function() {
 	$.ajax({
 		url: 'https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyAGTtTykgLQAA_GpFHIcLiCC21IBd1pwvw&sort=alpha',
 		type: 'GET',
-		async: false,
 		success: function(response, status) {
 			$.each(response.items, function(i, v) {
 				$('head').append("<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=" + v.family + "'>");

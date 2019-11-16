@@ -442,16 +442,24 @@
 			$.ajax({
 				url: 'https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyAGTtTykgLQAA_GpFHIcLiCC21IBd1pwvw&sort=alpha',
 				type: 'GET',
-				async: false,
 				success: function(response, status) {
 					$.each(response.items, function(i, v) {
 						if (append) {
-							$('#notepad-font-name-expand-menu').append("<div class='notepad-font-name-expand-menu-item notepad-menu-item'>" + v.family + "</div>");
+							var div = document.createElement('div');
+							div.classList.add('notepad-font-name-expand-menu-item');
+							div.classList.add('notepad-menu-item');
+							div.textContent = v.family;
+							div.style.fontFamily = v.family;
+							div.addEventListener('click', function() {
+								commandValue(event, 'fontName', $(this).text(), $('#notepad-font-name'));
+								$('#notepad-font-name').css('font-family', $(this).text());
+								$('#notepad-font-name-expand-menu').hide();
+								$('#notepad-font-name-expand').css('background-color', '');
+								$('#notepad-font-name-expand img').prop('src', 'notepad/bar/expand.png');
+							});
+							$('#notepad-font-name-expand-menu').append(div);
 						}
 						fonts += 1;
-					});
-					$('.notepad-font-name-expand-menu-item').each(function() {
-						$(this).css('font-family', $(this).text());
 					});
 				}
 			});
@@ -483,13 +491,6 @@
 				$(this).css('background-color', '');
 				$('#notepad-font-name-expand img').prop('src', 'notepad/bar/expand.png');
 			}
-		});
-		$('.notepad-font-name-expand-menu-item').click(function() {
-			commandValue(event, 'fontName', $(this).text(), $('#notepad-font-name'));
-			$('#notepad-font-name').css('font-family', $(this).text());
-			$('#notepad-font-name-expand-menu').hide();
-			$('#notepad-font-name-expand').css('background-color', '');
-			$('#notepad-font-name-expand img').prop('src', 'notepad/bar/expand.png');
 		});
 		$('#notepad-font-size-expand').click(function() {
 			$('#notepad-font-size-expand-menu').toggle();
