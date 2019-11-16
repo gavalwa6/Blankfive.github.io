@@ -291,15 +291,15 @@
 			if (typeof r == 'boolean') {
 				if (r) {
 					sessionStorage.setItem('notepad-read-only', '1');
-					$('#notepad-textarea').attr('contenteditable', 'false');
+					$('#notepad-textarea').prop('contenteditable', 'false');
 					$('#notepad-read-only').css('background-color', '#222222');
 				} else {
 					sessionStorage.setItem('notepad-read-only', '0');
-					$('#notepad-textarea').attr('contenteditable', 'true');
+					$('#notepad-textarea').prop('contenteditable', 'true');
 					$('#notepad-read-only').css('background-color', '');
 				}
 			}
-			return ($('#notepad-textarea').attr('contenteditable') == 'false');
+			return ($('#notepad-textarea').prop('contenteditable') == 'false');
 		}
 		var _r = sessionStorage.getItem('notepad-read-only');
 		if (typeof _r == 'string') {
@@ -323,15 +323,15 @@
 			if (typeof s == 'boolean') {
 				if (s) {
 					sessionStorage.setItem('notepad-spellcheck', '1');
-					$('#notepad-textarea').attr('spellcheck', 'true');
+					$('#notepad-textarea').prop('spellcheck', 'true');
 					$('#notepad-spellcheck').css('background-color', '#222222');
 				} else {
 					sessionStorage.setItem('notepad-spellcheck', '0');
-					$('#notepad-textarea').attr('spellcheck', 'false');
+					$('#notepad-textarea').prop('spellcheck', 'false');
 					$('#notepad-spellcheck').css('background-color', '');
 				}
 			}
-			return ($('#notepad-textarea').attr('spellcheck') == 'true');
+			return ($('#notepad-textarea').prop('spellcheck') == 'true');
 		}
 		var _s = sessionStorage.getItem('notepad-spellcheck');
 		if (typeof _s == 'string') {
@@ -478,10 +478,10 @@
 			$('#notepad-font-name-expand-menu').toggle();
 			if ($('#notepad-font-name-expand-menu').is(':visible')) {
 				$(this).css('background-color', '#CCCCCC');
-				$('#notepad-font-name-expand img').attr('src', 'notepad/bar/expanded.png');
+				$('#notepad-font-name-expand img').prop('src', 'notepad/bar/expanded.png');
 			} else {
 				$(this).css('background-color', '');
-				$('#notepad-font-name-expand img').attr('src', 'notepad/bar/expand.png');
+				$('#notepad-font-name-expand img').prop('src', 'notepad/bar/expand.png');
 			}
 		});
 		$('.notepad-font-name-expand-menu-item').click(function() {
@@ -489,23 +489,23 @@
 			$('#notepad-font-name').css('font-family', $(this).text());
 			$('#notepad-font-name-expand-menu').hide();
 			$('#notepad-font-name-expand').css('background-color', '');
-			$('#notepad-font-name-expand img').attr('src', 'notepad/bar/expand.png');
+			$('#notepad-font-name-expand img').prop('src', 'notepad/bar/expand.png');
 		});
 		$('#notepad-font-size-expand').click(function() {
 			$('#notepad-font-size-expand-menu').toggle();
 			if ($('#notepad-font-size-expand-menu').is(':visible')) {
 				$(this).css('background-color', '#CCCCCC');
-				$('#notepad-font-size-expand img').attr('src', 'notepad/bar/expanded.png');
+				$('#notepad-font-size-expand img').prop('src', 'notepad/bar/expanded.png');
 			} else {
 				$(this).css('background-color', '');
-				$('#notepad-font-size-expand img').attr('src', 'notepad/bar/expand.png');
+				$('#notepad-font-size-expand img').prop('src', 'notepad/bar/expand.png');
 			}
 		});
 		$('.notepad-font-size-expand-menu-item').click(function() {
 			commandValue(event, 'fontSize', $(this).text(), $('#notepad-font-size'));
 			$('#notepad-font-size-expand-menu').hide();
 			$('#notepad-font-size-expand').css('background-color', '');
-			$('#notepad-font-size-expand img').attr('src', 'notepad/bar/expand.png');
+			$('#notepad-font-size-expand img').prop('src', 'notepad/bar/expand.png');
 		});
 		$('#notepad-increase-font').click(function(event) {
 			commandValue(event, 'fontSize', parseInt(document.queryCommandValue('fontSize') || 3) + 1, $('#notepad-font-size'));
@@ -529,7 +529,7 @@
 			if (matches.length) {
 				self.parent().children('.notepad-menu-expand-menu').show();
 				self.parent().children('.notepad-menu-expand').css('background-color', '#CCCCCC');
-				self.parent().children('.notepad-menu-expand-menu').children('img').attr('src', 'notepad/bar/expanded.png');
+				self.parent().children('.notepad-menu-expand-menu').children('img').prop('src', 'notepad/bar/expanded.png');
 				$.each(matches, function(index, object) {
 					object.show();
 				});
@@ -545,14 +545,14 @@
 		});
 		var filtering = null;
 		function submitFilter(self) {
-			$(self).val($(self).attr('placeholder'));
+			$(self).val($(self).prop('placeholder'));
 			if ($(self).is('#notepad-font-name')) {
 				$(self).css('font-family', 'Roboto');
 			}
-			$(self).parent().children('.notepad-menu').attr('readonly', 'readonly');
+			$(self).parent().children('.notepad-menu').prop('readonly', 'readonly');
 			$(self).parent().children('.notepad-menu-filter').css('background-color', '');
 			if (filtered) {
-				$(self).parent().children('.notepad-menu-filter').children('img').attr('src', 'notepad/bar/filter-clear.png');
+				$(self).parent().children('.notepad-menu-filter').children('img').prop('src', 'notepad/bar/filter-clear.png');
 			}
 			if ($(self).parent().children('.notepad-menu').is('#notepad-font-name')) {
 				$('#notepad-font-name').css('font-family', 'Roboto');
@@ -566,7 +566,7 @@
 				if (filtered) {
 					$('.notepad-menu-item').show();
 					$(this).parent().children('.notepad-menu-filter').css('background-color', '');
-					$(this).parent().children('.notepad-menu-filter').children('img').attr('src', 'notepad/bar/filter.png');
+					$(this).parent().children('.notepad-menu-filter').children('img').prop('src', 'notepad/bar/filter.png');
 					if ($(this).parent().children('.notepad-menu').is('#notepad-font-name')) {
 						$('#notepad-font-name').css('font-family', 'Roboto');
 						$('#notepad-font-name').val('Roboto');
@@ -575,9 +575,9 @@
 				} else {
 					$(this).parent().children('.notepad-menu-expand-menu').show();
 					$(this).parent().children('.notepad-menu-filter').css('background-color', '#CCCCCC');
-					$(this).parent().children('.notepad-menu-filter').children('img').attr('src', 'notepad/bar/filter.png');
+					$(this).parent().children('.notepad-menu-filter').children('img').prop('src', 'notepad/bar/filter.png');
 					$(this).parent().children('.notepad-menu-expand').css('background-color', '#CCCCCC');
-					$(this).parent().children('.notepad-menu-expand').children('img').attr('src', 'notepad/bar/expanded.png');
+					$(this).parent().children('.notepad-menu-expand').children('img').prop('src', 'notepad/bar/expanded.png');
 					if ($(this).parent().children('.notepad-menu').is('#notepad-font-name')) {
 						$('#notepad-font-name').css('font-family', 'Roboto');
 					}
@@ -704,7 +704,7 @@
 					if(!isMenu(event, this)) {
 						$(this).children('.notepad-menu-expand-menu').hide();
 						$(this).children('.notepad-menu-expand').css('background-color', '');
-						$(this).children('.notepad-menu-expand').children('img').attr('src', 'notepad/bar/expand.png');
+						$(this).children('.notepad-menu-expand').children('img').prop('src', 'notepad/bar/expand.png');
 					}
 					if (!isMenu(event, this, true) && !filtered) {
 						$('.notepad-menu-item').show();

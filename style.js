@@ -102,7 +102,7 @@
 	$.fn.prompt = function(message, callback, bugme, placeholder) {
 		var popup = $(this).popup(message, callback, bugme);
 		popup.find('input[name=text], button').show();
-		popup.find('input[name=text]').attr('placeholder', placeholder);
+		popup.find('input[name=text]').prop('placeholder', placeholder);
 		popup.find('input[name=text]').focus();
 		return popup;
 	};
@@ -168,7 +168,7 @@ $(function() {
 	}
 	
 	$('.nav').click(function() {
-		curPage($(this).attr('id'));
+		curPage($(this).prop('id'));
 	});
 	
 	window.setInterval(function() {
