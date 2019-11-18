@@ -355,10 +355,10 @@ iframe.jquery_prompt {
 	line-height: 20px;
 }
 #notepad-font-size {
-	width: 22px;
+	width: calc(100% - 18px);
 }
 #notepad-font-name {
-	width: 164px;
+	width: calc(100% - 36px);
 }
 .notepad-menu:hover {
 	background-color: #FFFFFF;
@@ -444,7 +444,7 @@ iframe.jquery_prompt {
 	width: 1px;
 	position: relative;
 	top: 25%;
-	left: calc(50% - 1px);
+	left: calc(50% - 0.5px);
 	background-color: #888888;
 	border-radius: 20px 20px 20px 20px;
 	user-select: none;
