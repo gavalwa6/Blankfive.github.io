@@ -434,8 +434,8 @@
 			}
 		}
 		
-		function getFonts(append) {
-			if (append) {
+		function getFonts(append, remove) {
+			if (remove) {
 				$('notepad-menu-expand-menu').html('');
 			}
 			var font = {};
@@ -444,7 +444,13 @@
 				for (var property in fontFace) {
 					if (property == 'family' && !font[fontFace[property]]) {
 						var family = fontFace[property];
-						if (append) {
+						var exists = false;
+						$('.notepad-font-name-expand-menu-item').each(function() {
+							if ($(this).text() == family) {
+								exists = true;
+							}
+						});
+						if (!exists && append) {
 							var div = document.createElement('div');
 							div.classList.add('notepad-font-name-expand-menu-item');
 							div.classList.add('notepad-menu-item');
@@ -458,15 +464,18 @@
 								$('#notepad-font-name-expand img').prop('src', 'notepad/bar/expand.png');
 							});
 							$('#notepad-font-name-expand-menu').append(div);
+							fonts += 1;
 						}
-						fonts += 1;
+						if (!append) {
+							fonts += 1;
+						}
 						font[family] = true;
 					}
 				}
 			}
 			return fonts;
 		}
-		getFonts(true);
+		getFonts(true, true);
 		
 		function isMenu(event, base, mainOnly) {
 			var menu = $(event.target).is($(base).children('.notepad-menu'));
@@ -488,9 +497,11 @@
 			if ($('#notepad-font-name-expand-menu').is(':visible')) {
 				$(this).css('background-color', '#CCCCCC');
 				$('#notepad-font-name-expand img').prop('src', 'notepad/bar/expanded.png');
+				getFonts(true);
 			} else {
 				$(this).css('background-color', '');
 				$('#notepad-font-name-expand img').prop('src', 'notepad/bar/expand.png');
+				getFonts();
 			}
 		});
 		$('#notepad-font-size-expand').click(function() {
