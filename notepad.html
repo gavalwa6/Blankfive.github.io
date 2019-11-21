@@ -438,18 +438,18 @@
 			if (append) {
 				$('notepad-menu-expand-menu').html('');
 			}
+			var font = {};
 			var fonts = 0;
-			$.ajax({
-				url: 'https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyAGTtTykgLQAA_GpFHIcLiCC21IBd1pwvw&sort=alpha',
-				type: 'GET',
-				success: function(response, status) {
-					$.each(response.items, function(i, v) {
+			for (var fontFace of document.fonts.values()) {
+				for (var property in fontFace) {
+					if (property == 'family' && !font[fontFace[property]]) {
+						var family = fontFace[property];
 						if (append) {
 							var div = document.createElement('div');
 							div.classList.add('notepad-font-name-expand-menu-item');
 							div.classList.add('notepad-menu-item');
-							div.textContent = v.family;
-							div.style.fontFamily = v.family;
+							div.textContent = family;
+							div.style.fontFamily = family;
 							div.addEventListener('click', function() {
 								commandValue(event, 'fontName', $(this).text(), $('#notepad-font-name'));
 								$('#notepad-font-name').css('font-family', $(this).text());
@@ -460,9 +460,10 @@
 							$('#notepad-font-name-expand-menu').append(div);
 						}
 						fonts += 1;
-					});
+						font[family] = true;
+					}
 				}
-			});
+			}
 			return fonts;
 		}
 		getFonts(true);
