@@ -151,7 +151,21 @@ $(function() {
 			
 			navTo('#' + page, 0.3);
 			
-			$('#content').load(page + '.html');
+			$('#content-loader').remove();
+			$('#content').append("<img id='content-loader' src='notepad/loader.png'>");
+			$('#content').load(page + '.html', function(response, status, xhr) {
+				$('#content-loader').remove();
+				if (status == 'error') {
+					if (response) {
+						$('#content').html('');
+						var div = document.createElement('div');
+						div.style.padding = '40px';
+						$(div).append("<h1 class='text'>ERROR: Resource not found!</h1><p class='text' style='margin-left: 3em'><i>" + window.location.href + page + '.html</i></p>');
+						$('#content').append($(div));
+					}
+				}
+			});
+			
 		}
 		return sessionStorage.getItem('current-page');
 	}
