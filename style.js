@@ -143,18 +143,21 @@ $(function() {
 	
 	function curPage(page) {
 		if (page != null) {
+			if (page != sessionStorage.getItem('current-page')) {
+				$('#content').html('');
+			}
 			if (page != '') {
 				sessionStorage.setItem('current-page', page);
 			}
-			
 			page = sessionStorage.getItem('current-page');
 			
 			navTo('#' + page, 0.3);
 			
-			$('#content-loader').remove();
-			$('#content').append("<img id='content-loader' src='notepad/loader.png'>");
+			$('#loader').remove();
+			$('#content').append("<img id='loader' src='notepad/loader.png'>");
+			
 			$('#content').load(page + '.html', function(response, status, xhr) {
-				$('#content-loader').remove();
+				$('#loader').remove();
 				if (status == 'error') {
 					if (response) {
 						$('#content').html('');

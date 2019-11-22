@@ -221,7 +221,7 @@ iframe.jquery_prompt {
 	border-bottom: 3px solid #333333;
     overflow: auto;
 }
-#content-loader {
+#loader {
 	margin: 0;
 	position: absolute;
 	top: 50%;
@@ -231,7 +231,6 @@ iframe.jquery_prompt {
 	animation: spin 2s linear infinite;
 	height: 48px;
 	width: 48px;
-	filter: blur(1px);
 }
 @keyframes spin {
 	0% { transform: rotate(0deg); }
