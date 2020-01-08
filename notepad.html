@@ -503,7 +503,7 @@
 			$('#notepad-font-name-expand-menu').toggle();
 			if ($('#notepad-font-name-expand-menu').is(':visible')) {
 				$(this).css('background-color', '#CCCCCC');
-				$('#notepad-font-name-expand img').prop('src', 'notepad/bar/expanded.png');
+				$('#notepad-font-name-expand img').prop('src', 'notepad/bar/collapse.png');
 				getFonts(true);
 			} else {
 				$(this).css('background-color', '');
@@ -515,7 +515,7 @@
 			$('#notepad-font-size-expand-menu').toggle();
 			if ($('#notepad-font-size-expand-menu').is(':visible')) {
 				$(this).css('background-color', '#CCCCCC');
-				$('#notepad-font-size-expand img').prop('src', 'notepad/bar/expanded.png');
+				$('#notepad-font-size-expand img').prop('src', 'notepad/bar/collapse.png');
 			} else {
 				$(this).css('background-color', '');
 				$('#notepad-font-size-expand img').prop('src', 'notepad/bar/expand.png');
@@ -549,7 +549,7 @@
 			if (matches.length) {
 				self.parent().children('.notepad-menu-expand-menu').show();
 				self.parent().children('.notepad-menu-expand').css('background-color', '#CCCCCC');
-				self.parent().children('.notepad-menu-expand-menu').children('img').prop('src', 'notepad/bar/expanded.png');
+				self.parent().children('.notepad-menu-expand-menu').children('img').prop('src', 'notepad/bar/collapse.png');
 				$.each(matches, function(index, object) {
 					object.show();
 				});
@@ -599,7 +599,7 @@
 					$(this).parent().children('.notepad-menu-filter').css('background-color', '#CCCCCC');
 					$(this).parent().children('.notepad-menu-filter').children('img').prop('src', 'notepad/bar/filter.png');
 					$(this).parent().children('.notepad-menu-expand').css('background-color', '#CCCCCC');
-					$(this).parent().children('.notepad-menu-expand').children('img').prop('src', 'notepad/bar/expanded.png');
+					$(this).parent().children('.notepad-menu-expand').children('img').prop('src', 'notepad/bar/collapse.png');
 					if ($(this).parent().children('.notepad-menu').is('#notepad-font-name')) {
 						$('#notepad-font-name').css('font-family', 'Roboto');
 					}
@@ -811,9 +811,9 @@
 		<div id='notepad-bar-center'></div>
 		<div id='notepad-bar-right'></div>
 	</div>
-	<img id='notepad-files-left' src='notepad/left.png'>
+	<img id='notepad-files-left' src='notepad/back.png'>
 	<div id='notepad-files'></div>
-	<img id='notepad-files-right' src='notepad/right.png'>
+	<img id='notepad-files-right' src='notepad/forward.png'>
 	<div id='notepad-files-bar'>
 		<div class='notepad-files-bar-button-base'><img id='notepad-new' class='notepad-files-bar-button' src='notepad/new.png'></div>
 		<div class='notepad-files-bar-button-base'><img id='notepad-edit' class='notepad-files-bar-button' src='notepad/edit.png'></div>

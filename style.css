@@ -19,32 +19,6 @@ html, body {
     color: white;
 }
 
-/* Filters */
-.red {
-	-webkit-filter: invert(40%) grayscale(100%) brightness(40%) sepia(100%) hue-rotate(-50deg) saturate(800%) contrast(2);
-	filter: grayscale(100%) brightness(40%) sepia(100%) hue-rotate(-50deg) saturate(800%) contrast(0.8);
-}
-.blue {
-	-webkit-filter: grayscale(100%) brightness(30%) sepia(100%) hue-rotate(-180deg) saturate(700%) contrast(0.8);
-	filter: grayscale(100%) brightness(30%) sepia(100%) hue-rotate(-180deg) saturate(700%) contrast(0.8);
-}
-.green {
-	-webkit-filter: grayscale(100%) brightness(40%) sepia(100%) hue-rotate(50deg) saturate(800%) contrast(0.8);
-	filter: grayscale(100%) brightness(40%) sepia(100%) hue-rotate(50deg) saturate(800%) contrast(0.8);
-}
-.yellow {
-	-webkit-filter: grayscale(100%) brightness(120%) sepia(90%) hue-rotate(5deg) saturate(500%) contrast(0.7);
-	filter: grayscale(100%) brightness(120%) sepia(90%) hue-rotate(5deg) saturate(500%) contrast(0.7);
-}
-.grey {
-	-webkit-filter: grayscale(100%) brightness(110%) contrast(0.9);
-	filter: grayscale(100%) brightness(110%) contrast(0.9);
-}
-.black {
-	-webkit-filter: invert(30%) grayscale(100%) brightness(70%) contrast(4);
-	filter: invert(30%) grayscale(100%) brightness(70%) contrast(4);
-}
-
 /* Prompt (credit to Andrew Dodson) */
 .jquery_prompt {
 	position: fixed;
@@ -350,9 +324,11 @@ iframe.jquery_prompt {
 	height: 24px;
 }
 #notepad-font-size-menu-base {
-	width: 40px;
+	min-width: 32px;
+	width: 32px;
 }
 #notepad-font-name-menu-base {
+	min-width: 200px;
 	width: 200px;
 }
 .notepad-menu {
