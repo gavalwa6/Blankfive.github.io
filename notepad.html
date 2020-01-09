@@ -107,7 +107,7 @@
 					});
 				}
 				files.push([name, '']);
-				$('#notepad-files').append("<div class='notepad-files-button text'>" + name + '</div>');
+				$('#notepad-files').append("<div class='notepad-files-button'>" + name + '</div>');
 				$('.notepad-files-button').click(function() {
 					curFile($(this).text());
 				});
@@ -121,7 +121,7 @@
 				});
 				if (!found) {
 					files.push([name, '']);
-					$('#notepad-files').append("<div class='notepad-files-button text'>" + name + '</div>');
+					$('#notepad-files').append("<div class='notepad-files-button'>" + name + '</div>');
 					$('.notepad-files-button').click(function() {
 						curFile($(this).text());
 					});
@@ -197,7 +197,7 @@
 							$(this).remove();
 						}
 					});
-					$('#notepad-files').append("<div class='notepad-files-button text'>" + file[0] + '</div>');
+					$('#notepad-files').append("<div class='notepad-files-button'>" + file[0] + '</div>');
 					$('.notepad-files-button').click(function() {
 						curFile($(this).text());
 					});
@@ -809,7 +809,11 @@
 			<div class='notepad-bar-button-base'><img id='notepad-wrap' class='notepad-bar-button' src='notepad/bar/wrap.png'></div>
 		</div>
 		<div id='notepad-bar-center'></div>
-		<div id='notepad-bar-right'></div>
+		<div id='notepad-bar-right'>
+			<div id='notepad-signin' class='notepad-bar-text-button'>Sign in</div>
+			<div id='notepad-signup' class='notepad-bar-text-button'>Sign up</div>
+			<div id='notepad-signout' class='notepad-bar-text-button' hidden>Sign out</div>
+		</div>
 	</div>
 	<img id='notepad-files-left' src='notepad/back.png'>
 	<div id='notepad-files'></div>
@@ -821,6 +825,6 @@
 		<div class='notepad-files-bar-button-base'><img id='notepad-delete-all' class='notepad-files-bar-button' src='notepad/delete-all.png'></div>
 	</div>
 	<div id='notepad-textarea-container'>
-		<div id='notepad-textarea' class='text' placeholder='Enter note here...' contenteditable autofocus></div>
+		<div id='notepad-textarea' placeholder='Enter note here...' contenteditable autofocus></div>
 	</div>
 </div>
